@@ -1,0 +1,69 @@
+.App {
+    width: 100%;
+    height: 100%;
+}
+
+.App form {
+    display: flex;
+    justify-items: center;
+}
+
+.App .input {
+    flex-grow: 1;
+    max-height: 42px;
+    border: 1px solid #cacaca;
+    border-right-width: 0;
+    padding: 0 1em;
+    width: 100%;
+    margin: 1em 0;
+}
+
+.App .input.number {
+    width: 2.5em;
+    text-align: center;
+}
+
+.App button.input {
+    background-color: #fafafa;
+    min-height: 44px;
+    max-width: 6em;
+}
+
+.App button.input:hover {
+    background-color: #eaeaea;
+    cursor: pointer;
+}
+
+.App .input:first-child {
+    margin-left: 2em;
+    border-right-width: 0;
+}
+
+.App .input:last-child {
+    margin-right: 2em;
+    border-right-width: 1px;
+}
+
+.App .input:focus {
+    box-shadow: 0 0 5px 2px rgba(0, 0, 0, 0.23);
+    border-color: #757575 !important;
+    z-index: 1;
+}
+
+@media (max-width: 600px) {
+    .App form {
+        flex-flow: column;
+    }
+
+    .App .input, .App .input:first-child, .App .input:last-child {
+        margin: 0;
+    }
+
+    .App .input:first-child {
+        border-bottom-width: 0;
+    }
+
+    .App .input:last-child {
+        border-top-width: 0;
+    }
+}
