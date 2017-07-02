@@ -52,6 +52,7 @@ class App extends Component {
             items: [...ops, ...items],
             item: new Item()
         });
+        this.itemInput.focus();
     };
 
     formatDate = (dateString, format) => {
@@ -69,7 +70,14 @@ class App extends Component {
                 <form onSubmit={this.onSubmit} onInput={this.onInput} className="form">
                     <div className="row">
                         <label className="text-secondary">Item</label>
-                        <input type="text" name="name" value={name} className="input" autoFocus/>
+                        <input
+                            type="text"
+                            name="name"
+                            value={name}
+                            className="input"
+                            autoFocus
+                            ref={(input) => { this.itemInput = input; }}
+                        />
                     </div>
                     <div className="row">
                         <label className="text-secondary">Amount</label>
