@@ -17,7 +17,8 @@ async function run() {
 
     async function postItem(req, res, next) {
         try {
-            const result = await itemsCollection().insert(req.body);
+            const item = {...req.body, created: new Date()};
+            const result = await itemsCollection().insert(item);
             res.json(result);
         } catch (error) {
             next(error);
@@ -26,7 +27,10 @@ async function run() {
 
     async function getItems(req, res, next) {
         try {
-            const items = await itemsCollection().find().toArray();
+            const items = await itemsCollection()
+                .find()
+                .sort({created: -1})
+                .toArray();
             res.json(items);
         } catch (error) {
             next(error);

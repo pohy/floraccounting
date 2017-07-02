@@ -1,5 +1,12 @@
 # TODO
-- Remember price of items
-- Auto suggest items
-- Item editing
-- Item edit history
+- [ ] Remember most used price, tags, amount of items
+- [ ] Auto suggest items
+- [ ] Item editing
+    - [ ] Track revisions
+- [ ] Store open price for every item
+    - [ ] Suggest inputting a price for unknown item after transaction
+- [ ] List of users, no login, choose user before submitting a transaction
+- [ ] Tag transactions
+- [ ] Statistics
+- [ ] Translations
+- [ ] Toggleable on screen keyboard
