@@ -9,4 +9,7 @@
 - [ ] Tag transactions
 - [ ] Statistics
 - [ ] Translations
-- [ ] Toggleable on screen keyboard
+- [ ] ?Toggleable on screen keyboard
+- [ ] eslint/flowtype
+- [ ] Prop types
+- [ ] Tests

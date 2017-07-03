@@ -4,67 +4,7 @@
     margin: 1em;
 }
 
-.App form {
-    display: flex;
-    justify-items: center;
-    flex-flow: column;
-}
-
-.App form label, .App .input {
-    height: 42px;
-    max-height: 42px;
-    line-height: 42px;
-    vertical-align: middle;
-    padding: 0 1em;
-    border: none;
-    min-width: 3em;
-}
-
-.App .input {
-    flex-grow: 1;
-}
-
-.App form label {
-    flex-grow: 1;
-    width: 3em;
-    min-width: 3em;
-    max-width: 3em;
-    text-align: center;
-}
-
-.App form label:last-child {
-    border-left: 1px solid #e5e5e5;
-}
-
-.App form label:first-child {
-    border-right: 1px solid #e5e5e5;
-}
-
-.App form .row {
-    border: 1px solid rgba(0, 0, 0, 0.18);
-    border-bottom-width: 0;
-}
-
-.App form div.row:last-of-type {
-    border-bottom-width: 1px;
-}
-
-.App form button[type=submit] {
+.App .Records {
     margin-top: 1em;
-    align-self: flex-end;
 }
 
-.App .input:focus {
-    box-shadow: 0 0 1px 2px rgba(0, 0, 0, 0.12);
-    z-index: 1;
-}
-
-.App .records {
-    margin-top: 1em;
-    overflow-y: visible;
-}
-
-.App .records .date {
-    flex-grow: 2;
-    overflow-x: scroll;
-}
