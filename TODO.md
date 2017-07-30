@@ -1,10 +1,10 @@
 # TODO
 - [ ] Remember most used price, tags, amount of items
 - [ ] Auto suggest items
-- [ ] Item editing
+- [ ] Transaction editing
     - [ ] Track revisions
 - [ ] Store open price for every item
-    - [ ] Suggest inputting a price for unknown item after transaction
+    - [ ] Suggest inputting a price for an unknown item after transactions
 - [ ] List of users, no login, choose user before submitting a transaction
 - [ ] Tag transactions
 - [ ] Statistics
@@ -13,3 +13,4 @@
 - [ ] eslint/flowtype
 - [ ] Prop types
 - [ ] Tests
+- [ ] Research automatic revisions

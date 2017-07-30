@@ -13,7 +13,31 @@ async function run() {
     const db = await connectDB();
     app.post('/item', postItem);
     app.get('/items', getItems);
+    app.post('/transaction', postTransaction);
+    app.get('/transactions', getTransactions);
     app.listen(3001, onConnect);
+
+    async function postTransaction(req, res, next) {
+        try {
+            const transaction = {...req.body, created: new Date()};
+            const result = await transactionsCollection().insert(transaction);
+            res.json(result);
+        } catch (error) {
+            next(error);
+        }
+    }
+
+    async function getTransactions(req, res, next) {
+        try {
+            const transactions = await transactionsCollection()
+                .find()
+                .sort({created: -1})
+                .toArray();
+            res.json(transactions);
+        } catch (error) {
+            next(error);
+        }
+    }
 
     async function postItem(req, res, next) {
         try {
@@ -48,5 +72,9 @@ async function run() {
 
     function itemsCollection() {
         return db.collection('items');
+    }
+
+    function transactionsCollection() {
+        return db.collection('transactions');
     }
 }

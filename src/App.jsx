@@ -9,13 +9,19 @@ const API_URL = process.env.NODE_ENV === 'production'
 
 class App extends Component {
     state = {
+        transactions: [],
         items: []
     };
 
     async componentDidMount() {
-        const response = await fetch(`${API_URL}/items`);
-        const items = await response.json();
-        this.setState({items})
+        const transactions = await this.fetch('/transactions');
+        const items = await this.fetch('/items');
+        this.setState({transactions, items});
+    }
+
+    async fetch(endpoint) {
+        const response = await fetch(`${API_URL}${endpoint}`);
+        return await response.json();
     }
 
     onSubmit = async (item) => {
@@ -28,19 +34,19 @@ class App extends Component {
             },
             body
         };
-        const response = await fetch(`${API_URL}/item`, options);
+        const response = await fetch(`${API_URL}/transaction`, options);
         const {ops} = await response.json();
         this.setState({
-            items: [...ops, ...this.state.items]
+            transactions: [...ops, ...this.state.transactions]
         });
     };
 
     render() {
-        const {items} = this.state;
+        const {transactions, items} = this.state;
         return (
             <div className="App">
-                <TransactionForm onSubmit={this.onSubmit}/>
-                <Records items={items}/>
+                <TransactionForm onSubmit={this.onSubmit} {...{items}}/>
+                <Records {...{transactions, items}}/>
             </div>
         );
     }

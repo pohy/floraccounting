@@ -1,29 +1,58 @@
 import React, {Component} from 'react';
 import PropTypes from 'prop-types';
-import Item from './Item';
+import Select from 'react-select';
+import Transaction from './Transaction';
 import './TransactionForm.css';
 
 class TransactionForm extends Component {
     static propTypes = {
-        onSubmit: PropTypes.func.isRequired
+        onSubmit: PropTypes.func.isRequired,
+        items: PropTypes.array.isRequired
     };
 
     state = {
-        item: new Item()
+        transaction: new Transaction(),
+        currentItem: null
     };
 
-    onInput = ({target: {value, name}}) => this.setState({item: {...this.state.item, [name]: value}});
+    onInput = ({target: {value, name}}) => this.updateTransaction(name, value);
+
+    onSelectChange = (name) => ({value}) => this.updateTransaction(name, value);
+
+    onItemChange = ({value: id}) => {
+        const item = this.props.items.find(({_id}) => _id === id);
+        this.setState({
+            currentItem: item,
+            transaction: {
+                ...this.state.transaction,
+                item: item._id,
+                price: item.priceMin,
+                amountType: item.amountType
+            }
+        });
+    };
+
+    updateTransaction(field, value) {
+        this.setState({
+            transaction: {...this.state.transaction, [field]: value}
+        });
+    }
 
     onSubmit = (event) => {
         event.preventDefault();
-        this.props.onSubmit(this.state.item);
-        this.setState({item: new Item()});
-        this.itemInput.focus();
+        this.props.onSubmit(this.state.transaction);
+        this.setState({transaction: new Transaction()});
+        this.transactionInput.focus();
     };
 
     render() {
-        const {item: {name, amount, price}} = this.state;
-
+        const {transaction: {item, amount, amountType, price}} = this.state;
+        const amountTypeOptions = Transaction.AmountTypes.map((type) => ({
+            value: type, label: type[0].toUpperCase() + type.substring(1)
+        }));
+        const itemOptions = this.props.items.map(({name, _id}) => ({
+            value: _id, label: name
+        }));
         return (
             <form
                 onSubmit={this.onSubmit}
@@ -32,18 +61,28 @@ class TransactionForm extends Component {
             >
                 <div className="row">
                     <label className="text-secondary">Item</label>
-                    <input
-                        type="text"
-                        name="name"
-                        value={name}
-                        autoFocus
-                        ref={(input) => { this.itemInput = input; }}
+                    <Select
+                        name="item"
+                        className="item"
+                        options={itemOptions}
+                        value={item}
+                        onChange={this.onItemChange}
+                        clearable={true}
+                        ref={(input) => this.transactionInput = input}
                     />
                 </div>
                 <div className="row">
                     <label className="text-secondary">Amount</label>
                     <input type="number" name="amount" value={amount}/>
-                    <label className="text-secondary">Pc.</label>
+                    {/*<label className="text-secondary">Pc.</label>*/}
+                    <Select
+                        name="amountType"
+                        className="amount-type"
+                        options={amountTypeOptions}
+                        value={amountType}
+                        onChange={this.onSelectChange('amountType')}
+                        clearable={false}
+                    />
                 </div>
                 <div className="row">
                     <label className="text-secondary">Price</label>

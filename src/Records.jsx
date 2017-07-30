@@ -5,6 +5,7 @@ import './Records.css';
 
 class Records extends Component {
     static propTypes = {
+        transactions: PropTypes.array.isRequired,
         items: PropTypes.array.isRequired
     };
 
@@ -16,8 +17,14 @@ class Records extends Component {
         return dateFormat(date, format);
     };
 
+    findItemName(id) {
+        const item = this.props.items.find(({_id}) => _id === id);
+        console.log(id, item, this.props.items)
+        return (item && item.name) || '';
+    }
+
     render() {
-        const {items} = this.props;
+        const {transactions} = this.props;
         return (
             <table className="Records">
                 <thead>
@@ -30,10 +37,10 @@ class Records extends Component {
                 </tr>
                 </thead>
                 <tbody>
-                {!items.length && <tr><td>No items yet...</td></tr>}
-                {items.map(({name, amount, price, created}, i) => (
+                {!transactions.length && <tr><td>No transactions yet...</td></tr>}
+                {transactions.map(({item: id, amount, price, created}, i) => (
                     <tr key={i}>
-                        <td>{name}</td>
+                        <td>{this.findItemName(id)}</td>
                         <td>{amount}</td>
                         <td>{price}</td>
                         <td className="time">{this.formatDate(created, 'HH:MM')}</td>

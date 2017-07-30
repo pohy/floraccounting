@@ -18,9 +18,9 @@
     flex-grow: 1;
 }
 
-.TransactionForm input:focus {
+.TransactionForm input:focus, .TransactionForm .Select.is-focused{
     box-shadow: 0 0 1px 2px rgba(0, 0, 0, 0.12);
-    z-index: 1;
+    z-index: 2;
 }
 
 .TransactionForm label {
@@ -28,7 +28,7 @@
     width: 3em;
     min-width: 3em;
     max-width: 3em;
-    text-align: center;
+    text-align: left;
 }
 
 .TransactionForm label:last-child {
@@ -39,8 +39,11 @@
     border-right: 1px solid #e5e5e5;
 }
 
-.TransactionForm .row {
+.TransactionForm .row, .TransactionForm .Select-menu-outer {
     border: 1px solid rgba(0, 0, 0, 0.18);
+}
+
+.TransactionForm .row {
     border-bottom-width: 0;
 }
 
@@ -51,4 +54,65 @@
 .TransactionForm button[type=submit] {
     margin-top: 1em;
     align-self: flex-end;
+}
+
+.TransactionForm .Select-control {
+    border: none;
+}
+
+.TransactionForm .Select-arrow-zone {
+    display: none;
+}
+
+.TransactionForm .Select {
+    border-left: 1px solid rgba(0, 0, 0, 0.18);
+}
+
+.TransactionForm .Select.item {
+    width: 100%;
+}
+
+.TransactionForm .Select-value, .TransactionForm .Select-input, .TransactionForm .Select-option, .TransactionForm .Select-placeholder {
+    padding: 0 0 0 1em !important;
+    height: 42px;
+}
+
+.TransactionForm .Select-value, .TransactionForm .Select-input, .TransactionForm .Select-option, .TransactionForm .Select-placeholder {
+    width: 5em;
+}
+
+.TransactionForm .item .Select-value, .TransactionForm .item .Select-input, .TransactionForm .item .Select-option, .TransactionForm .Select-placeholder {
+    width: 100%;
+}
+
+.TransactionForm .Select-menu-outer {
+    border-top: none;
+    border-radius: 0;
+    margin-top: 1px;
+    margin-left: -1px;
+    z-index: 1;
+    width: calc(5em + 2px);
+    box-shadow: 0 1px 1px 2px rgba(0, 0, 0, 0.12);
+}
+
+.TransactionForm .item .Select-menu-outer {
+    width: 100%;
+}
+
+.TransactionForm .Select-control:hover, .TransactionForm .Select-control input:focus {
+    box-shadow: none;
+}
+
+.TransactionForm .Select-input input {
+    padding-left: 0;
+    border: none;
+}
+
+.TransactionForm .Select-value-label, .TransactionForm .Select-option, .TransactionForm .Select-placeholder {
+    vertical-align: middle;
+    line-height: 42px;
+}
+
+.TransactionForm .Select-option:last-child {
+    border-radius: 0;
 }
