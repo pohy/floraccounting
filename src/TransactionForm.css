@@ -31,6 +31,12 @@
     text-align: left;
 }
 
+.TransactionForm label.suggested-price {
+    width: 6em;
+    min-width: 6em;
+    max-width: 6em;
+}
+
 .TransactionForm label:last-child {
     border-left: 1px solid #e5e5e5;
 }

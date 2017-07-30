@@ -19,7 +19,6 @@ class Records extends Component {
 
     findItemName(id) {
         const item = this.props.items.find(({_id}) => _id === id);
-        console.log(id, item, this.props.items)
         return (item && item.name) || '';
     }
 

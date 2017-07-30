@@ -43,7 +43,6 @@ class App extends Component {
 
     date = (dateString) => {
         const date = new Date(dateString);
-        console.log(date.isValid())
         return dateFormat(date, 'HH:MM mm/dd/yyyy');
     };
 

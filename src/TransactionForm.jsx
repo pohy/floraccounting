@@ -46,13 +46,15 @@ class TransactionForm extends Component {
     };
 
     render() {
-        const {transaction: {item, amount, amountType, price}} = this.state;
+        const {transaction: {item, amount, amountType, price}, currentItem} = this.state;
         const amountTypeOptions = Transaction.AmountTypes.map((type) => ({
             value: type, label: type[0].toUpperCase() + type.substring(1)
         }));
         const itemOptions = this.props.items.map(({name, _id}) => ({
             value: _id, label: name
         }));
+        const {priceMin, priceMax} = currentItem || {};
+        const suggestedPrice = currentItem ? `${priceMin} ~ ${priceMax}CZK` : '';
         return (
             <form
                 onSubmit={this.onSubmit}
@@ -74,7 +76,6 @@ class TransactionForm extends Component {
                 <div className="row">
                     <label className="text-secondary">Amount</label>
                     <input type="number" name="amount" value={amount}/>
-                    {/*<label className="text-secondary">Pc.</label>*/}
                     <Select
                         name="amountType"
                         className="amount-type"
@@ -87,6 +88,7 @@ class TransactionForm extends Component {
                 <div className="row">
                     <label className="text-secondary">Price</label>
                     <input type="number" name="price" value={price}/>
+                    <label className="text-secondary suggested-price">{suggestedPrice}</label>
                     <label className="text-secondary">CZK</label>
                 </div>
                 <button type="submit">Submit</button>
