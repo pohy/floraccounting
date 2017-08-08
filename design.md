@@ -5,6 +5,7 @@
     - priceMin: number
     - priceMax: number
     - **Not Done**:
+        - nicks: array
         - tags: array
         - revisions: array
         - created: date

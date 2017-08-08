@@ -29,20 +29,26 @@
     min-width: 3em;
     max-width: 3em;
     text-align: left;
+    border-left: 1px solid #e5e5e5;
+    border-right: 1px solid #e5e5e5;
 }
 
 .TransactionForm label.suggested-price {
     width: 6em;
     min-width: 6em;
     max-width: 6em;
+    border-left: none;
+    text-align: right;
 }
 
 .TransactionForm label:last-child {
-    border-left: 1px solid #e5e5e5;
+    /*border-left: 1px solid #e5e5e5;*/
+    border-right: none;
 }
 
 .TransactionForm label:first-child {
-    border-right: 1px solid #e5e5e5;
+    /*border-right: 1px solid #e5e5e5;*/
+    border-left: none;
 }
 
 .TransactionForm .row, .TransactionForm .Select-menu-outer {

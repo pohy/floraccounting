@@ -1,16 +1,19 @@
 # TODO
 - [ ] Remember most used price, tags, amount of items
-- [ ] Auto suggest items
+- [x] Auto suggest items
+- [ ] Auto create item when submitting an unknown one
+    - [ ] It is created when submitting new transaction ( field `newItem`)
+    - [ ] Suggest inputting a price for an unknown item after transactions
 - [ ] Transaction editing
     - [ ] Track revisions
-- [ ] Store open price for every item
-    - [ ] Suggest inputting a price for an unknown item after transactions
+- [x] Store open price for every item
 - [ ] List of users, no login, choose user before submitting a transaction
 - [ ] Tag transactions
 - [ ] Statistics
 - [ ] Translations
 - [ ] ?Toggleable on screen keyboard
 - [ ] eslint/flowtype
-- [ ] Prop types
+- [x] Prop types
 - [ ] Tests
 - [ ] Research automatic revisions
+- [ ] Rename `priceMax` to `priceSuggested`
