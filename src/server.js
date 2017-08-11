@@ -19,7 +19,7 @@ async function run() {
 
     async function postTransaction(req, res, next) {
         try {
-            const transaction = {...req.body, created: new Date()};
+            const transaction = Object.assign({}, req.body, {_id: undefined, created: new Date()});
             const result = await transactionsCollection().insert(transaction);
             res.json(result);
         } catch (error) {
@@ -41,7 +41,7 @@ async function run() {
 
     async function postItem(req, res, next) {
         try {
-            const item = {...req.body, created: new Date()};
+            const item = Object.assign({}, req.body, {_id: undefined, created: new Date()});
             const result = await itemsCollection().insert(item);
             res.json(result);
         } catch (error) {

@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 import PropTypes from 'prop-types';
 import Select, {Creatable} from 'react-select';
-import Transaction from './Transaction';
+import Transaction from '../../model/Transaction';
 import './TransactionForm.css';
 
 class TransactionForm extends Component {

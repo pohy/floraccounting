@@ -17,3 +17,12 @@
 - [ ] Tests
 - [ ] Research automatic revisions
 - [ ] Rename `priceMax` to `priceSuggested`
+- [ ] Auto input next on
+- [ ] Auto unfold type select
+- [ ] Transaction date formatting
+- [ ] Save transaction correctly
+    - [ ] `item` as ID
+    - [ ] Empty weird field
+    - [ ] Remove `newItem`
+- [ ] Bartenders
+- [ ] Refactor TransactioForm to make it simpler
