@@ -9,14 +9,17 @@ import Transaction from '../../model/Transaction';
 class App extends Component {
     state = {
         transactions: [],
-        items: []
+        items: [],
+        bartenders: []
     };
 
     async componentDidMount() {
-        // TODO: parallelize
-        const transactions = await get('/transactions');
-        const items = await get('/items');
-        this.setState({transactions, items});
+        const [transactions, items, bartenders] = await Promise.all([
+            get('/transactions'),
+            get('/items'),
+            get('/bartenders')
+        ]);
+        this.setState({transactions, items, bartenders});
     }
 
     onSubmit = async (newTransaction) => {
@@ -38,10 +41,10 @@ class App extends Component {
     };
 
     render() {
-        const {transactions, items} = this.state;
+        const {transactions, items, bartenders} = this.state;
         return (
             <div className="App">
-                <TransactionForm onSubmit={this.onSubmit} {...{items}}/>
+                <TransactionForm onSubmit={this.onSubmit} {...{items, bartenders}}/>
                 <Records {...{transactions, items}}/>
             </div>
         );

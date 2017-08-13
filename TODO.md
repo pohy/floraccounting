@@ -2,8 +2,6 @@
 
 ## In progress
 
-- [ ] Bartenders
-    - [ ] List of users, no login, choose user before submitting a transaction
 
 ## New
 
@@ -43,3 +41,5 @@
 - [x] Auto unfold type select
 - [x] Don't delete form right after submit, instead, wait for server response
 - [x] Currencies
+- [x] Bartenders
+    - [x] List of users, no login, choose user before submitting a transaction

@@ -25,9 +25,9 @@
 
 .TransactionForm label {
     flex-grow: 1;
-    width: 3em;
-    min-width: 3em;
-    max-width: 3em;
+    width: 4em;
+    min-width: 4em;
+    max-width: 4em;
     text-align: left;
     border-left: 1px solid #e5e5e5;
     border-right: 1px solid #e5e5e5;

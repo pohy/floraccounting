@@ -8,7 +8,8 @@ import {AMOUNT_TYPE_LABELS} from '../../model/Item';
 class TransactionForm extends Component {
     static propTypes = {
         onSubmit: PropTypes.func.isRequired,
-        items: PropTypes.array.isRequired
+        items: PropTypes.array.isRequired,
+        bartenders: PropTypes.array.isRequired
     };
 
     static ITEM_FIELDS = ['priceMin', 'priceMax'];
@@ -51,7 +52,7 @@ class TransactionForm extends Component {
                 ...transaction,
                 newItem: isItemField
                     ? {
-                        ...newItem,
+                        ...(newItem || {}),
                         [field]: isItemField ? value : newItem[field]
                     }
                     : newItem,
@@ -76,8 +77,12 @@ class TransactionForm extends Component {
 
     createItemLabel = (label) => `Create item "${label}"`;
 
+    createBartenderLabel = (label) => `New bartender "${label}"`;
+
     render() {
-        const {transaction: {item, amount, amountType, price, currency, newItem}, currentItem} = this.state;
+        const {transaction: {
+            item, amount, amountType, price, currency, newItem, bartender
+        }, currentItem} = this.state;
         const amountTypeOptions = Transaction.AmountTypes.map((type) => ({
             value: type, label: AMOUNT_TYPE_LABELS[type] || type
         }));
@@ -86,6 +91,9 @@ class TransactionForm extends Component {
         }));
         const currencyOptions = Object.keys(CURRENCIES).map((key) => ({
             value: key, label: CURRENCIES[key]
+        }));
+        const bartenderOptions = this.props.bartenders.map((bartender) => ({
+            value: bartender, label: bartender
         }));
         const {priceMin, priceMax} = newItem || currentItem || {};
         const suggestedPrice = currentItem ? `${priceMin} ~ ${priceMax}CZK` : '';
@@ -147,7 +155,22 @@ class TransactionForm extends Component {
                         required
                     />
                 </div>
-                {!!newItem &&
+                <div className="row">
+                    <label className="text-secondary">Bartender</label>
+                    {/*TODO: fix class name*/}
+                    <Creatable
+                        name="bartender"
+                        className="item"
+                        autoFocus
+                        options={bartenderOptions}
+                        value={bartender}
+                        onChange={this.onSelectChange('bartender')}
+                        clearable={true}
+                        openOnFocus
+                        promptTextCreator={this.createBartenderLabel}
+                        />
+                </div>
+                {!!newItem && !!Object.keys(newItem).length &&
                     <div className="row">
                         <label className="text-secondary">
                             From:

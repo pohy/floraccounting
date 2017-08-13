@@ -15,6 +15,7 @@ async function run() {
     app.get('/items', getItems);
     app.post('/transaction', postTransaction);
     app.get('/transactions', getTransactions);
+    app.get('/bartenders', getBartenders);
     app.listen(3001, onConnect);
 
     async function postTransaction(req, res, next) {
@@ -56,6 +57,22 @@ async function run() {
                 .sort({created: -1})
                 .toArray();
             res.json(items);
+        } catch (error) {
+            next(error);
+        }
+    }
+
+    async function getBartenders(req, res, next) {
+        try {
+            const _bartenders = await transactionsCollection()
+                .aggregate([{
+                    $match: {bartender: {$exists: true}}
+                }, {
+                    $group: {_id: '$bartender'}
+                }])
+                .toArray();
+            const bartenders = _bartenders.map(({_id}) => _id);
+            res.json(bartenders);
         } catch (error) {
             next(error);
         }
