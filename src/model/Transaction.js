@@ -1,7 +1,7 @@
 export default class Transaction {
     static AmountTypes = ['piece', 'weight'];
 
-    constructor(item = '', amount = 1, amountType = 'piece', price = 0, currency = 'CZK') {
+    constructor(item = '', amount = 1, amountType = '', price = 0, currency = 'CZK') {
         this.item = item;
         this.amount = amount;
         this.amountType = amountType;
@@ -13,3 +13,9 @@ export default class Transaction {
         return new Transaction(item, amount, amountType, price, currency);
     }
 }
+
+export const CURRENCIES = {
+    czk: 'CZK',
+    eur: 'EUR',
+    usd: 'USD'
+};

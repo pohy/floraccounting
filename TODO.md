@@ -1,4 +1,12 @@
 # TODO
+
+## In progress
+
+- [ ] Bartenders
+    - [ ] List of users, no login, choose user before submitting a transaction
+
+## New
+
 - [ ] Remember most used price, tags, amount of items
 - [ ] Transaction editing
     - [ ] Track revisions
@@ -11,14 +19,16 @@
 - [ ] Research automatic revisions
 - [ ] Auto input next on
 - [ ] Transaction date formatting
-- [ ] Bartenders
-    - [ ] List of users, no login, choose user before submitting a transaction
 - [ ] Refactor TransactioForm to make it simpler
 - [ ] Sort items by most used
 - [ ] favicon
 - [ ] Restyle transaction form
 - [ ] Let the user know, when the network request fails
 - [ ] Offline support
+- [ ] Editable price ranges
+
+## Done
+
 - [x] Auto suggest items
 - [x] Auto create item when submitting an unknown one
     - [ ] ~~It is created when submitting new transaction ( field `newItem`)~~
@@ -32,3 +42,4 @@
 - [ ] ~~Rename `priceMax` to `priceSuggested`~~
 - [x] Auto unfold type select
 - [x] Don't delete form right after submit, instead, wait for server response
+- [x] Currencies

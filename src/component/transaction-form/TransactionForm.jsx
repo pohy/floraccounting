@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 import PropTypes from 'prop-types';
 import Select, {Creatable} from 'react-select';
-import Transaction from '../../model/Transaction';
+import Transaction, {CURRENCIES} from '../../model/Transaction';
 import './TransactionForm.css';
 import {AMOUNT_TYPE_LABELS} from '../../model/Item';
 
@@ -77,12 +77,15 @@ class TransactionForm extends Component {
     createItemLabel = (label) => `Create item "${label}"`;
 
     render() {
-        const {transaction: {item, amount, amountType, price, newItem}, currentItem} = this.state;
+        const {transaction: {item, amount, amountType, price, currency, newItem}, currentItem} = this.state;
         const amountTypeOptions = Transaction.AmountTypes.map((type) => ({
             value: type, label: AMOUNT_TYPE_LABELS[type] || type
         }));
         const itemOptions = this.items().map(({name, _id}) => ({
             value: _id, label: name
+        }));
+        const currencyOptions = Object.keys(CURRENCIES).map((key) => ({
+            value: key, label: CURRENCIES[key]
         }));
         const {priceMin, priceMax} = newItem || currentItem || {};
         const suggestedPrice = currentItem ? `${priceMin} ~ ${priceMax}CZK` : '';
@@ -113,7 +116,6 @@ class TransactionForm extends Component {
                     <input type="number" name="amount" value={amount}/>
                     <Select
                         name="amountType"
-                        className="amount-type"
                         options={amountTypeOptions}
                         value={amountType}
                         onChange={this.onSelectChange('amountType')}
@@ -134,7 +136,16 @@ class TransactionForm extends Component {
                         step={0.01}
                     />
                     <label className="text-secondary suggested-price">{suggestedPrice}</label>
-                    <label className="text-secondary">CZK</label>
+                    <Select
+                        name="currency"
+                        options={currencyOptions}
+                        value={currency}
+                        onChange={this.onSelectChange('currency')}
+                        clearable={false}
+                        placeholder="Currency"
+                        openOnFocus
+                        required
+                    />
                 </div>
                 {!!newItem &&
                     <div className="row">

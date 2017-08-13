@@ -29,10 +29,11 @@ class App extends Component {
             itemOps = ops;
             [newItem] = ops;
         }
-        const {ops: transactionOps} = await post('/transaction', Transaction.fromData({...newTransaction, item: newItem._id}));
+        const itemId = (newItem && newItem._id) || newTransaction.item;
+        const {ops: transactionOps} = await post('/transaction', Transaction.fromData({...newTransaction, item: itemId}));
         this.setState({
-            transactions: [...transactions, ...transactionOps],
-            items: [...items, ...itemOps]
+            transactions: [...transactionOps, ...transactions],
+            items: [...itemOps, ...items]
         });
     };
 
