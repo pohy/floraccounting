@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import Select, {Creatable} from 'react-select';
 import Transaction from '../../model/Transaction';
 import './TransactionForm.css';
+import {AMOUNT_TYPE_LABELS} from '../../model/Item';
 
 class TransactionForm extends Component {
     static propTypes = {
@@ -57,13 +58,12 @@ class TransactionForm extends Component {
                 [field]: !isItemField ? value : transaction[field]
             }
         };
-        console.log(this.state, newState, {...this.state, ...newState})
         this.setState({...this.state, ...newState});
     }
 
-    onSubmit = (event) => {
+    onSubmit = async (event) => {
         event.preventDefault();
-        this.props.onSubmit(this.state.transaction);
+        await this.props.onSubmit(this.state.transaction);
         this.setState({transaction: new Transaction()});
         this.transactionInput.focus();
     };
@@ -74,10 +74,12 @@ class TransactionForm extends Component {
         return [].concat(items, newItem || []);
     }
 
+    createItemLabel = (label) => `Create item "${label}"`;
+
     render() {
         const {transaction: {item, amount, amountType, price, newItem}, currentItem} = this.state;
         const amountTypeOptions = Transaction.AmountTypes.map((type) => ({
-            value: type, label: type[0].toUpperCase() + type.substring(1)
+            value: type, label: AMOUNT_TYPE_LABELS[type] || type
         }));
         const itemOptions = this.items().map(({name, _id}) => ({
             value: _id, label: name
@@ -101,6 +103,9 @@ class TransactionForm extends Component {
                         onChange={this.onItemChange}
                         clearable={true}
                         ref={(input) => this.transactionInput = input}
+                        openOnFocus
+                        promptTextCreator={this.createItemLabel}
+                        required
                     />
                 </div>
                 <div className="row">
@@ -114,11 +119,20 @@ class TransactionForm extends Component {
                         onChange={this.onSelectChange('amountType')}
                         clearable={false}
                         placeholder="Type"
+                        openOnFocus
+                        required
                     />
                 </div>
                 <div className="row">
                     <label className="text-secondary">Price</label>
-                    <input type="number" name="price" value={price}/>
+                    <input
+                        type="number"
+                        name="price"
+                        value={price}
+                        required
+                        min={1}
+                        step={0.01}
+                    />
                     <label className="text-secondary suggested-price">{suggestedPrice}</label>
                     <label className="text-secondary">CZK</label>
                 </div>
@@ -127,11 +141,25 @@ class TransactionForm extends Component {
                         <label className="text-secondary">
                             From:
                         </label>
-                        <input type="number" name="priceMin" value={priceMin}/>
+                        <input
+                            type="number"
+                            name="priceMin"
+                            value={priceMin}
+                            required
+                            min={0.01}
+                            step={0.01}
+                        />
                         <label className="text-secondary">
                             To:
                         </label>
-                        <input type="number" name="priceMax" value={priceMax}/>
+                        <input
+                            type="number"
+                            name="priceMax"
+                            value={priceMax}
+                            required
+                            min={priceMin || 0.01}
+                            step={0.01}
+                        />
                     </div>
                 }
                 <button type="submit">Submit</button>

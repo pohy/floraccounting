@@ -1,28 +1,34 @@
 # TODO
 - [ ] Remember most used price, tags, amount of items
-- [x] Auto suggest items
-- [ ] Auto create item when submitting an unknown one
-    - [ ] It is created when submitting new transaction ( field `newItem`)
-    - [ ] Suggest inputting a price for an unknown item after transactions
 - [ ] Transaction editing
     - [ ] Track revisions
-- [x] Store open price for every item
-- [ ] List of users, no login, choose user before submitting a transaction
 - [ ] Tag transactions
 - [ ] Statistics
 - [ ] Translations
 - [ ] ?Toggleable on screen keyboard
 - [ ] eslint/flowtype
-- [x] Prop types
 - [ ] Tests
 - [ ] Research automatic revisions
-- [ ] Rename `priceMax` to `priceSuggested`
 - [ ] Auto input next on
-- [ ] Auto unfold type select
 - [ ] Transaction date formatting
-- [ ] Save transaction correctly
-    - [ ] `item` as ID
-    - [ ] Empty weird field
-    - [ ] Remove `newItem`
 - [ ] Bartenders
+    - [ ] List of users, no login, choose user before submitting a transaction
 - [ ] Refactor TransactioForm to make it simpler
+- [ ] Sort items by most used
+- [ ] favicon
+- [ ] Restyle transaction form
+- [ ] Let the user know, when the network request fails
+- [ ] Offline support
+- [x] Auto suggest items
+- [x] Auto create item when submitting an unknown one
+    - [ ] ~~It is created when submitting new transaction ( field `newItem`)~~
+    - [x] Suggest inputting a price for an unknown item
+- [x] Save transaction correctly
+    - [x] `item` as ID
+    - [x] Empty weird field
+    - [x] Remove `newItem`
+- [x] Prop types
+- [x] Store open price for every item
+- [ ] ~~Rename `priceMax` to `priceSuggested`~~
+- [x] Auto unfold type select
+- [x] Don't delete form right after submit, instead, wait for server response
