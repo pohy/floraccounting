@@ -1,5 +1,5 @@
 const API_URL = process.env.NODE_ENV === 'production'
-    ? 'https://floraccounting.pohy.eu'
+    ? '/api'
     : 'http://localhost:3001';
 
 export function get(endpoint) {

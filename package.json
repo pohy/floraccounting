@@ -5,6 +5,7 @@
   "dependencies": {
     "body-parser": "^1.17.2",
     "cors": "^2.8.3",
+    "cross-env": "^5.0.5",
     "dateformat": "^2.0.0",
     "express": "^4.15.3",
     "mongodb": "^2.2.29",
@@ -20,11 +21,12 @@
   },
   "scripts": {
     "start": "react-scripts start",
-    "build": "react-scripts build",
+    "build": "cross-env PUBLIC_URL=/ react-scripts build",
     "test": "react-scripts test --env=jsdom",
     "eject": "react-scripts eject",
     "predeploy": "npm run build",
-    "deploy": "gh-pages -d build"
+    "deploy": "gh-pages -d build",
+    "serve": "cross-env NODE_ENV=production node src/server"
   },
   "homepage": "https://pohy.github.io/floraccounting"
 }

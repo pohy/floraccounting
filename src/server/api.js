@@ -1,27 +1,19 @@
-const MongoClient = require('mongodb').MongoClient;
 const express = require('express');
-const bodyParser  = require('body-parser');
-const cors = require('cors');
 
-const app = express();
-app.use(bodyParser());
-app.use(cors());
-
-run();
-
-async function run() {
-    const db = await connectDB();
-    app.post('/item', postItem);
-    app.get('/items', getItems);
-    app.post('/transaction', postTransaction);
-    app.get('/transactions', getTransactions);
-    app.get('/bartenders', getBartenders);
-    app.listen(3001, onConnect);
+module.exports = (db) => {
+    return express.Router()
+        .post('/item', postItem)
+        .get('/items', getItems)
+        .post('/transaction', postTransaction)
+        .get('/transactions', getTransactions)
+        .get('/bartenders', getBartenders);
 
     async function postTransaction(req, res, next) {
         try {
             const transaction = Object.assign({}, req.body, {_id: undefined, created: new Date()});
-            const result = await transactionsCollection().insert(transaction);
+            const result = await db
+                .transactionsCollection()
+                .insert(transaction);
             res.json(result);
         } catch (error) {
             next(error);
@@ -30,7 +22,8 @@ async function run() {
 
     async function getTransactions(req, res, next) {
         try {
-            const transactions = await transactionsCollection()
+            const transactions = await db
+                .transactionsCollection()
                 .find()
                 .sort({created: -1})
                 .toArray();
@@ -43,7 +36,7 @@ async function run() {
     async function postItem(req, res, next) {
         try {
             const item = Object.assign({}, req.body, {_id: undefined, created: new Date()});
-            const result = await itemsCollection().insert(item);
+            const result = await db.itemsCollection().insert(item);
             res.json(result);
         } catch (error) {
             next(error);
@@ -52,7 +45,8 @@ async function run() {
 
     async function getItems(req, res, next) {
         try {
-            const items = await itemsCollection()
+            const items = await db
+                .itemsCollection()
                 .find()
                 .sort({created: -1})
                 .toArray();
@@ -64,7 +58,8 @@ async function run() {
 
     async function getBartenders(req, res, next) {
         try {
-            const _bartenders = await transactionsCollection()
+            const _bartenders = await db
+                .transactionsCollection()
                 .aggregate([{
                     $match: {bartender: {$exists: true}}
                 }, {
@@ -77,21 +72,4 @@ async function run() {
             next(error);
         }
     }
-
-    function onConnect() {
-        console.log('Listening on port 3000');
-    }
-
-    async function connectDB() {
-        const MONGO_URL = 'mongodb://localhost:27017/floraccounting';
-        return MongoClient.connect(MONGO_URL)
-    }
-
-    function itemsCollection() {
-        return db.collection('items');
-    }
-
-    function transactionsCollection() {
-        return db.collection('transactions');
-    }
-}
+};
