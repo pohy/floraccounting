@@ -13,7 +13,8 @@
     "prop-types": "^15.5.8",
     "react": "^16.3.2",
     "react-dom": "^16.3.2",
-    "react-select": "^1.0.0-rc.5"
+    "react-select": "^1.0.0-rc.5",
+    "uuid": "^3.2.1"
   },
   "devDependencies": {
     "gh-pages": "^1.0.0",
@@ -28,7 +29,7 @@
     "predeploy": "npm run build",
     "deploy": "gh-pages -d build",
     "serve": "cross-env NODE_ENV=production node src/server",
-    "prettier": "prettier --config .prettierrc --write src/**/*.{js,jsx}"
+    "prettier": "prettier --config .prettierrc --write src/**/*.{js,jsx,css}"
   },
   "homepage": "https://pohy.github.io/floraccounting"
 }

@@ -3,7 +3,16 @@
     max-height: 100%;
 }
 
+@media (min-width: 720px) {
+    .App {
+        max-width: 40%;
+        max-height: 90%;
+        margin: 0 auto;
+        margin-top: 2%;
+        border: 1px solid black;
+    }
+}
+
 .App .Records {
     margin-top: 1em;
 }
-

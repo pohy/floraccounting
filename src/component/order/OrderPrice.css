@@ -1,0 +1,17 @@
+.OrderPrice {
+    margin-top: auto;
+    border-top: 1px solid black;
+    padding: 8px;
+}
+
+.OrderPrice .total {
+    margin-right: 8px;
+}
+
+.OrderPrice .price-range {
+    font-size: 24px;
+    padding: 8px;
+    padding-top: 0;
+    color: gray;
+    text-align: center;
+}

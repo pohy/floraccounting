@@ -16,9 +16,9 @@
     margin-right: 8px;
 }
 
-.OrderItem .close {
+.OrderItem .remove {
     text-align: right;
     font-size: 18px;
-    color: gray;
+    color: #cc0a0a;
     cursor: pointer;
 }

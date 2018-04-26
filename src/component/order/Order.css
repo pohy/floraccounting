@@ -4,30 +4,41 @@
     height: 100%;
 }
 
-.Order .search {
+.Order .search-bar {
     border-bottom: 1px solid black;
 }
 
-.Order .search input {
+.Order .search-bar {
+    font-size: 24px;
+}
+
+.Order .search-bar input {
     border: none;
-    font-size: 24px;
     padding: 8px;
+    flex-grow: 1;
 }
 
-.Order .price-wrapper {
-    margin-top: auto;
-    border-top: 1px solid black;
-    padding: 8px;
-}
-
-.Order .price .total {
+.Order .search-bar .close {
+    cursor: pointer;
+    font-size: 32px;
+    align-self: center;
     margin-right: 8px;
+    text-align: center;
 }
 
-.Order .price-range {
-    font-size: 24px;
+.Order .search-results .result {
     padding: 8px;
-    padding-bottom: 0;
-    color: gray;
-    text-align: center;
+    border-bottom: 1px solid gray;
+    cursor: pointer;
+}
+.Order .search-results .result:hover {
+    background-color: #b7edb9;
+}
+
+.Order .search-results .result .name {
+    flex-grow: 1;
+}
+
+.Order .search-results .result .add {
+    font-size: 18px;
 }

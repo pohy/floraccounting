@@ -1,12 +1,12 @@
 * {
     margin: 0;
     padding: 0;
-    font-family: "Trebutchet MS", Helvetica, sans-serif;
+    font-family: 'Trebutchet MS', Helvetica, sans-serif;
     font-size: 18px;
     font-weight: 300;
     color: rgba(0, 0, 0, 0.87);
     outline: none;
-    transition: .1s;
+    transition: 0.1s;
 }
 
 .text-secondary {
@@ -14,10 +14,12 @@
 }
 
 .text-disabled {
-    color: rgba(0, 0, 0, 0.38)
+    color: rgba(0, 0, 0, 0.38);
 }
 
-body, html, #root {
+body,
+html,
+#root {
     width: 100%;
     height: 100%;
 }
@@ -39,13 +41,16 @@ button {
     padding: 0 1em;
 }
 
-button:hover, button:focus, button:active  {
+button:hover,
+button:focus,
+button:active {
     background-color: rgba(0, 0, 0, 0.24);
     cursor: pointer;
     z-index: 1;
 }
 
-button:focus, button:active {
+button:focus,
+button:active {
     box-shadow: 0 0 1px 1px rgba(0, 0, 0, 0.24);
 }
 
@@ -69,15 +74,21 @@ table td {
     overflow: hidden;
 }
 
-table tr, table thead {
+table tr,
+table thead {
     min-height: 42px;
 }
 
-table, table thead, table tbody, table tr {
+table,
+table thead,
+table tbody,
+table tr {
     display: flex;
 }
 
-table, table thead, table tbody {
+table,
+table thead,
+table tbody {
     flex-flow: column;
 }
 
@@ -99,6 +110,15 @@ input {
     display: flex;
 }
 
+.column {
+    flex-direction: column;
+    flex-flow: column;
+}
+
+.grow {
+    flex-grow: 1;
+}
+
 .choices {
     flex: 1;
     display: flex;
@@ -110,12 +130,14 @@ input {
     padding: 4px;
     border: 1px solid gray;
     text-align: center;
+    min-width: 1.5rem;
 }
 .choices .choice:hover {
-    background-color: lightsteelblue;
+    background-color: #b7edb9;
 }
 .choices .choice.selected {
-    background-color: lightskyblue;
+    color: white;
+    background-color: #08940d;
 }
 
 .input-inline {
@@ -125,4 +147,24 @@ input {
 .input-inline label {
     padding: 4px;
     color: gray;
+}
+
+.primary {
+    color: #08940d;
+}
+
+.primary-bg {
+    background-color: #08940d;
+}
+
+.accent {
+    color: #cc0a0a;
+}
+
+.accent-bg {
+    background-color: #cc0a0a;
+}
+
+.hide {
+    display: none;
 }
