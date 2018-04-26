@@ -7,7 +7,7 @@ const apiFactory = require('./api');
 
 const isProduction = process.env.NODE_ENV === 'production';
 const buildLocation = path.resolve('./build');
-const port = isProduction ? 3000 : 3001;
+const port = (process.env.NODE_ENV || isProduction) ? 3000 : 3001;
 
 run();
 
