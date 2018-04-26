@@ -119,27 +119,6 @@ input {
     flex-grow: 1;
 }
 
-.choices {
-    flex: 1;
-    display: flex;
-}
-
-.choices .choice {
-    flex: 1;
-    cursor: pointer;
-    padding: 4px;
-    border: 1px solid gray;
-    text-align: center;
-    min-width: 1.5rem;
-}
-.choices .choice:hover {
-    background-color: #b7edb9;
-}
-.choices .choice.selected {
-    color: white;
-    background-color: #08940d;
-}
-
 .input-inline {
     display: flex;
 }

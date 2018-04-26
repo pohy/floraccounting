@@ -62,7 +62,7 @@ export class Order extends Component {
             orderItems: this.state.orderItems.filter(({ id }) => id !== itemID),
         });
 
-    updateOrderItem = (updatedItem) => () =>
+    updateOrderItem = (updatedItem) =>
         this.setState({
             orderItems: this.state.orderItems.map(
                 (item) => (item.id === updatedItem.id ? updatedItem : item),

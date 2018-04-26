@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { AMOUNT_TYPES } from './Order';
 import './OrderItem.css';
+import { Choices } from '../common/Choices';
 
 export const OrderItem = ({
     item,
@@ -23,27 +24,27 @@ export const OrderItem = ({
                     placeholder="Amount..."
                     value={typeof amount === 'undefined' ? '' : amount}
                     className="inline"
-                    onInput={onAmountUpdate(item, onUpdate)}
+                    onInput={updateAmount(item, onUpdate)}
                 />
                 <label>{amountType}</label>
             </span>
-            <span className="amount-type choices">
-                {Object.values(AMOUNT_TYPES).map((type, key) => (
-                    <span
-                        className={`choice${
-                            type === amountType ? ' selected' : ''
-                        }`}
-                        onClick={onUpdate({ ...item, amountType: type })}
-                        {...{ key }}
-                    >
-                        {type}
-                    </span>
-                ))}
-            </span>
+            <Choices
+                choices={Object.values(AMOUNT_TYPES)}
+                isSelected={isAmountTypeSelected(amountType)}
+                onChoice={updateAmountType(item, onUpdate)}
+            />
         </div>
     </div>
 );
 
-function onAmountUpdate(item, update) {
-    return ({ target: { value } }) => update({ ...item, amount: value })();
+function isAmountTypeSelected(amountType) {
+    return (type) => type === amountType;
+}
+
+function updateAmount(item, onUpdate) {
+    return ({ target: { value: amount } }) => onUpdate({ ...item, amount });
+}
+
+function updateAmountType(item, onUpdate) {
+    return (amountType) => onUpdate({ ...item, amountType });
 }

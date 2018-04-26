@@ -1,0 +1,20 @@
+.Choices {
+    flex: 1;
+    display: flex;
+}
+
+.Choices .choice {
+    flex: 1;
+    cursor: pointer;
+    padding: 4px;
+    border: 1px solid gray;
+    text-align: center;
+    min-width: 1.5rem;
+}
+.Choices .choice:hover {
+    background-color: #b7edb9;
+}
+.Choices .choice.selected {
+    color: white;
+    background-color: #08940d;
+}
