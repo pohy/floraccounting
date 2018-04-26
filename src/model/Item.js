@@ -7,12 +7,12 @@ export default class Item {
         this.amountType = amountType;
     }
 
-    static fromData({_id, name, priceMin, priceMax, amountType}) {
+    static fromData({ _id, name, priceMin, priceMax, amountType }) {
         return new Item(_id, name, priceMin, priceMax, amountType);
     }
 }
 
 export const AMOUNT_TYPE_LABELS = {
     piece: 'Piece',
-    weight: '(g) Weight'
+    weight: '(g) Weight',
 };

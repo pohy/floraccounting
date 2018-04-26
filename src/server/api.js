@@ -1,7 +1,8 @@
 const express = require('express');
 
 module.exports = (db) => {
-    return express.Router()
+    return express
+        .Router()
         .post('/item', postItem)
         .get('/items', getItems)
         .post('/transaction', postTransaction)
@@ -10,7 +11,10 @@ module.exports = (db) => {
 
     async function postTransaction(req, res, next) {
         try {
-            const transaction = Object.assign({}, req.body, {_id: undefined, created: new Date()});
+            const transaction = Object.assign({}, req.body, {
+                _id: undefined,
+                created: new Date(),
+            });
             const result = await db
                 .transactionsCollection()
                 .insert(transaction);
@@ -25,7 +29,7 @@ module.exports = (db) => {
             const transactions = await db
                 .transactionsCollection()
                 .find()
-                .sort({created: -1})
+                .sort({ created: -1 })
                 .toArray();
             res.json(transactions);
         } catch (error) {
@@ -35,7 +39,10 @@ module.exports = (db) => {
 
     async function postItem(req, res, next) {
         try {
-            const item = Object.assign({}, req.body, {_id: undefined, created: new Date()});
+            const item = Object.assign({}, req.body, {
+                _id: undefined,
+                created: new Date(),
+            });
             const result = await db.itemsCollection().insert(item);
             res.json(result);
         } catch (error) {
@@ -48,7 +55,7 @@ module.exports = (db) => {
             const items = await db
                 .itemsCollection()
                 .find()
-                .sort({created: -1})
+                .sort({ created: -1 })
                 .toArray();
             res.json(items);
         } catch (error) {
@@ -60,13 +67,16 @@ module.exports = (db) => {
         try {
             const _bartenders = await db
                 .transactionsCollection()
-                .aggregate([{
-                    $match: {bartender: {$exists: true}}
-                }, {
-                    $group: {_id: '$bartender'}
-                }])
+                .aggregate([
+                    {
+                        $match: { bartender: { $exists: true } },
+                    },
+                    {
+                        $group: { _id: '$bartender' },
+                    },
+                ])
                 .toArray();
-            const bartenders = _bartenders.map(({_id}) => _id);
+            const bartenders = _bartenders.map(({ _id }) => _id);
             res.json(bartenders);
         } catch (error) {
             next(error);

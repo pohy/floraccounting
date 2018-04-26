@@ -1,13 +1,13 @@
 const express = require('express');
-const {urlencoded, json}  = require('body-parser');
+const { urlencoded, json } = require('body-parser');
 const cors = require('cors');
 const path = require('path');
-const {connectDB} = require('./db');
+const { connectDB } = require('./db');
 const apiFactory = require('./api');
 
 const isProduction = process.env.NODE_ENV === 'production';
 const buildLocation = path.resolve('./build');
-const port = (process.env.NODE_ENV || isProduction) ? 3000 : 3001;
+const port = process.env.NODE_ENV || isProduction ? 3000 : 3001;
 
 run();
 
@@ -15,7 +15,7 @@ async function run() {
     const db = await connectDB();
     const api = apiFactory(db);
     const app = express();
-    app.use(urlencoded({extended: true}));
+    app.use(urlencoded({ extended: true }));
     app.use(json());
 
     if (isProduction) {

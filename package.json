@@ -17,6 +17,7 @@
   },
   "devDependencies": {
     "gh-pages": "^1.0.0",
+    "prettier": "^1.12.1",
     "react-scripts": "^1.1.4"
   },
   "scripts": {
@@ -26,7 +27,8 @@
     "eject": "react-scripts eject",
     "predeploy": "npm run build",
     "deploy": "gh-pages -d build",
-    "serve": "cross-env NODE_ENV=production node src/server"
+    "serve": "cross-env NODE_ENV=production node src/server",
+    "prettier": "prettier --config .prettierrc --write src/**/*.{js,jsx}"
   },
   "homepage": "https://pohy.github.io/floraccounting"
 }

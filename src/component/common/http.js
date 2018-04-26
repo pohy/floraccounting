@@ -1,6 +1,5 @@
-const API_URL = process.env.NODE_ENV === 'production'
-    ? '/api'
-    : 'http://localhost:3001';
+const API_URL =
+    process.env.NODE_ENV === 'production' ? '/api' : 'http://localhost:3001';
 
 export function get(endpoint) {
     return fetchJSON(endpoint);
@@ -12,9 +11,9 @@ export function post(endpoint, _body) {
         method: 'POST',
         mode: 'cors',
         headers: {
-            'Content-Type': 'application/json'
+            'Content-Type': 'application/json',
         },
-        body
+        body,
     };
     return fetchJSON(endpoint, options);
 }

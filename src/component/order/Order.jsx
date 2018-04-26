@@ -1,4 +1,4 @@
-import React, {Component} from 'react';
+import React, { Component } from 'react';
 import './Order.css';
 import { OrderItem } from './OrderItem';
 
@@ -26,15 +26,22 @@ export class Order extends Component {
         return (
             <div className="Order">
                 <div className="search">
-                    <input type="text" name="search" placeholder="Search..."/>
+                    <input type="text" name="search" placeholder="Search..." />
                 </div>
                 <div className="items">
-                    {ITEMS.map((item, key) => <OrderItem {...{...item, key}} />)}
+                    {ITEMS.map((item, key) => (
+                        <OrderItem {...{ ...item, key }} />
+                    ))}
                 </div>
                 <div className="price-wrapper">
                     <div className="price flex">
                         <div className="total input-inline">
-                            <input type="text" name="price-total" placeholder="Price..." className="inline" />
+                            <input
+                                type="text"
+                                name="price-total"
+                                placeholder="Price..."
+                                className="inline"
+                            />
                             <label>kč</label>
                         </div>
                         <span className="currency choices">
@@ -43,9 +50,7 @@ export class Order extends Component {
                             <span className="choice">...</span>
                         </span>
                     </div>
-                    <div className="price-range">
-                        90 ~ 150 kč
-                    </div>
+                    <div className="price-range">90 ~ 150 kč</div>
                 </div>
             </div>
         );

@@ -2,7 +2,7 @@ const MongoClient = require('mongodb').MongoClient;
 
 const MONGO_URL = 'mongodb://localhost:27017/floraccounting';
 
-module.exports = {connectDB};
+module.exports = { connectDB };
 
 async function connectDB() {
     const db = await MongoClient.connect(MONGO_URL);
@@ -22,5 +22,3 @@ class DB {
         return this.db.collection('transactions');
     }
 }
-
-
