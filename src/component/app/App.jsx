@@ -1,10 +1,9 @@
 import React, {Component} from 'react';
-import TransactionForm from '../transaction-form/TransactionForm.jsx';
-import Records from '../records/Records';
 import './App.css';
 import {post, get} from "../common/http";
 import Item from '../../model/Item';
 import Transaction from '../../model/Transaction';
+import { Order } from '../order/Order';
 
 class App extends Component {
     state = {
@@ -44,8 +43,7 @@ class App extends Component {
         const {transactions, items, bartenders} = this.state;
         return (
             <div className="App">
-                <TransactionForm onSubmit={this.onSubmit} {...{items, bartenders}}/>
-                <Records {...{transactions, items}}/>
+                <Order />
             </div>
         );
     }

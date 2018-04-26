@@ -1,0 +1,33 @@
+.Order {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+}
+
+.Order .search {
+    border-bottom: 1px solid black;
+}
+
+.Order .search input {
+    border: none;
+    font-size: 24px;
+    padding: 8px;
+}
+
+.Order .price-wrapper {
+    margin-top: auto;
+    border-top: 1px solid black;
+    padding: 8px;
+}
+
+.Order .price .total {
+    margin-right: 8px;
+}
+
+.Order .price-range {
+    font-size: 24px;
+    padding: 8px;
+    padding-bottom: 0;
+    color: gray;
+    text-align: center;
+}

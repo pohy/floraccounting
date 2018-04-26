@@ -87,3 +87,42 @@ table, table thead, table tbody {
     }
 }
 
+input {
+    padding: 2px;
+}
+
+.inline {
+    display: inline;
+}
+
+.flex {
+    display: flex;
+}
+
+.choices {
+    flex: 1;
+    display: flex;
+}
+
+.choices .choice {
+    flex: 1;
+    cursor: pointer;
+    padding: 4px;
+    border: 1px solid gray;
+    text-align: center;
+}
+.choices .choice:hover {
+    background-color: lightsteelblue;
+}
+.choices .choice.selected {
+    background-color: lightskyblue;
+}
+
+.input-inline {
+    display: flex;
+}
+
+.input-inline label {
+    padding: 4px;
+    color: gray;
+}
