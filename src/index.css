@@ -32,10 +32,10 @@ html,
 }
 
 button {
-    background-color: rgba(0, 0, 0, 0.12);
+    background-color: white;
     height: 44px;
     max-width: 6em;
-    border: 1px solid rgba(0, 0, 0, 0.24);
+    border: 1px solid #08940d;
     line-height: 42px;
     vertical-align: middle;
     padding: 0 1em;
@@ -44,7 +44,7 @@ button {
 button:hover,
 button:focus,
 button:active {
-    background-color: rgba(0, 0, 0, 0.24);
+    background-color: #b7edb9;
     cursor: pointer;
     z-index: 1;
 }
@@ -52,6 +52,22 @@ button:active {
 button:focus,
 button:active {
     box-shadow: 0 0 1px 1px rgba(0, 0, 0, 0.24);
+}
+
+button.primary {
+    border-color: white;
+    background-color: #08940d;
+    color: white;
+    cursor: pointer;
+}
+button.primary:hover,
+button.primary:focus,
+button.primary:active {
+    background-color: #3D9940;
+}
+
+button.primary[disabled] {
+    background-color: #98B299;
 }
 
 table {

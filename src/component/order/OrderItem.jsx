@@ -1,18 +1,23 @@
-import React, { Component } from 'react';
-import { AMOUNT_TYPES } from './Order';
+import React from 'react';
+import { AMOUNT_TYPES } from '../../model/TransactionItem';
 import './OrderItem.css';
 import { Choices } from '../common/Choices';
+import { TransactionItem } from '../../model/TransactionItem';
 
 export const OrderItem = ({
-    item,
-    item: { name, amountType, amount, id },
+    transactionItem,
+    transactionItem: {
+        amountType,
+        amount,
+        item: { name, _id },
+    },
     onRemove,
     onUpdate,
 }) => (
     <div className="OrderItem">
         <div className="flex">
             <h3>{name}</h3>
-            <span className="remove" onClick={onRemove(id)}>
+            <span className="remove" onClick={removeItem(_id, onRemove)}>
                 &times;
             </span>
         </div>
@@ -24,27 +29,33 @@ export const OrderItem = ({
                     placeholder="Amount..."
                     value={typeof amount === 'undefined' ? '' : amount}
                     className="inline"
-                    onInput={updateAmount(item, onUpdate)}
+                    onChange={updateAmount(transactionItem, onUpdate)}
                 />
                 <label>{amountType}</label>
             </span>
             <Choices
                 choices={Object.values(AMOUNT_TYPES)}
                 isSelected={isAmountTypeSelected(amountType)}
-                onChoice={updateAmountType(item, onUpdate)}
+                onChoice={updateAmountType(transactionItem, onUpdate)}
             />
         </div>
     </div>
 );
 
+function removeItem(_id, onRemove) {
+    return () => onRemove(_id);
+}
+
 function isAmountTypeSelected(amountType) {
     return (type) => type === amountType;
 }
 
-function updateAmount(item, onUpdate) {
-    return ({ target: { value: amount } }) => onUpdate({ ...item, amount });
+function updateAmount(transactionItem, onUpdate) {
+    return ({ target: { value: amount } }) =>
+        onUpdate(new TransactionItem({ ...transactionItem, amount }));
 }
 
-function updateAmountType(item, onUpdate) {
-    return (amountType) => onUpdate({ ...item, amountType });
+function updateAmountType(transactionItem, onUpdate) {
+    return (amountType) =>
+        onUpdate(new TransactionItem({ ...transactionItem, amountType }));
 }

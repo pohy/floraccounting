@@ -1,48 +1,31 @@
-import React, { Component, Fragment } from 'react';
+import React, { Component } from 'react';
 import './Order.css';
 import { OrderItem } from './OrderItem';
 import { OrderPrice } from './OrderPrice';
-import uuid from 'uuid';
 import { SearchBar } from './SearchBar';
 import { SearchResults } from './SearchResults';
-
-export const AMOUNT_TYPES = {
-    ml: 'ml',
-    g: 'g',
-    pc: 'pc',
-};
-
-class Item {
-    constructor(name, amount, amountType = AMOUNT_TYPES.pc, quantity = 1) {
-        this.id = uuid.v4();
-        this.name = name;
-        this.amount = amount;
-        this.amountType = amountType;
-        this.quantity = quantity;
-    }
-}
+import { TransactionItem, AMOUNT_TYPES } from '../../model/TransactionItem';
+import { Item } from '../../model/Item';
+import { Transaction } from '../../model/Transaction';
 
 const ITEMS = [
-    new Item('Kombucha', 500, AMOUNT_TYPES.ml),
-    new Item('Večeře', 1, AMOUNT_TYPES.pc),
-];
-
-const EXISTING_ITEMS = [
-    'Kombucha',
-    'Večeře',
-    'Datlový štrůdl',
-    'Raw klobáska',
-    'Konopný čaj',
-    'Wayusa',
-    'Birdsong coffee',
+    new TransactionItem({
+        amount: 500,
+        amountType: AMOUNT_TYPES.volume,
+        item: new Item({ name: 'Kombucha' }),
+    }),
+    new TransactionItem({
+        amount: 2,
+        amountType: AMOUNT_TYPES.piece,
+        item: new Item({ name: 'Dinner' }),
+    }),
 ];
 
 export class Order extends Component {
     state = {
         showSearchResults: false,
         query: '',
-        searchResults: EXISTING_ITEMS,
-        orderItems: ITEMS,
+        transaction: new Transaction({ items: ITEMS }),
     };
 
     onSearchInput = (query) => {
@@ -53,24 +36,43 @@ export class Order extends Component {
 
     addOrderItem = (item) =>
         this.setState({
-            orderItems: [...this.state.orderItems, new Item(item)],
+            transaction: this.state.transaction.addItem(item),
             showSearchResults: false,
         });
-
-    removeOrderItem = (itemID) => () =>
+    removeOrderItem = (itemID) =>
         this.setState({
-            orderItems: this.state.orderItems.filter(({ id }) => id !== itemID),
+            transaction: this.state.transaction.removeItem(itemID),
         });
-
     updateOrderItem = (updatedItem) =>
         this.setState({
-            orderItems: this.state.orderItems.map(
-                (item) => (item.id === updatedItem.id ? updatedItem : item),
-            ),
+            transaction: this.state.transaction.updateItem(updatedItem),
         });
 
+    updatePrice = (price) =>
+        this.setState({
+            transaction: new Transaction({ ...this.state.transaction, price }),
+        });
+    updateCurrency = (currency) =>
+        this.setState({
+            transaction: new Transaction({
+                ...this.state.transaction,
+                currency,
+            }),
+        });
+
+    saveTransaction = () => {
+        this.setState({
+            transaction: new Transaction(),
+        });
+    };
+
     render() {
-        const { showSearchResults, query, orderItems } = this.state;
+        const {
+            showSearchResults,
+            query,
+            transaction,
+            transaction: { items, currency, price, isValid },
+        } = this.state;
 
         return (
             <div className="Order">
@@ -88,17 +90,27 @@ export class Order extends Component {
                     }`}
                 >
                     <div className="items">
-                        {orderItems.map((item) => (
+                        {items.map((transactionItem, key) => (
                             <OrderItem
-                                key={item.id}
-                                {...{ item }}
                                 onRemove={this.removeOrderItem}
                                 onUpdate={this.updateOrderItem}
+                                {...{ transactionItem, key }}
                             />
                         ))}
                     </div>
-                    <OrderPrice />
+                    <OrderPrice
+                        onPriceChange={this.updatePrice}
+                        onCurrencyChange={this.updateCurrency}
+                        {...{ price, currency }}
+                    />
                 </div>
+                <button
+                    className="primary"
+                    onClick={this.saveTransaction}
+                    disabled={!transaction.isValid()}
+                >
+                    Save
+                </button>
             </div>
         );
     }
