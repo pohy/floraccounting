@@ -16,3 +16,22 @@
 .App .Records {
     margin-top: 1em;
 }
+
+.App .navigation button {
+    border: none;
+    border-right: 1px solid #08940d;
+    border-top: 1px solid #08940d;
+}
+
+.App .navigation button:last-child {
+    border-right: none;
+}
+
+.App .navigation button.primary {
+    background-color: #b7edb9;
+    color: black;
+}
+.App .navigation button:hover, {
+    color: #08940d;
+    background-color: white;
+}

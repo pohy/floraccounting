@@ -72,7 +72,7 @@ export class Order extends Component<{}, IOrderState> {
 
     saveTransaction = async () => {
         try {
-            const result = post('/transaction', this.state.transaction);
+            const result = await post('/transaction', this.state.transaction);
             console.log(result);
             this.setState({
                 transaction: new Transaction(),

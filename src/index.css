@@ -34,7 +34,6 @@ html,
 button {
     background-color: white;
     height: 44px;
-    max-width: 6em;
     border: 1px solid #08940d;
     line-height: 42px;
     vertical-align: middle;
@@ -46,7 +45,6 @@ button:focus,
 button:active {
     background-color: #b7edb9;
     cursor: pointer;
-    z-index: 1;
 }
 
 button:focus,
