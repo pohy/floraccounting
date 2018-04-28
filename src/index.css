@@ -63,11 +63,11 @@ button.primary {
 button.primary:hover,
 button.primary:focus,
 button.primary:active {
-    background-color: #3D9940;
+    background-color: #3d9940;
 }
 
 button.primary[disabled] {
-    background-color: #98B299;
+    background-color: #98b299;
 }
 
 table {

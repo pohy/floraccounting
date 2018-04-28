@@ -10,27 +10,27 @@
     "express": "^4.15.3",
     "mongodb": "^2.2.29",
     "normalize.css": "^7.0.0",
-    "prop-types": "^15.5.8",
     "react": "^16.3.2",
     "react-dom": "^16.3.2",
-    "react-select": "^1.0.0-rc.5",
     "uuid": "^3.2.1"
   },
   "devDependencies": {
+    "@types/react": "^16.3.13",
+    "@types/react-dom": "^16.0.5",
+    "@types/uuid": "^3.4.3",
     "gh-pages": "^1.0.0",
     "nodemon": "^1.17.3",
+    "parcel-bundler": "^1.7.1",
     "prettier": "^1.12.1",
-    "react-scripts": "^1.1.4"
+    "typescript": "^2.8.3"
   },
   "scripts": {
-    "start": "react-scripts start",
-    "build": "cross-env PUBLIC_URL=/floraccounting/ react-scripts build",
-    "test": "react-scripts test --env=jsdom",
-    "eject": "react-scripts eject",
+    "start": "parcel --port 3000 public/index.html",
+    "build": "parcel build public/index.html --public-url ./ --no-minify",
     "predeploy": "npm run build",
     "deploy": "gh-pages -d build",
     "serve": "cross-env NODE_ENV=production node src/server",
-    "prettier": "prettier --config .prettierrc --write src/**/*.{js,jsx,css}"
+    "prettier": "prettier --config .prettierrc --write src/**/*.{js,jsx,ts,tsx,css}"
   },
   "homepage": "https://pohy.github.io/floraccounting"
 }

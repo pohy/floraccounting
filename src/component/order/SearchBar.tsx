@@ -1,6 +1,18 @@
-import React, { Component } from 'react';
+import React from 'react';
+import { Component, FormEvent } from 'react';
 
-export class SearchBar extends Component {
+export interface ISearchBarProps {
+    onQuery: (query: string) => void;
+    onBlur: () => void;
+    onFocus: () => void;
+}
+
+export interface ISearchBarState {
+    query: string;
+    focused: boolean;
+}
+
+export class SearchBar extends Component<ISearchBarProps, ISearchBarState> {
     static defaultProps = {
         onQuery: () => {},
         onBlur: () => {},
@@ -10,7 +22,9 @@ export class SearchBar extends Component {
         query: '',
         focused: false,
     };
-    query = ({ target: { value: query } }) => {
+    query = ({
+        currentTarget: { value: query },
+    }: FormEvent<HTMLInputElement>) => {
         this.setState({ query });
         this.props.onQuery(query);
     };
@@ -29,9 +43,19 @@ export class SearchBar extends Component {
 
         return (
             <div className="search-bar flex">
-                <input
+                {/* <input
+                    autoComplete="off"
                     type="text"
                     name="search"
+                    placeholder="Search..."
+                    value={query}
+                    onInput={this.query}
+                    onFocus={this.focus}
+                    onBlur={this.close}
+                /> */}
+                <input
+                    autoComplete="off"
+                    type="text"
                     placeholder="Search..."
                     value={query}
                     onInput={this.query}

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { SFC } from 'react';
 import { Item } from '../../model/Item';
 
 const EXISTING_ITEMS = [
@@ -11,7 +11,17 @@ const EXISTING_ITEMS = [
     new Item({ name: 'Birdsong coffee' }),
 ];
 
-export const SearchResults = ({ onClick = () => {}, query = '' }) => (
+export type OnClickHandler = (item: Item) => void;
+
+export interface ISearchResultsProps {
+    query: string;
+    onClick: OnClickHandler;
+}
+
+export const SearchResults: SFC<ISearchResultsProps> = ({
+    onClick = () => {},
+    query = '',
+}) => (
     <div className="search-results">
         {search(query).map((item, key) => (
             <div
@@ -26,13 +36,13 @@ export const SearchResults = ({ onClick = () => {}, query = '' }) => (
     </div>
 );
 
-function selectResult(item, onClick) {
+function selectResult(item: Item, onClick: OnClickHandler) {
     return () => {
         onClick(item);
     };
 }
 
-function search(query) {
+function search(query: string) {
     // TODO: sort
     return EXISTING_ITEMS.filter(
         ({ name }) =>

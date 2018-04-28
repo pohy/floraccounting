@@ -1,58 +1,68 @@
-import React, { Component } from 'react';
+import React from 'react';
+import { Component } from 'react';
 import './Order.css';
 import { OrderItem } from './OrderItem';
 import { OrderPrice } from './OrderPrice';
 import { SearchBar } from './SearchBar';
 import { SearchResults } from './SearchResults';
-import { TransactionItem, AMOUNT_TYPES } from '../../model/TransactionItem';
+import { TransactionItem, AmountTypes } from '../../model/TransactionItem';
 import { Item } from '../../model/Item';
-import { Transaction } from '../../model/Transaction';
+import { Transaction, Currencies } from '../../model/Transaction';
+import { post } from '../common/http';
 
 const ITEMS = [
     new TransactionItem({
-        amount: 500,
-        amountType: AMOUNT_TYPES.volume,
         item: new Item({ name: 'Kombucha' }),
+        amount: 500,
+        amountType: AmountTypes.Volume,
     }),
     new TransactionItem({
-        amount: 2,
-        amountType: AMOUNT_TYPES.piece,
         item: new Item({ name: 'Dinner' }),
+        amount: 2,
+        amountType: AmountTypes.Piece,
     }),
 ];
 
-export class Order extends Component {
+export interface IOrderState {
+    showSearchResults: boolean;
+    query: string;
+    transaction: Transaction;
+}
+
+export class Order extends Component<{}, IOrderState> {
     state = {
         showSearchResults: false,
         query: '',
         transaction: new Transaction({ items: ITEMS }),
     };
 
-    onSearchInput = (query) => {
+    onSearchInput = (query: string) => {
         this.setState({ query });
     };
     hideSearchResults = () => this.setState({ showSearchResults: false });
     showSearchResults = () => this.setState({ showSearchResults: true });
 
-    addOrderItem = (item) =>
+    addOrderItem = (item: Item) =>
         this.setState({
             transaction: this.state.transaction.addItem(item),
             showSearchResults: false,
         });
-    removeOrderItem = (itemID) =>
+    removeOrderItem = (itemID: string) =>
         this.setState({
-            transaction: this.state.transaction.removeItem(itemID),
+            transaction: this.state.transaction.removeTransactionItem(itemID),
         });
-    updateOrderItem = (updatedItem) =>
+    updateOrderItem = (updatedItem: TransactionItem) =>
         this.setState({
-            transaction: this.state.transaction.updateItem(updatedItem),
+            transaction: this.state.transaction.updateTransactionItem(
+                updatedItem,
+            ),
         });
 
-    updatePrice = (price) =>
+    updatePrice = (price: number) =>
         this.setState({
             transaction: new Transaction({ ...this.state.transaction, price }),
         });
-    updateCurrency = (currency) =>
+    updateCurrency = (currency: Currencies) =>
         this.setState({
             transaction: new Transaction({
                 ...this.state.transaction,
@@ -60,10 +70,16 @@ export class Order extends Component {
             }),
         });
 
-    saveTransaction = () => {
-        this.setState({
-            transaction: new Transaction(),
-        });
+    saveTransaction = async () => {
+        try {
+            const result = post('/transaction', this.state.transaction);
+            console.log(result);
+            this.setState({
+                transaction: new Transaction(),
+            });
+        } catch (error) {
+            console.error(error);
+        }
     };
 
     render() {
@@ -71,7 +87,7 @@ export class Order extends Component {
             showSearchResults,
             query,
             transaction,
-            transaction: { items, currency, price, isValid },
+            transaction: { items, currency, price },
         } = this.state;
 
         return (
@@ -105,7 +121,7 @@ export class Order extends Component {
                     />
                 </div>
                 <button
-                    className="primary"
+                    className={`primary${showSearchResults ? ' hide' : ''}`}
                     onClick={this.saveTransaction}
                     disabled={!transaction.isValid()}
                 >
