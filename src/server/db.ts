@@ -1,18 +1,15 @@
-const MongoClient = require('mongodb').MongoClient;
+// const MongoClient = require('mongodb').MongoClient;
+import MongoClient from 'mongodb';
 
 const MONGO_URL = 'mongodb://localhost:27017/floraccounting';
 
-module.exports = { connectDB };
-
-async function connectDB() {
+export async function connectDB() {
     const db = await MongoClient.connect(MONGO_URL);
     return new DB(db);
 }
 
-class DB {
-    constructor(db) {
-        this.db = db;
-    }
+export class DB {
+    constructor(public db: MongoClient.Db) {}
 
     itemsCollection() {
         return this.db.collection('items');

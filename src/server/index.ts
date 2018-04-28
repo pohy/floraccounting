@@ -1,9 +1,9 @@
-const express = require('express');
-const { urlencoded, json } = require('body-parser');
-const cors = require('cors');
-const path = require('path');
-const { connectDB } = require('./db');
-const apiFactory = require('./api');
+import express from 'express';
+import {urlencoded, json} from 'body-parser';
+import cors from 'cors';
+import path from 'path';
+import { connectDB } from './db';
+import { apiV2Factory } from './api-v2';
 
 const isProduction = process.env.NODE_ENV === 'production';
 const buildLocation = path.resolve('./build');
@@ -13,20 +13,16 @@ run();
 
 async function run() {
     const db = await connectDB();
-    const api = apiFactory(db);
+    const apiV2 = apiV2Factory(db);
     const app = express();
     app.use(urlencoded({ extended: true }));
     app.use(json());
+    app.use(cors());
+
+    app.use(isProduction ? '/api/v2' : '/', apiV2);
 
     if (isProduction) {
-        app.use('/api', api);
         app.use(express.static(buildLocation));
-        // app.get('*', (req, res) =>
-        //     res.sendFile(path.resolve(buildLocation, 'index.html'))
-        // );
-    } else {
-        app.use(cors());
-        app.use('/', api);
     }
 
     app.listen(port, onConnect);
