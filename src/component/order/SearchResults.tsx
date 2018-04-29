@@ -1,54 +1,52 @@
-import React, { SFC } from 'react';
+import React from 'react';
+import { Component } from 'react';
 import { Item } from '../../model/Item';
-
-const EXISTING_ITEMS = [
-    new Item({ name: 'Kombucha' }),
-    new Item({ name: 'Dinner' }),
-    new Item({ name: 'Date strudel' }),
-    new Item({ name: 'Raw sausage' }),
-    new Item({ name: 'Cannabis tea' }),
-    new Item({ name: 'Wayusa' }),
-    new Item({ name: 'Birdsong coffee' }),
-];
 
 export type OnClickHandler = (item: Item) => void;
 
 export interface ISearchResultsProps {
     query: string;
+    results: Item[];
     onClick: OnClickHandler;
 }
 
-export const SearchResults: SFC<ISearchResultsProps> = ({
-    onClick = () => {},
-    query = '',
-}) => (
-    <div className="search-results">
-        {search(query).map((item, key) => (
-            <div
-                className="result flex"
-                onMouseDown={selectResult(item, onClick)}
-                {...{ key }}
-            >
-                <span className="name">{item.name}</span>
-                <span className="add primary">+</span>
-            </div>
-        ))}
-    </div>
-);
-
-function selectResult(item: Item, onClick: OnClickHandler) {
-    return () => {
-        onClick(item);
+export class SearchResults extends Component<ISearchResultsProps, {}> {
+    static defaultProps = {
+        onClick: () => {},
+        query: '',
     };
-}
 
-function search(query: string) {
-    // TODO: sort
-    return EXISTING_ITEMS.filter(
-        ({ name }) =>
-            name
-                .normalize('NFD')
-                .toLowerCase()
-                .indexOf(query.normalize('NFD').toLowerCase()) > -1,
-    );
+    selectResult = (item: Item) => () => this.props.onClick(item);
+
+    createNew = () => this.props.onClick(new Item({ name: this.props.query }));
+
+    render() {
+        const { query, results } = this.props;
+        console.log(results.length);
+
+        return (
+            <div className="search-results">
+                {results.map((item, key) => (
+                    <div
+                        className="result flex"
+                        onMouseDown={this.selectResult(item)}
+                        {...{ key }}
+                    >
+                        <span className="name">{item.name}</span>
+                        <span className="add primary">Add to order</span>
+                    </div>
+                ))}
+                {!results.length &&
+                    query && (
+                        <div
+                            className="result flex"
+                            onMouseDown={query ? this.createNew : undefined}
+                        >
+                            <em className="name">{query}</em>
+                            <span className="add primary">Create new item</span>
+                        </div>
+                    )}
+            </div>
+        );
+    }
 }

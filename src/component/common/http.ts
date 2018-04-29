@@ -20,5 +20,9 @@ export function post(endpoint: string, _body: any) {
 
 async function fetchJSON(endpoint: string, options = {}) {
     const response = await fetch(`${API_URL}${endpoint}`, options);
+    if (response.status >= 400) {
+        const responseBody = await response.text();
+        throw new Error(responseBody);
+    }
     return response.json();
 }

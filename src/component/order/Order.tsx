@@ -5,42 +5,45 @@ import { OrderItem } from './OrderItem';
 import { OrderPrice } from './OrderPrice';
 import { SearchBar } from './SearchBar';
 import { SearchResults } from './SearchResults';
-import { TransactionItem, AmountTypes } from '../../model/TransactionItem';
+import { TransactionItem } from '../../model/TransactionItem';
 import { Item } from '../../model/Item';
 import { Transaction, Currencies } from '../../model/Transaction';
 import { post } from '../common/http';
-
-const ITEMS = [
-    new TransactionItem({
-        item: new Item({ name: 'Kombucha' }),
-        amount: 500,
-        amountType: AmountTypes.Volume,
-    }),
-    new TransactionItem({
-        item: new Item({ name: 'Dinner' }),
-        amount: 2,
-        amountType: AmountTypes.Piece,
-    }),
-];
+import { searchItems } from '../common/api';
+import { itemsQueryFilter } from '../common/items-query-filter';
 
 export interface IOrderState {
+    searchResults: Item[];
     showSearchResults: boolean;
-    query: string;
+    searchQuery: string;
     transaction: Transaction;
 }
 
 export class Order extends Component<{}, IOrderState> {
     state = {
         showSearchResults: false,
-        query: '',
-        transaction: new Transaction({ items: ITEMS }),
+        searchQuery: '',
+        searchResults: new Array<Item>(),
+        transaction: new Transaction(),
     };
 
-    onSearchInput = (query: string) => {
-        this.setState({ query });
+    onSearchInput = async (searchQuery: string) => {
+        this.setState({
+            searchQuery,
+        });
+        this.fetchItems(searchQuery);
     };
     hideSearchResults = () => this.setState({ showSearchResults: false });
-    showSearchResults = () => this.setState({ showSearchResults: true });
+    showSearchResults = () => {
+        this.setState({ showSearchResults: true });
+        this.fetchItems();
+    };
+
+    async fetchItems(query: string = '') {
+        this.setState({
+            searchResults: await searchItems(query),
+        });
+    }
 
     addOrderItem = (item: Item) =>
         this.setState({
@@ -72,8 +75,7 @@ export class Order extends Component<{}, IOrderState> {
 
     saveTransaction = async () => {
         try {
-            const result = await post('/transaction', this.state.transaction);
-            console.log(result);
+            await post('/transaction', this.state.transaction);
             this.setState({
                 transaction: new Transaction(),
             });
@@ -82,12 +84,20 @@ export class Order extends Component<{}, IOrderState> {
         }
     };
 
+    searchResults() {
+        const { transaction, searchResults, searchQuery } = this.state;
+        const newItems = transaction.items.filter(
+            ({ _id }) => !searchResults.find((item) => _id === item._id),
+        );
+        return searchResults.concat(itemsQueryFilter(newItems, searchQuery));
+    }
+
     render() {
         const {
             showSearchResults,
-            query,
+            searchQuery,
             transaction,
-            transaction: { items, currency, price },
+            transaction: { transactionItems, currency, price },
         } = this.state;
 
         return (
@@ -98,7 +108,11 @@ export class Order extends Component<{}, IOrderState> {
                     onQuery={this.onSearchInput}
                 />
                 <div className={showSearchResults ? '' : 'hide'}>
-                    <SearchResults onClick={this.addOrderItem} {...{ query }} />
+                    <SearchResults
+                        onClick={this.addOrderItem}
+                        results={this.searchResults()}
+                        query={searchQuery}
+                    />
                 </div>
                 <div
                     className={`flex column grow${
@@ -106,13 +120,18 @@ export class Order extends Component<{}, IOrderState> {
                     }`}
                 >
                     <div className="items">
-                        {items.map((transactionItem, key) => (
+                        {transactionItems.map((transactionItem, key) => (
                             <OrderItem
                                 onRemove={this.removeOrderItem}
                                 onUpdate={this.updateOrderItem}
                                 {...{ transactionItem, key }}
                             />
                         ))}
+                        {!transactionItems.length && (
+                            <div className="OrderItem">
+                                <h3>Search for an item</h3>
+                            </div>
+                        )}
                     </div>
                     <OrderPrice
                         onPriceChange={this.updatePrice}

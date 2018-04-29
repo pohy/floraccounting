@@ -9,7 +9,7 @@
     padding: 4px;
     border: 1px solid gray;
     text-align: center;
-    min-width: 1.5rem;
+    min-width: 1rem;
 }
 .Choices .choice:hover {
     background-color: #b7edb9;

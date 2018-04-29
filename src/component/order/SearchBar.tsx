@@ -43,16 +43,6 @@ export class SearchBar extends Component<ISearchBarProps, ISearchBarState> {
 
         return (
             <div className="search-bar flex">
-                {/* <input
-                    autoComplete="off"
-                    type="text"
-                    name="search"
-                    placeholder="Search..."
-                    value={query}
-                    onInput={this.query}
-                    onFocus={this.focus}
-                    onBlur={this.close}
-                /> */}
                 <input
                     autoComplete="off"
                     type="text"

@@ -17,14 +17,15 @@ export enum Currencies {
 export interface ITransaction {
     _id: string;
     price?: number;
-    items: TransactionItem[];
+    transactionItems: TransactionItem[];
+    items: Item[];
     currency: Currencies;
     created: Date;
 }
 
 export class Transaction implements ITransaction {
     public _id: string = uuid.v4();
-    public items: TransactionItem[] = [];
+    public transactionItems: TransactionItem[] = [];
     public price?: number;
     public currency: Currencies = Currencies.CZK;
     public created: Date = new Date();
@@ -33,18 +34,30 @@ export class Transaction implements ITransaction {
         Object.assign(this, transaction);
     }
 
+    get items() {
+        return this.transactionItems.reduce(
+            (items: Item[], { item }) => items.concat(item),
+            [],
+        );
+    }
+
     addItem(newItem: Item) {
-        this.items = [...this.items, new TransactionItem({item: newItem})];
+        this.transactionItems = [
+            ...this.transactionItems,
+            new TransactionItem({ item: newItem }),
+        ];
         return this;
     }
 
     removeTransactionItem(itemID: string) {
-        this.items = this.items.filter(({ item: { _id } }) => _id !== itemID);
+        this.transactionItems = this.transactionItems.filter(
+            ({ item: { _id } }) => _id !== itemID,
+        );
         return this;
     }
 
     updateTransactionItem(updatedTransactionItem: TransactionItem) {
-        this.items = this.items.map(
+        this.transactionItems = this.transactionItems.map(
             (transactionItem) =>
                 transactionItem.item._id === updatedTransactionItem.item._id
                     ? updatedTransactionItem
@@ -66,8 +79,8 @@ export class Transaction implements ITransaction {
 
     areTransactionsItemsValid() {
         return (
-            this.items.length &&
-            this.items.reduce(
+            this.transactionItems.length &&
+            this.transactionItems.reduce(
                 (valid, transactionItem) => valid && transactionItem.isValid(),
                 true,
             )

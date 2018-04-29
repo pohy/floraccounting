@@ -1,5 +1,5 @@
 import express from 'express';
-import {urlencoded, json} from 'body-parser';
+import { urlencoded, json } from 'body-parser';
 import cors from 'cors';
 import path from 'path';
 import { connectDB } from './db';
