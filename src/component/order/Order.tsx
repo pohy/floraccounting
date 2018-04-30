@@ -9,7 +9,7 @@ import { TransactionItem } from '../../model/TransactionItem';
 import { Item } from '../../model/Item';
 import { Transaction, Currencies } from '../../model/Transaction';
 import { post } from '../common/http';
-import { searchItems } from '../common/api';
+import { searchItems, fetchExchangeRate } from '../common/api';
 import { itemsQueryFilter } from '../common/items-query-filter';
 
 export interface IOrderState {
@@ -17,6 +17,7 @@ export interface IOrderState {
     showSearchResults: boolean;
     searchQuery: string;
     transaction: Transaction;
+    exchangeRate: number;
 }
 
 export class Order extends Component<{}, IOrderState> {
@@ -25,7 +26,9 @@ export class Order extends Component<{}, IOrderState> {
         searchQuery: '',
         searchResults: new Array<Item>(),
         transaction: new Transaction(),
+        exchangeRate: 1,
     };
+
 
     onSearchInput = async (searchQuery: string) => {
         this.setState({
@@ -65,12 +68,13 @@ export class Order extends Component<{}, IOrderState> {
         this.setState({
             transaction: new Transaction({ ...this.state.transaction, price }),
         });
-    updateCurrency = (currency: Currencies) =>
+    updateCurrency = async (currency: Currencies) =>
         this.setState({
             transaction: new Transaction({
                 ...this.state.transaction,
                 currency,
             }),
+            exchangeRate: await fetchExchangeRate(currency),
         });
 
     saveTransaction = async () => {
@@ -98,6 +102,7 @@ export class Order extends Component<{}, IOrderState> {
             searchQuery,
             transaction,
             transaction: { transactionItems, currency, price },
+            exchangeRate,
         } = this.state;
 
         return (
@@ -124,7 +129,12 @@ export class Order extends Component<{}, IOrderState> {
                             <OrderItem
                                 onRemove={this.removeOrderItem}
                                 onUpdate={this.updateOrderItem}
-                                {...{ transactionItem, key }}
+                                {...{
+                                    transactionItem,
+                                    currency,
+                                    exchangeRate,
+                                    key,
+                                }}
                             />
                         ))}
                         {!transactionItems.length && (
@@ -136,7 +146,7 @@ export class Order extends Component<{}, IOrderState> {
                     <OrderPrice
                         onPriceChange={this.updatePrice}
                         onCurrencyChange={this.updateCurrency}
-                        {...{ price, currency }}
+                        {...{ price, currency, transactionItems, exchangeRate }}
                     />
                 </div>
                 <button

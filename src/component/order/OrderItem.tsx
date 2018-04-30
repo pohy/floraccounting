@@ -1,14 +1,18 @@
 import React, { SFC, FormEvent } from 'react';
-import { AmountTypes } from '../../model/TransactionItem';
+import { AmountTypes, SingleUnit } from '../../model/TransactionItem';
 import './OrderItem.css';
 import { Choices } from '../common/Choices';
 import { TransactionItem } from '../../model/TransactionItem';
+import { Currencies, currencySymbol } from '../../model/Transaction';
+import { formatPrice } from '../common/format-price';
 
 export type OnRemoveHandler = (itemID: string) => void;
 export type OnUpdateHandler = (updatedTransactionItem: TransactionItem) => void;
 
 export interface IOrderItemProps {
     transactionItem: TransactionItem;
+    currency: Currencies;
+    exchangeRate?: number;
     onRemove: OnRemoveHandler;
     onUpdate: OnUpdateHandler;
 }
@@ -18,14 +22,28 @@ export const OrderItem: SFC<IOrderItemProps> = ({
     transactionItem: {
         amountType,
         amount = '',
-        item: { name, _id },
+        item: { name, _id, priceMin, priceMax },
     },
+    currency,
+    exchangeRate = 1,
     onRemove,
     onUpdate,
 }) => (
     <div className="OrderItem">
         <div className="flex">
             <h3>{name}</h3>
+            {priceMin &&
+                priceMax && (
+                    <span className="grow price-range">
+                        {formatPrice(priceMin * exchangeRate)} ~{' '}
+                        {formatPrice(priceMax * exchangeRate)}
+                        &nbsp;
+                        {currencySymbol(currency)}
+                        &nbsp;/&nbsp;
+                        {SingleUnit[amountType]}
+                        {amountType}
+                    </span>
+                )}
             <span className="remove" onClick={removeItem(_id, onRemove)}>
                 &times;
             </span>

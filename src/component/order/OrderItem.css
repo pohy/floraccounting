@@ -6,7 +6,6 @@
 .OrderItem h3 {
     font-size: 18px;
     margin-bottom: 8px;
-    flex-grow: 1;
 }
 
 .OrderItem .amount {
@@ -21,4 +20,9 @@
     font-size: 18px;
     color: #cc0a0a;
     cursor: pointer;
+}
+
+.OrderItem .price-range {
+    text-align: center;
+    color: gray;
 }

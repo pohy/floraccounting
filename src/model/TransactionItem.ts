@@ -6,6 +6,12 @@ export enum AmountTypes {
     Volume = 'ml',
 }
 
+export const SingleUnit = {
+    [AmountTypes.Piece]: 1,
+    [AmountTypes.Weight]: 100,
+    [AmountTypes.Volume]: 100,
+};
+
 export class TransactionItem {
     public item!: Item;
     public amount?: number;

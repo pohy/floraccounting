@@ -2,16 +2,21 @@ import uuid from 'uuid';
 import { TransactionItem } from './TransactionItem';
 import { Item } from './Item';
 
-export const CURRENCIES = {
-    czk: 'kč',
-    eur: '€',
-    usd: '$',
-};
-
 export enum Currencies {
-    CZK = 'kč',
-    EUR = '€',
-    USD = '$',
+    CZK = 'CZK',
+    EUR = 'EUR',
+    USD = 'USD',
+}
+
+export function currencySymbol(currency: Currencies): string {
+    switch (currency) {
+        case Currencies.CZK:
+            return 'kč';
+        case Currencies.EUR:
+            return '€';
+        case Currencies.USD:
+            return '$';
+    }
 }
 
 export interface ITransaction {

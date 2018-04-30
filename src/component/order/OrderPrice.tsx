@@ -1,13 +1,18 @@
 import React, { SFC, FormEvent } from 'react';
 import './OrderPrice.css';
-import { Choices } from '../common/Choices';
-import { CURRENCIES, Currencies } from '../../model/Transaction';
+import { ChoicesCurrency } from '../common/Choices';
+import { Currencies, currencySymbol } from '../../model/Transaction';
+import { TransactionItem } from '../../model/TransactionItem';
+import { formatPrice } from '../common/format-price';
+import { calculateTransactionItemsPriceRanges } from '../common/price-range';
 
 export type OnPriceChangeHandler = (value: number) => void;
 export type OnCurrencyChangeHandler = (currency: Currencies) => void;
 export interface IOrderPriceProps {
     price?: number;
     currency: Currencies;
+    transactionItems: TransactionItem[];
+    exchangeRate?: number;
     onPriceChange: OnPriceChangeHandler;
     onCurrencyChange: OnCurrencyChangeHandler;
 }
@@ -15,11 +20,15 @@ export interface IOrderPriceProps {
 export const OrderPrice: SFC<IOrderPriceProps> = ({
     price = '',
     currency,
+    transactionItems,
+    exchangeRate = 1,
     onPriceChange,
     onCurrencyChange,
 }) => (
     <div className="OrderPrice">
-        <div className="price-range">90 ~ 150 kč</div>
+        <div className="price-range">
+            {renderPriceRange(transactionItems, currency, exchangeRate)}
+        </div>
         <div className="price flex">
             <div className="total input-inline">
                 <input
@@ -30,16 +39,32 @@ export const OrderPrice: SFC<IOrderPriceProps> = ({
                     className="inline"
                     onChange={priceChanged(onPriceChange)}
                 />
-                <label>{currency}</label>
+                <label>{currencySymbol(currency)}</label>
             </div>
-            <Choices
-                choices={Object.values(CURRENCIES)}
+            <ChoicesCurrency
+                choices={Object.values(Currencies)}
                 isSelected={isCurrencySelected(currency)}
                 onChoice={currencyChanged(onCurrencyChange)}
+                choiceName={renderCurrency}
             />
         </div>
     </div>
 );
+
+function renderCurrency(currency: Currencies) {
+    return currencySymbol(currency);
+}
+
+function renderPriceRange(
+    transactionItems: TransactionItem[],
+    currency: Currencies,
+    exchangeRate: number,
+): string {
+    const { min, max } = calculateTransactionItemsPriceRanges(transactionItems);
+    return `${formatPrice(min * exchangeRate)} ~ ${formatPrice(
+        max * exchangeRate,
+    )} ${currencySymbol(currency)}`;
+}
 
 function priceChanged(onPriceChange: OnPriceChangeHandler) {
     return ({ currentTarget: { value } }: FormEvent<HTMLInputElement>) =>
