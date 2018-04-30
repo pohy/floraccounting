@@ -28,10 +28,11 @@
 }
 
 .App .navigation button.primary {
-    background-color: #b7edb9;
-    color: black;
-}
-.App .navigation button:hover, {
     color: #08940d;
     background-color: white;
+}
+.App .navigation button:hover {
+    color: #08940d;
+    color: black;
+    background-color: #b7edb9;
 }

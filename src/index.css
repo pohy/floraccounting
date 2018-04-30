@@ -161,3 +161,14 @@ input {
 .hide {
     display: none;
 }
+
+a {
+    text-decoration: none;
+    color: #08940d;
+}
+
+a:hover,
+a:active,
+a:focus {
+    text-decoration: underline;
+}

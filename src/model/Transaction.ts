@@ -32,6 +32,7 @@ export class Transaction implements ITransaction {
 
     constructor(transaction?: Partial<Transaction>) {
         Object.assign(this, transaction);
+        this.created = new Date(this.created);
     }
 
     get items() {

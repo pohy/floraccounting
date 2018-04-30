@@ -1,0 +1,23 @@
+.OrderEntry {
+    border-bottom: 1px solid black;
+    padding: 8px;
+}
+.OrderEntry:hover {
+    background-color: #b7edb9;
+}
+
+.OrderEntry .items {
+    font-size: 18px;
+}
+
+.OrderEntry .info {
+    padding-top: 8px;
+}
+
+.OrderEntry .time {
+    color: gray;
+}
+
+.OrderEntry .price {
+    color: black;
+}

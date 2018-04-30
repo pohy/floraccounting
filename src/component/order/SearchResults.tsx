@@ -22,7 +22,6 @@ export class SearchResults extends Component<ISearchResultsProps, {}> {
 
     render() {
         const { query, results } = this.props;
-        console.log(results.length);
 
         return (
             <div className="search-results">

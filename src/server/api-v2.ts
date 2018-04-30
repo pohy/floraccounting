@@ -10,6 +10,7 @@ export const apiV2Factory = (db: DB) => {
     return express
         .Router()
         .post('/transaction', postTransaction)
+        .get('/transactions', getTransactions)
         .get('/items', getItems)
         .get('/items/:query', getItemsQuery);
 
@@ -43,10 +44,49 @@ export const apiV2Factory = (db: DB) => {
                 },
             }));
             await db.itemsCollection().bulkWrite(bulkItemUpserts);
+            const transactionObject = { ...transaction };
+            delete transactionObject.items;
             const result = await db
                 .transactionsCollection()
-                .insert(transaction);
+                .insert(transactionObject);
             res.json(result);
+        } catch (error) {
+            next(error);
+        }
+    }
+
+    async function getTransactions(
+        req: Request,
+        res: Response,
+        next: NextFunction,
+    ) {
+        try {
+            const transactions = await db
+                .transactionsCollection()
+                .aggregate([
+                    { $unwind: '$transactionItems' },
+                    {
+                        $lookup: {
+                            from: 'items',
+                            localField: 'transactionItems.itemId',
+                            foreignField: '_id',
+                            as: 'transactionItems.item',
+                        },
+                    },
+                    { $unwind: '$transactionItems.item' },
+                    { $project: { 'transactionItems.itemId': 0 } },
+                    {
+                        $group: {
+                            _id: '$_id',
+                            price: { $first: '$price' },
+                            created: { $first: '$created' },
+                            currency: { $first: '$currency' },
+                            transactionItems: { $push: '$transactionItems' },
+                        },
+                    },
+                ])
+                .toArray();
+            res.json(transactions);
         } catch (error) {
             next(error);
         }
