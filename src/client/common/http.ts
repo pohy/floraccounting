@@ -19,7 +19,7 @@ export function post(endpoint: string, _body: any) {
 }
 
 export function fetchJSONFromAPI(endpoint: string, options = {}) {
-    return fetchJSON(`${API_URL}${endpoint}`);
+    return fetchJSON(`${API_URL}${endpoint}`, options);
 }
 
 export async function fetchJSON(url: string, options = {}) {
