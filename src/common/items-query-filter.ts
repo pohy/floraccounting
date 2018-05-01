@@ -1,4 +1,4 @@
-import { Item } from '../../model/Item';
+import { Item } from './model/Item';
 
 export function itemsQueryFilter(items: Item[], query: string): Item[] {
     return items.filter(

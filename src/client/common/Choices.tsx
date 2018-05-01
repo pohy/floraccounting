@@ -1,7 +1,7 @@
 import React from 'react';
 import { Component } from 'react';
 import './Choices.css';
-import { Currencies } from '../../model/Transaction';
+import { Currencies } from '../../common/model/Transaction';
 
 export interface IChoicesProps<T> {
     choices: T[];

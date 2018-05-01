@@ -1,8 +1,8 @@
 import React, { SFC, FormEvent } from 'react';
 import './OrderPrice.css';
 import { ChoicesCurrency } from '../common/Choices';
-import { Currencies, currencySymbol } from '../../model/Transaction';
-import { TransactionItem } from '../../model/TransactionItem';
+import { Currencies, currencySymbol } from '../../common/model/Transaction';
+import { TransactionItem } from '../../common/model/TransactionItem';
 import { formatPrice } from '../common/format-price';
 import { calculateTransactionItemsPriceRanges } from '../common/price-range';
 

@@ -1,6 +1,6 @@
 import React from 'react';
 import { Component } from 'react';
-import { Item } from '../../model/Item';
+import { Item } from '../../common/model/Item';
 
 export type OnClickHandler = (item: Item) => void;
 

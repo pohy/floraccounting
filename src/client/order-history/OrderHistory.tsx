@@ -1,7 +1,7 @@
 import React from 'react';
 import { Component } from 'react';
 import './OrderHistory.css';
-import { Transaction } from '../../model/Transaction';
+import { Transaction } from '../../common/model/Transaction';
 import { fetchTransactions } from '../common/api';
 import { OrderEntry } from './OrderEntry';
 

@@ -1,4 +1,4 @@
-import uuid from 'uuid';
+import * as uuid from 'uuid';
 export class Item {
     public _id: string = uuid.v4();
     public name!: string;

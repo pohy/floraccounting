@@ -2,7 +2,7 @@ import {
     TransactionItem,
     AmountTypes,
     SingleUnit,
-} from '../../model/TransactionItem';
+} from '../../common/model/TransactionItem';
 
 export function calculateTransactionItemsPriceRanges(
     transactionItems: TransactionItem[],

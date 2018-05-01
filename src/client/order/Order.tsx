@@ -5,12 +5,12 @@ import { OrderItem } from './OrderItem';
 import { OrderPrice } from './OrderPrice';
 import { SearchBar } from './SearchBar';
 import { SearchResults } from './SearchResults';
-import { TransactionItem } from '../../model/TransactionItem';
-import { Item } from '../../model/Item';
-import { Transaction, Currencies } from '../../model/Transaction';
+import { TransactionItem } from '../../common/model/TransactionItem';
+import { Item } from '../../common/model/Item';
+import { Transaction, Currencies } from '../../common/model/Transaction';
 import { post } from '../common/http';
 import { searchItems, fetchExchangeRate } from '../common/api';
-import { itemsQueryFilter } from '../common/items-query-filter';
+import { itemsQueryFilter } from '../../common/items-query-filter';
 
 export interface IOrderState {
     searchResults: Item[];

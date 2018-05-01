@@ -1,5 +1,5 @@
 const API_URL =
-    process.env.NODE_ENV === 'production' ? '/api/v2' : 'http://localhost:3001';
+    process.env.NODE_ENV === 'production' ? '/api/v2' : 'http://10.0.0.5:3001';
 
 export function get(endpoint: string) {
     return fetchJSONFromAPI(endpoint);

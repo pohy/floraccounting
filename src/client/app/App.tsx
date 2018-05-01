@@ -24,10 +24,12 @@ export class App extends Component<{}, IAppState> {
         const { view } = this.state;
         return (
             <div className="App flex column">
+                {/* TODO: make view content scrollable, instead of the whole page */}
                 <div className="view grow">
                     {view === Views.Order && <Order />}
                     {view === Views.OrderHistory && <OrderHistory />}
                 </div>
+                {/* TODO: fix navigation in it's place */}
                 <div className="navigation flex">
                     {Object.values(Views).map((viewName, key) => (
                         <button

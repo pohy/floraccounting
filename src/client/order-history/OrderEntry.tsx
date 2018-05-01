@@ -1,6 +1,6 @@
 import React from 'react';
 import { SFC } from 'react';
-import { Transaction } from '../../model/Transaction';
+import { Transaction } from '../../common/model/Transaction';
 import './OrderEntry.css';
 
 export interface IOrderEntryProps {

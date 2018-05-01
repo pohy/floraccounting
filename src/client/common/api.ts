@@ -1,6 +1,6 @@
 import { get, fetchJSON } from './http';
-import { Item } from '../../model/Item';
-import { Transaction, Currencies } from '../../model/Transaction';
+import { Item } from '../../common/model/Item';
+import { Transaction, Currencies } from '../../common/model/Transaction';
 
 export async function searchItems(query?: string): Promise<Item[]> {
     const results = await get(`/items${query ? `/${query}` : ''}`);

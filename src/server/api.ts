@@ -1,12 +1,12 @@
 import { DB } from './db';
 import { Request, Response, NextFunction } from 'express';
-import { Transaction } from '../model/Transaction';
-import { Item } from '../model/Item';
-import { itemsQueryFilter } from '../component/common/items-query-filter';
+import { Transaction } from '../common/model/Transaction';
+import { Item } from '../common/model/Item';
+import { itemsQueryFilter } from '../common/items-query-filter';
 
 const express = require('express');
 
-export const apiV2Factory = (db: DB) => {
+export const apiFactory = (db: DB) => {
     return express
         .Router()
         .post('/transaction', postTransaction)

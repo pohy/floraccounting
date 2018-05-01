@@ -1,9 +1,9 @@
 import React, { SFC, FormEvent } from 'react';
-import { AmountTypes, SingleUnit } from '../../model/TransactionItem';
+import { AmountTypes, SingleUnit } from '../../common/model/TransactionItem';
 import './OrderItem.css';
 import { Choices } from '../common/Choices';
-import { TransactionItem } from '../../model/TransactionItem';
-import { Currencies, currencySymbol } from '../../model/Transaction';
+import { TransactionItem } from '../../common/model/TransactionItem';
+import { Currencies, currencySymbol } from '../../common/model/Transaction';
 import { formatPrice } from '../common/format-price';
 
 export type OnRemoveHandler = (itemID: string) => void;

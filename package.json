@@ -31,13 +31,16 @@
     "typescript": "^2.8.3"
   },
   "scripts": {
-    "start": "parcel --port 3000 public/index.html",
-    "build": "parcel build public/index.html --public-url ./ --no-minify",
+    "start": "cross-env NODE_ENV=production node ./dist/src/server/",
+    "start-dev": "parcel --port 3000 src/client/public/index.html",
+    "build-client": "parcel build -d ./dist/src/client/ --no-minify src/client/public/index.html",
+    "build-server": "npx tsc -p src/server/",
+    "build": "npm run build-client && npm run build-server",
     "predeploy": "npm run build",
     "deploy": "gh-pages -d build",
     "serve": "cross-env NODE_ENV=production node src/server",
     "server": "nodemon",
     "prettier": "prettier --config .prettierrc --write src/**/*.{js,jsx,ts,tsx,css}"
   },
-  "homepage": "https://pohy.github.io/floraccounting"
+  "homepage": "https://floraccounting.pohy.eu"
 }
