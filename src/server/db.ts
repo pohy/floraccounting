@@ -1,17 +1,18 @@
-// const MongoClient = require('mongodb').MongoClient;
-import MongoClient from 'mongodb';
+import { MongoClient, Db } from 'mongodb';
 
-const MONGO_URL = 'mongodb://localhost:27017/floraccounting';
+const DB_NAME = 'floraccounting';
+const MONGO_URL = 'mongodb://localhost:27017';
 
 export async function connectDB() {
-    const db = await MongoClient.connect(MONGO_URL);
-    return new DB(db);
+    const client = await MongoClient.connect(MONGO_URL);
+    return new DB(client.db(DB_NAME));
 }
 
 export class DB {
-    constructor(public db: MongoClient.Db) {}
+    constructor(public db: Db) {}
 
     itemsCollection() {
+        console.log(this.db.collection)
         return this.db.collection('items');
     }
 
