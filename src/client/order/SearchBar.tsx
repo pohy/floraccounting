@@ -1,5 +1,6 @@
 import React from 'react';
 import { Component, FormEvent } from 'react';
+import './SearchBar.css';
 
 export interface ISearchBarProps {
     onQuery: (query: string) => void;
@@ -42,7 +43,7 @@ export class SearchBar extends Component<ISearchBarProps, ISearchBarState> {
         const { query, focused } = this.state;
 
         return (
-            <div className="search-bar flex">
+            <div className="SearchBar flex">
                 <input
                     autoComplete="off"
                     type="text"

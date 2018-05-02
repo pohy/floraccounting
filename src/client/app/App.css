@@ -1,12 +1,14 @@
 .App {
     height: 100%;
     max-height: 100%;
+    overflow: hidden;
 }
 
 @media (min-width: 720px) {
     .App {
-        max-width: 40%;
+        height: 90%;
         max-height: 90%;
+        max-width: 40%;
         margin: 0 auto;
         margin-top: 2%;
         border: 1px solid black;
@@ -35,4 +37,8 @@
     color: #08940d;
     color: black;
     background-color: #b7edb9;
+}
+
+.App .view {
+    overflow: auto;
 }

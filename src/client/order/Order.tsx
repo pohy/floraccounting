@@ -120,11 +120,10 @@ export class Order extends Component<{}, IOrderState> {
                     />
                 </div>
                 <div
-                    className={`flex column grow${
+                    className={`items flex column grow${
                         showSearchResults ? ' hide' : ''
                     }`}
                 >
-                    <div className="items">
                         {transactionItems.map((transactionItem, key) => (
                             <OrderItem
                                 onRemove={this.removeOrderItem}
@@ -143,19 +142,20 @@ export class Order extends Component<{}, IOrderState> {
                             </div>
                         )}
                     </div>
+                <div className={`flex column ${showSearchResults ? 'hide' : ''}`}>
                     <OrderPrice
                         onPriceChange={this.updatePrice}
                         onCurrencyChange={this.updateCurrency}
                         {...{ price, currency, transactionItems, exchangeRate }}
                     />
-                </div>
                 <button
-                    className={`primary${showSearchResults ? ' hide' : ''}`}
+                        className="primary"
                     onClick={this.saveTransaction}
                     disabled={!transaction.isValid()}
                 >
                     Save
                 </button>
+            </div>
             </div>
         );
     }

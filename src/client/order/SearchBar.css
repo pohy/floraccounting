@@ -1,0 +1,25 @@
+.SearchBar {
+    box-shadow: 0px 1px 5px 0px rgba(0,0,0,0.1);
+}
+
+.SearchBar {
+    border-bottom: 1px solid black;
+}
+
+.SearchBar {
+    font-size: 24px;
+}
+
+.SearchBar input {
+    border: none;
+    padding: 8px;
+    flex-grow: 1;
+}
+
+.SearchBar .close {
+    cursor: pointer;
+    font-size: 32px;
+    align-self: center;
+    margin-right: 8px;
+    text-align: center;
+}

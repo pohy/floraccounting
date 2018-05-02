@@ -25,12 +25,12 @@ export class App extends Component<{}, IAppState> {
         return (
             <div className="App flex column">
                 {/* TODO: make view content scrollable, instead of the whole page */}
-                <div className="view grow">
+                <main className="view flex column grow">
                     {view === Views.Order && <Order />}
                     {view === Views.OrderHistory && <OrderHistory />}
-                </div>
+                </main>
                 {/* TODO: fix navigation in it's place */}
-                <div className="navigation flex">
+                <footer className="navigation flex">
                     {Object.values(Views).map((viewName, key) => (
                         <button
                             className={`grow${
@@ -42,7 +42,7 @@ export class App extends Component<{}, IAppState> {
                             {viewName}
                         </button>
                     ))}
-                </div>
+                </footer>
             </div>
         );
     }
