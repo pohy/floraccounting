@@ -2,6 +2,9 @@
     padding: 8px;
     border-bottom: 1px solid gray;
 }
+.OrderItem:last-child {
+    border-bottom: none;
+}
 
 .OrderItem h3 {
     font-size: 18px;

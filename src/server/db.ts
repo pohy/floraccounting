@@ -12,7 +12,6 @@ export class DB {
     constructor(public db: Db) {}
 
     itemsCollection() {
-        console.log(this.db.collection)
         return this.db.collection('items');
     }
 

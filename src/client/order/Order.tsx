@@ -106,7 +106,7 @@ export class Order extends Component<{}, IOrderState> {
         } = this.state;
 
         return (
-            <div className="Order">
+            <div className="Order grow">
                 <SearchBar
                     onFocus={this.showSearchResults}
                     onBlur={this.hideSearchResults}
