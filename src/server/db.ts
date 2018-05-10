@@ -11,11 +11,16 @@ export async function connectDB() {
 export class DB {
     constructor(public db: Db) {}
 
+    // TODO: Refactor into getters
     itemsCollection() {
         return this.db.collection('items');
     }
 
     transactionsCollection() {
         return this.db.collection('transactions');
+    }
+
+    usersCollection() {
+        return this.db.collection('users');
     }
 }

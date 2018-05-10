@@ -1,6 +1,7 @@
 import * as uuid from 'uuid';
 import { TransactionItem } from './TransactionItem';
 import { Item } from './Item';
+import { User } from './User';
 
 export enum Currencies {
     CZK = 'CZK',
@@ -26,6 +27,7 @@ export interface ITransaction {
     items: Item[];
     currency: Currencies;
     created: Date;
+    user: User;
 }
 
 export class Transaction implements ITransaction {
@@ -34,6 +36,7 @@ export class Transaction implements ITransaction {
     public price?: number;
     public currency: Currencies = Currencies.CZK;
     public created: Date = new Date();
+    public user: User = new User();
 
     constructor(transaction?: Partial<Transaction>) {
         Object.assign(this, transaction);
@@ -79,7 +82,8 @@ export class Transaction implements ITransaction {
             this.price &&
             this.price > 0 &&
             this.currency &&
-            this.created
+            this.created &&
+            this.user
         );
     }
 

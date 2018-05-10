@@ -3,13 +3,17 @@ import { Request, Response, NextFunction } from 'express';
 import { Transaction } from '../common/model/Transaction';
 import { Item } from '../common/model/Item';
 import { itemsQueryFilter } from '../common/items-query-filter';
+import express from 'express';
+import { loginFactory } from './login';
+import { RequestHandler } from 'express-jwt';
 
-const express = require('express');
+export const apiFactory = (db: DB, secure: RequestHandler) => {
+    const login = loginFactory(db);
 
-export const apiFactory = (db: DB) => {
     return express
         .Router()
-        .post('/transaction', postTransaction)
+        .use('/login', login)
+        .post('/transaction', secure, postTransaction)
         .get('/transactions', getTransactions)
         .get('/items', getItems)
         .get('/items/:query', getItemsQuery);
@@ -44,11 +48,16 @@ export const apiFactory = (db: DB) => {
                 },
             }));
             await db.itemsCollection().bulkWrite(bulkItemUpserts);
-            const transactionObject = { ...transaction };
+            const transactionObject = {
+                ...transaction,
+                userId: transaction.user._id,
+            };
             delete transactionObject.items;
+            delete transactionObject.user;
             const result = await db
                 .transactionsCollection()
                 .insert(transactionObject);
+            // TODO: Do not send Mongo response
             res.json(result);
         } catch (error) {
             next(error);
@@ -76,12 +85,22 @@ export const apiFactory = (db: DB) => {
                     { $unwind: '$transactionItems.item' },
                     { $project: { 'transactionItems.itemId': 0 } },
                     {
+                        $lookup: {
+                            from: 'users',
+                            localField: 'userId',
+                            foreignField: '_id',
+                            as: 'user',
+                        },
+                    },
+                    { $unwind: '$user' },
+                    {
                         $group: {
                             _id: '$_id',
                             price: { $first: '$price' },
                             created: { $first: '$created' },
                             currency: { $first: '$currency' },
                             transactionItems: { $push: '$transactionItems' },
+                            user: { $first: '$user' },
                         },
                     },
                 ])

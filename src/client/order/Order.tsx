@@ -5,12 +5,20 @@ import { OrderItem } from './OrderItem';
 import { OrderPrice } from './OrderPrice';
 import { SearchBar } from './SearchBar';
 import { SearchResults } from './SearchResults';
-import { TransactionItem } from '../../common/model/TransactionItem';
+import {
+    TransactionItem,
+    AmountTypes,
+} from '../../common/model/TransactionItem';
 import { Item } from '../../common/model/Item';
 import { Transaction, Currencies } from '../../common/model/Transaction';
-import { post } from '../common/http';
+import { post, API_URL } from '../common/http';
 import { searchItems, fetchExchangeRate } from '../common/api';
 import { itemsQueryFilter } from '../../common/items-query-filter';
+import { User } from '../../common/model/User';
+
+export interface IOrderProps {
+    user?: User;
+}
 
 export interface IOrderState {
     searchResults: Item[];
@@ -20,7 +28,7 @@ export interface IOrderState {
     exchangeRate: number;
 }
 
-export class Order extends Component<{}, IOrderState> {
+export class Order extends Component<IOrderProps, IOrderState> {
     state = {
         showSearchResults: false,
         searchQuery: '',
@@ -105,6 +113,17 @@ export class Order extends Component<{}, IOrderState> {
             exchangeRate,
         } = this.state;
 
+        if (!this.props.user) {
+            return (
+                <React.Fragment>
+                    <h2>Log in to create a new order</h2>
+                    <a className="button primary" href={`${API_URL}/login/fb`}>
+                        Login with Facebook
+                    </a>
+                </React.Fragment>
+            );
+        }
+
         return (
             <div className="Order grow">
                 <SearchBar
@@ -142,7 +161,9 @@ export class Order extends Component<{}, IOrderState> {
                             </div>
                         )}
                     </div>
-                <div className={`flex column ${showSearchResults ? 'hide' : ''}`}>
+                <div
+                    className={`flex column ${showSearchResults ? 'hide' : ''}`}
+                >
                     <OrderPrice
                         onPriceChange={this.updatePrice}
                         onCurrencyChange={this.updateCurrency}
