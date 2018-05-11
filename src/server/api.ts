@@ -6,6 +6,8 @@ import { itemsQueryFilter } from '../common/items-query-filter';
 import express from 'express';
 import { loginFactory } from './login';
 import { RequestHandler } from 'express-jwt';
+import path from 'path';
+import { downloadPath } from './config';
 
 export const apiFactory = (db: DB, secure: RequestHandler) => {
     const login = loginFactory(db);
@@ -16,7 +18,8 @@ export const apiFactory = (db: DB, secure: RequestHandler) => {
         .post('/transaction', secure, postTransaction)
         .get('/transactions', getTransactions)
         .get('/items', getItems)
-        .get('/items/:query', getItemsQuery);
+        .get('/items/:query', getItemsQuery)
+        .get('/image/:name', getImage);
 
     async function postTransaction(
         req: Request,
@@ -138,6 +141,13 @@ export const apiFactory = (db: DB, secure: RequestHandler) => {
         } catch (error) {
             next(error);
         }
+    }
+
+    async function getImage(req: Request, res: Response, next: NextFunction) {
+        const imagePath = path.resolve(downloadPath, req.params.name);
+        // const image = fs.readFileSync(imagePath);
+        // res.header('Content-Type', 'image/jpg').send(image);
+        res.sendFile(imagePath);
     }
 
     function fetchItems() {
