@@ -11,14 +11,11 @@ import {
 } from '../../common/model/TransactionItem';
 import { Item } from '../../common/model/Item';
 import { Transaction, Currencies } from '../../common/model/Transaction';
-import { post, API_URL } from '../common/http';
+import { post } from '../common/http';
 import { searchItems, fetchExchangeRate } from '../common/api';
 import { itemsQueryFilter } from '../../common/items-query-filter';
-import { User } from '../../common/model/User';
-
-export interface IOrderProps {
-    user?: User;
-}
+import { Redirect } from '../routing/Redirect';
+import { AuthConsumer } from '../user/AuthContext';
 
 export interface IOrderState {
     searchResults: Item[];
@@ -28,7 +25,8 @@ export interface IOrderState {
     exchangeRate: number;
 }
 
-export class Order extends Component<IOrderProps, IOrderState> {
+// TODO: Refactor into smaller components
+export class Order extends Component<{}, IOrderState> {
     state = {
         showSearchResults: false,
         searchQuery: '',
@@ -113,17 +111,12 @@ export class Order extends Component<IOrderProps, IOrderState> {
             exchangeRate,
         } = this.state;
 
-        if (!this.props.user) {
             return (
-                <React.Fragment>
-                    <h2>Log in to create a new order</h2>
-                    <a className="button primary" href={`${API_URL}/login/fb`}>
-                        Login with Facebook
-                    </a>
-                </React.Fragment>
-            );
+            <AuthConsumer>
+                {({ user }) => {
+                    if (!user) {
+                        return <Redirect to="/login" />;
         }
-
         return (
             <div className="Order grow">
                 <SearchBar
@@ -143,7 +136,8 @@ export class Order extends Component<IOrderProps, IOrderState> {
                         showSearchResults ? ' hide' : ''
                     }`}
                 >
-                        {transactionItems.map((transactionItem, key) => (
+                                {transactionItems.map(
+                                    (transactionItem, key) => (
                             <OrderItem
                                 onRemove={this.removeOrderItem}
                                 onUpdate={this.updateOrderItem}
@@ -154,7 +148,8 @@ export class Order extends Component<IOrderProps, IOrderState> {
                                     key,
                                 }}
                             />
-                        ))}
+                                    ),
+                                )}
                         {!transactionItems.length && (
                             <div className="OrderItem">
                                 <h3>Search for an item</h3>
@@ -162,12 +157,19 @@ export class Order extends Component<IOrderProps, IOrderState> {
                         )}
                     </div>
                 <div
-                    className={`flex column ${showSearchResults ? 'hide' : ''}`}
+                                className={`flex column ${
+                                    showSearchResults ? 'hide' : ''
+                                }`}
                 >
                     <OrderPrice
                         onPriceChange={this.updatePrice}
                         onCurrencyChange={this.updateCurrency}
-                        {...{ price, currency, transactionItems, exchangeRate }}
+                                    {...{
+                                        price,
+                                        currency,
+                                        transactionItems,
+                                        exchangeRate,
+                                    }}
                     />
                 <button
                         className="primary"
@@ -178,6 +180,9 @@ export class Order extends Component<IOrderProps, IOrderState> {
                 </button>
             </div>
             </div>
+        );
+                }}
+            </AuthConsumer>
         );
     }
 }

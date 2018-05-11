@@ -11,14 +11,12 @@ export class Facebook {
     private accessToken?: string;
 
     public async authenticate(code: string) {
-        const { access_token, rest } = await this.get('/oauth/access_token', {
+        const { access_token } = await this.get('/oauth/access_token', {
             client_id: fbAppID,
             redirect_uri: fbRedirectURI,
             client_secret: fbSecret,
             code,
         });
-        console.log('TOKEN: ', access_token);
-        console.log('REST: ', rest);
         this.accessToken = access_token;
         return access_token;
     }
@@ -40,7 +38,6 @@ export class Facebook {
         const url = `${fbAPI}${endpoint}${
             urlParameters ? '?' + urlParameters : ''
         }`;
-        console.log(url);
         return await fetch(url).then((response) => response.json());
     }
 }

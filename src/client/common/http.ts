@@ -1,15 +1,11 @@
+let token: string | null = null;
+
+// TODO: Rewrite into a class
 export const API_URL =
     process.env.NODE_ENV === 'production' ? '/api' : 'https://10.0.0.5:3001';
-const JWT_LOCAL_STORAGE_KEY = 'auth';
 
-export let jwt: string =
-    window.localStorage.getItem(JWT_LOCAL_STORAGE_KEY) || '';
-
-export function authenticate(token: string) {
-    if (token) {
-        jwt = token;
-        window.localStorage.setItem(JWT_LOCAL_STORAGE_KEY, token);
-    }
+export function updateToken(newToken: string | null) {
+    token = newToken;
 }
 
 export function get(endpoint: string) {
@@ -38,7 +34,7 @@ export async function fetchJSON(url: string, requestOptions: RequestInit = {}) {
         ...requestOptions,
         headers: {
             ...requestOptions.headers,
-            ...(jwt ? { Authorization: `Bearer ${jwt}` } : {}),
+            ...(token ? { Authorization: `Bearer ${token}` } : {}),
         },
     };
     const response = await fetch(url, options);
