@@ -16,11 +16,6 @@ async function run() {
     const apiV2 = apiFactory(db, secure);
     const app = express();
 
-    const certificateOptions = {
-        key: fs.readFileSync(`${__dirname}../../../ssl/key.pem`, 'utf8'),
-        cert: fs.readFileSync(`${__dirname}../../../ssl/server.crt`, 'utf8'),
-    };
-
     app.use(urlencoded({ extended: true }));
     app.use(json());
     // TODO: Configure CORS properly. Maybe use HelmetJS
@@ -30,13 +25,18 @@ async function run() {
 
     if (isProduction) {
         app.use(express.static(buildLocation));
+        app.listen(port, onConnect);
+    } else {
+        const certificateOptions = {
+            key: fs.readFileSync(`${__dirname}../../../ssl/key.pem`, 'utf8'),
+            cert: fs.readFileSync(`${__dirname}../../../ssl/server.crt`, 'utf8'),
+        };
+        https
+            .createServer(certificateOptions, app)
+            .listen(port, onConnect);
     }
 
-    const server = https.createServer(certificateOptions, app);
-
-    server.listen(port, onConnect);
-
     function onConnect() {
-        console.log(`Listening on port ${port}`);
+        console.log(`Listening on port ${port} in '${process.env.NODE_ENV}' mode`);
     }
 }
