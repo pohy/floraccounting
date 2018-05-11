@@ -15,6 +15,7 @@ export class User implements IUser {
     email: string = '';
     facebookID?: string;
     created: Date = new Date();
+    profilePictureURL?: string;
 
     constructor(user?: Partial<User>) {
         Object.assign(this, user);
