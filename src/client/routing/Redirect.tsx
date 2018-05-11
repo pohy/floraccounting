@@ -7,7 +7,9 @@ export interface IRedirectProps {
 
 export class Redirect extends Component<IRedirectProps, {}> {
     componentDidMount() {
-        browserHistory.push(this.props.to);
+        browserHistory.push(this.props.to, {
+            from: document.location.pathname,
+        });
     }
 
     render() {
