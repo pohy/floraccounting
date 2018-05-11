@@ -1,4 +1,4 @@
-import express from 'express';
+import express, { Response, Request } from 'express';
 import { urlencoded, json } from 'body-parser';
 import cors from 'cors';
 import { connectDB } from './db';
@@ -7,6 +7,7 @@ import { isProduction, buildLocation, port, jwtSecret } from './config';
 import https from 'https';
 import fs from 'fs';
 import jwt from 'express-jwt';
+import path from 'path';
 
 run();
 
@@ -25,6 +26,9 @@ async function run() {
 
     if (isProduction) {
         app.use(express.static(buildLocation));
+        app.get('*', (req: Request, res: Response) => {
+            res.sendFile(path.resolve(buildLocation, 'index.html'));
+        });
         app.listen(port, onConnect);
     } else {
         const certificateOptions = {
