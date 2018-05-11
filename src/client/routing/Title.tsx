@@ -1,6 +1,6 @@
 import { SFC } from 'react';
 
-const SUFFIX = ' | Vila Flora';
+const SUFFIX = ' | Floraccounting';
 
 export interface ITitleProps {
     children: string;
