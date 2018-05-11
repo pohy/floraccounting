@@ -16,6 +16,7 @@ import { searchItems, fetchExchangeRate } from '../common/api';
 import { itemsQueryFilter } from '../../common/items-query-filter';
 import { Redirect } from '../routing/Redirect';
 import { AuthConsumer } from '../user/AuthContext';
+import { Title } from '../routing/Title';
 
 export interface IOrderState {
     searchResults: Item[];
@@ -119,6 +120,7 @@ export class Order extends Component<{}, IOrderState> {
         }
         return (
             <div className="Order grow">
+                            <Title>New order</Title>
                 <SearchBar
                     onFocus={this.showSearchResults}
                     onBlur={this.hideSearchResults}

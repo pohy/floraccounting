@@ -2,11 +2,7 @@ import * as React from 'react';
 import { Component, Fragment } from 'react';
 import './App.css';
 import { Routes } from '../routing/Routes';
-import { Order } from '../order/Order';
-import { OrderHistory } from '../order-history/OrderHistory';
-import { User } from '../../common/model/User';
-import { get, authenticate, jwt } from '../common/http';
-import jwt_decode from 'jwt-decode';
+import { Title } from '../routing/Title';
 import { NavLink } from '../routing/Link';
 import { AuthConsumer, AuthProvider } from '../user/AuthContext';
 
@@ -14,6 +10,7 @@ export class App extends Component<{}, {}> {
     render() {
         return (
             <AuthProvider>
+                <Title>Cash desk</Title>
                 <div className="App flex column">
                     <main className="view flex column grow">
                         <Routes />

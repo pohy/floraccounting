@@ -1,9 +1,10 @@
-import React from 'react';
-import { Component } from 'react';
+import * as React from 'react';
+import { Component, Fragment } from 'react';
 import { get } from '../common/http';
 import { browserHistory } from '../routing/browser-history';
 import { AuthConsumer } from './AuthContext';
 import { Redirect } from '../routing/Redirect';
+import { Title } from '../routing/Title';
 
 export interface ILoginFacebookState {
     token: string;
@@ -43,6 +44,11 @@ export class LoginFacebook extends Component<{}, ILoginFacebookState> {
                 </AuthConsumer>
             );
         }
-        return <h2>Logging in...</h2>;
+        return (
+            <Fragment>
+                <Title>Facebook login</Title>
+                <h2>Logging in...</h2>
+            </Fragment>
+        );
     }
 }
