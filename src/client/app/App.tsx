@@ -3,8 +3,8 @@ import { Component, Fragment } from 'react';
 import './App.css';
 import { Routes } from '../routing/Routes';
 import { Title } from '../routing/Title';
-import { NavLink } from '../routing/Link';
 import { AuthConsumer, AuthProvider } from '../user/AuthContext';
+import { NavLink } from '../routing/NavLink';
 
 export class App extends Component<{}, {}> {
     render() {
@@ -18,16 +18,16 @@ export class App extends Component<{}, {}> {
                     {/* TODO: fix navigation in it's place */}
                     <footer className="navigation flex">
                         {/* TODO: className */}
-                        <NavLink to="/history">History</NavLink>
+                        <NavLink className="grow" to="/history">History</NavLink>
                         <AuthConsumer>
                             {({ user }) =>
                                 user ? (
                                     <Fragment>
-                                        <NavLink to="/order">New order</NavLink>
-                                        <NavLink to="/user">Me</NavLink>
+                                        <NavLink className="grow" to="/order">New order</NavLink>
+                                        <NavLink className="grow" to="/user">Me</NavLink>
                                     </Fragment>
                                 ) : (
-                                    <NavLink to="/login">Login</NavLink>
+                                    <NavLink className="grow" to="/login">Login</NavLink>
                                 )
                             }
                         </AuthConsumer>

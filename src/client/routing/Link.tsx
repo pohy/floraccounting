@@ -7,24 +7,13 @@ export interface ILinkProps {
     className?: string;
 }
 
-export const NavLink: SFC<ILinkProps> = ({ to, children, ...props }) => {
-    // TODO: Rerender on browserHistory change
-    const isActive = to === document.location.pathname;
-    const className = isActive ? 'active' : '' + (props.className || '');
-    return (
-        <a href={to} onClick={onClick(to)} {...{ ...props, className }}>
-            {children}
-        </a>
-    );
-};
-
 export const Link: SFC<ILinkProps> = ({ to, children, ...props }) => (
-    <a href={to} onClick={onClick(to)} {...props}>
+    <a href={to} onClick={onLinkClick(to)} {...props}>
         {children}
     </a>
 );
 
-function onClick(to: string) {
+export function onLinkClick(to: string) {
     return (event: SyntheticEvent<HTMLElement>) => {
         event.preventDefault();
         browserHistory.push(to);

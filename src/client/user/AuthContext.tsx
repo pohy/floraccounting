@@ -19,6 +19,22 @@ const { Provider, Consumer } = createContext<IAuthProviderState>({
 });
 
 export class AuthProvider extends Component<{}, IAuthProviderState> {
+    constructor(props: {}) {
+        super(props);
+
+        this.state = {
+            login: this.login,
+            logout: this.logout,
+            user: null,
+        };
+    }
+
+    componentDidMount() {
+        this.setState({user: this.login(
+            window.localStorage.getItem(JWT_LOCAL_STORAGE_KEY),
+        )});
+    }
+
     login = (token: string | null) => {
         updateToken(token);
         if (token) {
@@ -37,18 +53,6 @@ export class AuthProvider extends Component<{}, IAuthProviderState> {
         this.setState({ user: null });
         return null;
     };
-
-    constructor(props: {}) {
-        super(props);
-
-        this.state = {
-            login: this.login,
-            logout: this.logout,
-            user: this.login(
-                window.localStorage.getItem(JWT_LOCAL_STORAGE_KEY),
-            ),
-        };
-    }
 
     render() {
         return <Provider value={this.state}>{this.props.children}</Provider>;

@@ -27,7 +27,6 @@ export class Routes extends Component<{}, IRoutesState> {
         const route = Object.keys(routes).find(
             (route) => !!pathToRegexp(route).exec(pathname),
         );
-        console.log(route);
         return route ? routes[route] : null;
     }
 
