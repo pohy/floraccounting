@@ -1,6 +1,5 @@
 .OrderEntry {
     border-bottom: 1px solid black;
-    padding: 8px;
 }
 .OrderEntry:hover {
     background-color: #b7edb9;

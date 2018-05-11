@@ -29,7 +29,7 @@ export const OrderItem: SFC<IOrderItemProps> = ({
     onRemove,
     onUpdate,
 }) => (
-    <div className="OrderItem">
+    <div className="OrderItem padding">
         <div className="flex">
             <h3>{name}</h3>
             {priceMin &&

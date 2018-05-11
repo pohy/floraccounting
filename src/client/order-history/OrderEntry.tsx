@@ -10,7 +10,7 @@ export interface IOrderEntryProps {
 export const OrderEntry: SFC<IOrderEntryProps> = ({
     transaction: { items, price, currency, created },
 }) => (
-    <div className="OrderEntry flex column">
+    <div className="OrderEntry flex column padding">
         <div className="flex">
             <span className="items grow">
                 {items.map(({ name }) => name).join(', ')}

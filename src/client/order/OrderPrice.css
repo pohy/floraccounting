@@ -1,7 +1,6 @@
 .OrderPrice {
     margin-top: auto;
     border-top: 1px solid black;
-    padding: 8px;
     box-shadow: 0px -1px 5px 0px rgba(0, 0, 0, 0.1);
 }
 
@@ -11,7 +10,6 @@
 
 .OrderPrice .price-range {
     font-size: 24px;
-    padding: 8px;
     padding-top: 0;
     color: gray;
     text-align: center;

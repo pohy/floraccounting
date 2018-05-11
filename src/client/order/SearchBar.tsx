@@ -45,6 +45,7 @@ export class SearchBar extends Component<ISearchBarProps, ISearchBarState> {
         return (
             <div className="SearchBar flex">
                 <input
+                    className="padding"
                     autoComplete="off"
                     type="text"
                     placeholder="Search..."

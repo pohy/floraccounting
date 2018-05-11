@@ -25,8 +25,8 @@ export const OrderPrice: SFC<IOrderPriceProps> = ({
     onPriceChange,
     onCurrencyChange,
 }) => (
-    <div className="OrderPrice">
-        <div className="price-range">
+    <div className="OrderPrice padding">
+        <div className="price-range padding">
             {renderPriceRange(transactionItems, currency, exchangeRate)}
         </div>
         <div className="price flex">
