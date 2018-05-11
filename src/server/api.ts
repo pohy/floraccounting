@@ -92,7 +92,12 @@ export const apiFactory = (db: DB, secure: RequestHandler) => {
                             as: 'user',
                         },
                     },
-                    { $unwind: '$user' },
+                    {
+                        $unwind: {
+                            path: '$user',
+                            preserveNullAndEmptyArrays: true,
+                        },
+                    },
                     {
                         $group: {
                             _id: '$_id',
@@ -103,6 +108,7 @@ export const apiFactory = (db: DB, secure: RequestHandler) => {
                             user: { $first: '$user' },
                         },
                     },
+                    { $sort: { created: -1 } },
                 ])
                 .toArray();
             res.json(transactions);
