@@ -10,6 +10,7 @@ export const fbRedirectURI = isProduction
     : `https://localhost:3000/login/fb`;
 export const fbAPI = 'https://graph.facebook.com/v3.0';
 export const jwtSecret = process.env.JWT_SECRET || '';
+export const downloadPath = path.resolve('./download');
 
 if (!fbAppID) {
     throw new Error('FB_APP_ID is not set');

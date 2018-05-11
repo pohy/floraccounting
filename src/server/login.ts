@@ -2,8 +2,12 @@ import { DB } from './db';
 import { Request, Router, Response, NextFunction } from 'express';
 import { facebook, Facebook } from './facebook';
 import { sign } from 'jsonwebtoken';
-import { jwtSecret } from './config';
+import { jwtSecret, downloadPath } from './config';
 import { User } from '../common/model/User';
+import fetch from 'node-fetch';
+import fs from 'fs';
+import path from 'path';
+import crypto from 'crypto';
 
 export const loginFactory = (db: DB) => {
     return Router()
@@ -25,7 +29,8 @@ export const loginFactory = (db: DB) => {
             const { error, id, email, name, picture } = await facebook.get(
                 '/me',
                 {
-                    fields: 'id,email,name,picture.type(large)',
+                    fields:
+                        'id,email,name,picture.type(square).width(1280).height(1280)',
                 },
             );
             if (error) {
@@ -35,7 +40,7 @@ export const loginFactory = (db: DB) => {
             const user = new User(
                 dbUser || {
                     facebookID: id,
-                    profilePictureURL: picture.data.url,
+                    profilePictureURL: await persistPicture(picture.data.url),
                     email,
                     name,
                 },
@@ -51,5 +56,16 @@ export const loginFactory = (db: DB) => {
         } catch (error) {
             next(error);
         }
+    }
+
+    async function persistPicture(url: string) {
+        const image = await fetch(url).then((result) => result.buffer());
+        const fileName =
+            crypto
+                .createHash('md5')
+                .update(image)
+                .digest('hex') + '.jpg';
+        fs.writeFileSync(path.resolve(downloadPath, fileName), image);
+        return fileName;
     }
 };
