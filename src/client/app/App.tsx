@@ -5,6 +5,7 @@ import { Routes } from '../routing/Routes';
 import { Title } from '../routing/Title';
 import { AuthConsumer, AuthProvider } from '../user/AuthContext';
 import { NavLink } from '../routing/NavLink';
+import { Img } from '../common/Img';
 
 export class App extends Component<{}, {}> {
     render() {
@@ -17,23 +18,40 @@ export class App extends Component<{}, {}> {
                     </main>
                     {/* TODO: fix navigation in it's place */}
                     <footer className="navigation flex">
-                        {/* TODO: className */}
-                        <NavLink className="grow" to="/history">
+                        <NavLink className="grow button" to="/history">
                             History
                         </NavLink>
                         <AuthConsumer>
                             {({ user }) =>
                                 user ? (
                                     <Fragment>
-                                        <NavLink className="grow" to="/order">
+                                        <NavLink
+                                            className="grow button"
+                                            to="/order"
+                                        >
                                             New order
                                         </NavLink>
-                                        <NavLink className="grow" to="/user">
-                                            Me
+                                        <NavLink
+                                            className="grow button"
+                                            to="/user"
+                                        >
+                                            {/* Me */}
+                                            {user.profilePictureURL ? (
+                                                <Img
+                                                    className="badge"
+                                                    src={user.profilePictureURL}
+                                                    alt={user.name || undefined}
+                                                />
+                                            ) : (
+                                                'Me'
+                                            )}
                                         </NavLink>
                                     </Fragment>
                                 ) : (
-                                    <NavLink className="grow" to="/login">
+                                    <NavLink
+                                        className="grow button"
+                                        to="/login"
+                                    >
                                         Login
                                     </NavLink>
                                 )

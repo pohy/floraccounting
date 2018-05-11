@@ -4,20 +4,37 @@ import { API_URL } from '../common/http';
 import { Redirect } from '../routing/Redirect';
 import { AuthConsumer } from './AuthContext';
 import { Title } from '../routing/Title';
+import { browserHistory } from '../routing/browser-history';
+import './Login.css';
 
 export const Login: SFC<{}> = () => (
     <AuthConsumer>
         {({ user }) =>
             user ? (
-                <Redirect to="/" />
+                <Redirect
+                    to={
+                        browserHistory.lastState
+                            ? browserHistory.lastState.from
+                            : '/'
+                    }
+                />
             ) : (
-                <Fragment>
+                <div className="Login flex column grow padding-2x">
                     <Title>Login</Title>
-                    <h2>Log in to create a new order</h2>
-                    <a className="button primary" href={`${API_URL}/login/fb`}>
-                        Login with Facebook
+                    <div className="flex row">
+                        <h2 className="grow">Floraccounting</h2>
+                        <img
+                            src="http://www.vilaflora.cz/concrete/themes/greek_yogurt/images/vila-flora-logo-2.png"
+                            alt="Logo"
+                        />
+                    </div>
+                    <a
+                        className="button margin-top-2x"
+                        href={`${API_URL}/login/fb`}
+                    >
+                        Login with <strong className="fb">Facebook</strong>
                     </a>
-                </Fragment>
+                </div>
             )
         }
     </AuthConsumer>

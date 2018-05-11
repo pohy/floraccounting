@@ -1,6 +1,7 @@
 import React from 'react';
 import { Component } from 'react';
 import { Item } from '../../common/model/Item';
+import './SearchResults.css';
 
 export type OnClickHandler = (item: Item) => void;
 
@@ -24,7 +25,8 @@ export class SearchResults extends Component<ISearchResultsProps, {}> {
         const { query, results } = this.props;
 
         return (
-            <div className="search-results">
+            <div className="SearchResults">
+                {/* TODO: Filter out already existing items, make them gray and put them at the end of the listing */}
                 {results.map((item, key) => (
                     <div
                         className="result flex"

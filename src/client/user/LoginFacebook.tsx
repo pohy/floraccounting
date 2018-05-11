@@ -45,10 +45,10 @@ export class LoginFacebook extends Component<{}, ILoginFacebookState> {
             );
         }
         return (
-            <Fragment>
+            <div className="padding">
                 <Title>Facebook login</Title>
                 <h2>Logging in...</h2>
-            </Fragment>
+            </div>
         );
     }
 }

@@ -1,7 +1,11 @@
-* {
+html,
+body {
     margin: 0;
     padding: 0;
-    font-family: 'Trebutchet MS', Helvetica, sans-serif;
+}
+
+body {
+    font-family: 'Trebuchet MS', Helvetica, sans-serif;
     font-size: 18px;
     font-weight: 300;
     color: rgba(0, 0, 0, 0.87);
@@ -107,7 +111,8 @@ table tbody {
 }
 
 @media (max-width: 600px) {
-    * {
+    html,
+    body {
         font-size: 16px;
     }
 }

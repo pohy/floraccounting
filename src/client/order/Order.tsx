@@ -153,7 +153,7 @@ export class Order extends Component<{}, IOrderState> {
                                     ),
                                 )}
                         {!transactionItems.length && (
-                            <div className="OrderItem">
+                                    <div className="OrderItem padding">
                                 <h3>Search for an item</h3>
                             </div>
                         )}
@@ -174,7 +174,7 @@ export class Order extends Component<{}, IOrderState> {
                                     }}
                     />
                 <button
-                        className="primary"
+                                    className="button primary"
                     onClick={this.saveTransaction}
                     disabled={!transaction.isValid()}
                 >

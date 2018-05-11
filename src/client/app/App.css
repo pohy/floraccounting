@@ -20,15 +20,15 @@
 }
 
 .App .navigation a {
-    height: 44px;
+    /* height: 44px;
     line-height: 42px;
     vertical-align: middle;
     padding: 0 1em;
-    text-align: center;
+    text-align: center; */
     border: none;
     border-right: 1px solid #08940d;
     border-top: 1px solid #08940d;
-    text-decoration: none;
+    /* text-decoration: none; */
 }
 
 .App .navigation a.active {
@@ -43,13 +43,17 @@
 }
 
 .App .navigation a.primary {
-    color: #08940d;
-    background-color: white;
+    /* color: #08940d;
+    background-color: white; */
 }
 .App .navigation a:hover {
-    color: #08940d;
-    color: black;
-    background-color: #b7edb9;
+    /* color: black;
+    background-color: #b7edb9; */
+}
+
+.App .navigation a img {
+    max-height: 36px;
+    margin: 4px;
 }
 
 .App .view {

@@ -1,0 +1,16 @@
+.SearchResults .result {
+    padding: 8px;
+    border-bottom: 1px solid gray;
+    cursor: pointer;
+}
+.SearchResults .result:hover {
+    background-color: #b7edb9;
+}
+
+.SearchResults .result .name {
+    flex-grow: 1;
+}
+
+.SearchResults .result .add {
+    font-size: 18px;
+}
