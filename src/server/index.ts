@@ -33,14 +33,17 @@ async function run() {
     } else {
         const certificateOptions = {
             key: fs.readFileSync(`${__dirname}../../../ssl/key.pem`, 'utf8'),
-            cert: fs.readFileSync(`${__dirname}../../../ssl/server.crt`, 'utf8'),
+            cert: fs.readFileSync(
+                `${__dirname}../../../ssl/server.crt`,
+                'utf8',
+            ),
         };
-        https
-            .createServer(certificateOptions, app)
-            .listen(port, onConnect);
+        https.createServer(certificateOptions, app).listen(port, onConnect);
     }
 
     function onConnect() {
-        console.log(`Listening on port ${port} in '${process.env.NODE_ENV}' mode`);
+        console.log(
+            `Listening on port ${port} in '${process.env.NODE_ENV}' mode`,
+        );
     }
 }

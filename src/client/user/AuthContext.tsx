@@ -30,9 +30,11 @@ export class AuthProvider extends Component<{}, IAuthProviderState> {
     }
 
     componentDidMount() {
-        this.setState({user: this.login(
-            window.localStorage.getItem(JWT_LOCAL_STORAGE_KEY),
-        )});
+        this.setState({
+            user: this.login(
+                window.localStorage.getItem(JWT_LOCAL_STORAGE_KEY),
+            ),
+        });
     }
 
     login = (token: string | null) => {

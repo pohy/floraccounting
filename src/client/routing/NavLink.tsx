@@ -1,6 +1,6 @@
 import * as React from 'react';
-import { Component } from "react";
-import { ILinkProps, onLinkClick } from "./Link";
+import { Component } from 'react';
+import { ILinkProps, onLinkClick } from './Link';
 import { browserHistory } from './browser-history';
 
 export interface INavLinkState {
@@ -10,15 +10,15 @@ export interface INavLinkState {
 export class NavLink extends Component<ILinkProps, INavLinkState> {
     state = {
         isActive: document.location.pathname === this.props.to,
-    }
+    };
 
     componentDidMount() {
         browserHistory.listen(this.onRouteChange);
     }
 
     onRouteChange = (route: string) => {
-        this.setState({isActive: route === this.props.to});
-    }
+        this.setState({ isActive: route === this.props.to });
+    };
 
     render() {
         const { to, className, children } = this.props;

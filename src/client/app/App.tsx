@@ -18,16 +18,24 @@ export class App extends Component<{}, {}> {
                     {/* TODO: fix navigation in it's place */}
                     <footer className="navigation flex">
                         {/* TODO: className */}
-                        <NavLink className="grow" to="/history">History</NavLink>
+                        <NavLink className="grow" to="/history">
+                            History
+                        </NavLink>
                         <AuthConsumer>
                             {({ user }) =>
                                 user ? (
                                     <Fragment>
-                                        <NavLink className="grow" to="/order">New order</NavLink>
-                                        <NavLink className="grow" to="/user">Me</NavLink>
+                                        <NavLink className="grow" to="/order">
+                                            New order
+                                        </NavLink>
+                                        <NavLink className="grow" to="/user">
+                                            Me
+                                        </NavLink>
                                     </Fragment>
                                 ) : (
-                                    <NavLink className="grow" to="/login">Login</NavLink>
+                                    <NavLink className="grow" to="/login">
+                                        Login
+                                    </NavLink>
                                 )
                             }
                         </AuthConsumer>
