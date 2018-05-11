@@ -1,7 +1,13 @@
-import { DB } from "./db";
-import { RequestHandler, Router, Request, Response, NextFunction } from "express";
-import { Transaction } from "../common/model/Transaction";
-import { Item } from "../common/model/Item";
+import { DB } from './db';
+import {
+    RequestHandler,
+    Router,
+    Request,
+    Response,
+    NextFunction,
+} from 'express';
+import { Transaction } from '../common/model/Transaction';
+import { Item } from '../common/model/Item';
 
 export const transactionsFactory = (db: DB, secure: RequestHandler) => {
     return Router()
@@ -106,4 +112,4 @@ export const transactionsFactory = (db: DB, secure: RequestHandler) => {
             next(error);
         }
     }
-}
+};

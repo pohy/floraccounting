@@ -1,12 +1,12 @@
-import { DB } from "./db";
-import { Router, Request, Response, NextFunction } from "express";
+import { DB } from './db';
+import { Router, Request, Response, NextFunction } from 'express';
 import { itemsQueryFilter } from '../common/items-query-filter';
-import { Item } from "../common/model/Item";
+import { Item } from '../common/model/Item';
 
 export const itemsFactory = (db: DB) => {
     return Router()
         .get('/items', getItems)
-        .get('/items/:query', getItemsQuery)
+        .get('/items/:query', getItemsQuery);
 
     async function getItems(req: Request, res: Response, next: NextFunction) {
         try {
@@ -37,4 +37,4 @@ export const itemsFactory = (db: DB) => {
             .find()
             .toArray();
     }
-}
+};
