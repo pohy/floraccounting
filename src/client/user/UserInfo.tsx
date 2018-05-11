@@ -28,7 +28,7 @@ export const UserInfo: SFC<{}> = () => (
                         )}
                     </div>
                     <Link className="button margin-top-2x" to="/logout">
-                        Logout
+                        Logout ️️🚶‍🚪
                     </Link>
                 </div>
             ) : (

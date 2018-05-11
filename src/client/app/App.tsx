@@ -19,7 +19,7 @@ export class App extends Component<{}, {}> {
                     {/* TODO: fix navigation in it's place */}
                     <footer className="navigation flex">
                         <NavLink className="grow button" to="/history">
-                            History
+                            History 📃
                         </NavLink>
                         <AuthConsumer>
                             {({ user }) =>
@@ -29,7 +29,7 @@ export class App extends Component<{}, {}> {
                                             className="grow button"
                                             to="/order"
                                         >
-                                            New order
+                                            New order 💸
                                         </NavLink>
                                         <NavLink
                                             className="grow button"

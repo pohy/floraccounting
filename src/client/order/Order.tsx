@@ -178,7 +178,7 @@ export class Order extends Component<{}, IOrderState> {
                     onClick={this.saveTransaction}
                     disabled={!transaction.isValid()}
                 >
-                    Save
+                                    Save 💾
                 </button>
             </div>
             </div>

@@ -8,6 +8,7 @@
 - [] Analytics
 - [] Revise UI/UX
 - [] Logging
+- [] Improve new order flow
 
 ## Done
 

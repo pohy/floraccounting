@@ -44,7 +44,7 @@ export class SearchResults extends Component<ISearchResultsProps, {}> {
                             onMouseDown={query ? this.createNew : undefined}
                         >
                             <em className="name">{query}</em>
-                            <span className="add primary">Create new item</span>
+                            <span className="add primary">Create new item ✨</span>
                         </div>
                     )}
             </div>
