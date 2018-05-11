@@ -20,35 +20,18 @@
 }
 
 .App .navigation a {
-    /* height: 44px;
-    line-height: 42px;
-    vertical-align: middle;
-    padding: 0 1em;
-    text-align: center; */
     border: none;
     border-right: 1px solid #08940d;
     border-top: 1px solid #08940d;
-    /* text-decoration: none; */
 }
 
 .App .navigation a.active {
     text-decoration: underline;
-}
-.App .navigation a.active:hover {
-    background-color: white;
+    background-color: #d5edd6;
 }
 
 .App .navigation a:last-child {
     border-right: none;
-}
-
-.App .navigation a.primary {
-    /* color: #08940d;
-    background-color: white; */
-}
-.App .navigation a:hover {
-    /* color: black;
-    background-color: #b7edb9; */
 }
 
 .App .navigation a img {
