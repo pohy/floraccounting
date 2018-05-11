@@ -1,7 +1,12 @@
 import { DB } from './db';
-import { Request, Response, NextFunction, Router } from 'express';
+import {
+    Request,
+    Response,
+    NextFunction,
+    Router,
+    RequestHandler,
+} from 'express';
 import { loginFactory } from './login';
-import { RequestHandler } from 'express-jwt';
 import path from 'path';
 import { downloadPath } from './config';
 import { transactionsFactory } from './transactions';

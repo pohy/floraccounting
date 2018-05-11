@@ -24,10 +24,8 @@ export async function fetchExchangeRate(currency: Currencies): Promise<number> {
 export async function isAuthenticated(): Promise<boolean> {
     try {
         await get('/is-authenticated');
-        console.log('cool');
         return true;
     } catch (error) {
-        console.error(error);
         return false;
     }
 }

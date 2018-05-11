@@ -3,17 +3,17 @@ import { urlencoded, json } from 'body-parser';
 import cors from 'cors';
 import { connectDB } from './db';
 import { apiFactory } from './api';
-import { isProduction, buildLocation, port, jwtSecret } from './config';
+import { isProduction, buildLocation, port } from './config';
 import https from 'https';
 import fs from 'fs';
-import jwt from 'express-jwt';
 import path from 'path';
+import { secureFactory } from './secure';
 
 run();
 
 async function run() {
-    const secure = jwt({ secret: jwtSecret });
     const db = await connectDB();
+    const secure = secureFactory(db);
     const apiV2 = apiFactory(db, secure);
     const app = express();
 
