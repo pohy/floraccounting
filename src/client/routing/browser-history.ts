@@ -3,6 +3,13 @@ type ListenHandler = (path: string) => void;
 class BrowserHistory {
     private callbacks: ListenHandler[] = [];
 
+    constructor() {
+        window.addEventListener('popstate', this.popStateHandler);
+    }
+
+    popStateHandler = (event: PopStateEvent) =>
+        this.notify(document.location.pathname);
+
     public push(path: string) {
         window.history.pushState({}, '', path);
         this.notify(path);
