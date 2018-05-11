@@ -20,3 +20,14 @@ export async function fetchExchangeRate(currency: Currencies): Promise<number> {
     } = (await fetchJSON(REQUEST_URL)) as any;
     return val;
 }
+
+export async function isAuthenticated(): Promise<boolean> {
+    try {
+        await get('/is-authenticated');
+        console.log('cool');
+        return true;
+    } catch (error) {
+        console.error(error);
+        return false;
+    }
+}

@@ -15,11 +15,16 @@ export const apiFactory = (db: DB, secure: RequestHandler) => {
     return Router()
         .use('/login', login)
         .get('/image/:name', getImage)
+        .get('/is-authenticated', secure, getIsAuthenticated)
         .use(transactions)
         .use(items);
 
     async function getImage(req: Request, res: Response, next: NextFunction) {
         const imagePath = path.resolve(downloadPath, req.params.name);
         res.sendFile(imagePath);
+    }
+
+    function getIsAuthenticated(req: Request, res: Response) {
+        res.send({});
     }
 };

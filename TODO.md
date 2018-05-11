@@ -7,10 +7,11 @@
 
 - [] Analytics
 - [] Revise UI/UX
-- [] Logout the user when token becomes invalid
+- [] Logging
 
 ## Done
 
+- [x] Logout the user when token becomes invalid
 - [x] Fix up the styling
 - [x] Routing
 - [x] User authorization

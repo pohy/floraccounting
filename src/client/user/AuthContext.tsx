@@ -2,7 +2,8 @@ import * as React from 'react';
 import { User } from '../../common/model/User';
 import { createContext, Component } from 'react';
 import jwt_decode from 'jwt-decode';
-import { updateToken } from '../common/http';
+import { updateToken, get } from '../common/http';
+import { isAuthenticated } from '../common/api';
 
 export const JWT_LOCAL_STORAGE_KEY = 'auth';
 
@@ -29,12 +30,17 @@ export class AuthProvider extends Component<{}, IAuthProviderState> {
         };
     }
 
-    componentDidMount() {
-        this.setState({
-            user: this.login(
-                window.localStorage.getItem(JWT_LOCAL_STORAGE_KEY),
-            ),
-        });
+    async componentDidMount() {
+        const user = this.login(
+            window.localStorage.getItem(JWT_LOCAL_STORAGE_KEY),
+        );
+        this.setState({ user });
+        if (user) {
+            const authenticated = await isAuthenticated();
+            if (!authenticated) {
+                this.setState({ user: this.logout() });
+            }
+        }
     }
 
     login = (token: string | null) => {
