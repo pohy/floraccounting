@@ -1,5 +1,5 @@
-import React from 'react';
-import { Component } from 'react';
+import * as React from 'react';
+import { Component, FormEvent } from 'react';
 import './Order.css';
 import { OrderItem } from './OrderItem';
 import { OrderPrice } from './OrderPrice';
@@ -54,9 +54,7 @@ export class Order extends Component<{}, IOrderState> {
     showSearchResults = () => {
         this.setState({ showSearchResults: true });
         this.fetchItems();
-        if (this.searchBarInputElement) {
             this.searchBarInputElement.focus();
-        }
     };
 
     async fetchItems(query: string = '') {
@@ -94,7 +92,10 @@ export class Order extends Component<{}, IOrderState> {
             exchangeRate: await fetchExchangeRate(currency),
         });
 
-    saveTransaction = async () => {
+    saveTransaction = async (
+        event: FormEvent<HTMLFormElement | HTMLButtonElement>,
+    ) => {
+        event.preventDefault();
         try {
             await post('/transaction', this.state.transaction);
             this.setState({
@@ -103,6 +104,29 @@ export class Order extends Component<{}, IOrderState> {
         } catch (error) {
             console.error(error);
         }
+    };
+
+    setPriceInputRef = (inputElement: HTMLInputElement) =>
+        (this.priceInputRef = inputElement);
+
+    addOrderItemInput = (inputElement: HTMLInputElement) =>
+        this.orderItemInputs.push(inputElement);
+
+    focusNextInput = (inputElement: HTMLInputElement) => {
+        this.orderItemInputs = this.orderItemInputs.filter((input) =>
+            document.body.contains(input),
+        );
+        const inputIndex = this.orderItemInputs.findIndex(
+            (input) => input === inputElement,
+        );
+        if (inputIndex < 0) {
+            return;
+        }
+        if (inputIndex === this.orderItemInputs.length - 1) {
+            this.priceInputRef.focus();
+            return;
+        }
+        this.orderItemInputs[inputIndex + 1].focus();
     };
 
     searchResults() {
@@ -129,7 +153,10 @@ export class Order extends Component<{}, IOrderState> {
                         return <Redirect to="/login" />;
         }
         return (
-            <div className="Order grow">
+                        <form
+                            className="Order grow"
+                            onSubmit={this.saveTransaction}
+                        >
                             <Title>New order</Title>
                 <SearchBar
                                 inputRef={this.setSearchBarInputElement}
@@ -145,15 +172,32 @@ export class Order extends Component<{}, IOrderState> {
                     />
                 </div>
                 <div
+                                className={`add-item flex padding center-content${
+                                    showSearchResults ? ' hide' : ''
+                                }`}
+                            >
+                                <button
+                                    onClick={this.showSearchResults}
+                                    className="button"
+                                    type="button"
+                                >
+                                    Add item 🥕
+                                </button>
+                            </div>
+                            <div
                     className={`items flex column grow${
                         showSearchResults ? ' hide' : ''
                     }`}
                 >
-                                {transactionItems.map(
-                                    (transactionItem, key) => (
+                                {transactionItems
+                                    .slice()
+                                    .reverse()
+                                    .map((transactionItem, key) => (
                             <OrderItem
                                 onRemove={this.removeOrderItem}
                                 onUpdate={this.updateOrderItem}
+                                            onSubmit={this.focusNextInput}
+                                            inputRef={this.addOrderItemInput}
                                 {...{
                                     transactionItem,
                                     currency,
@@ -161,16 +205,7 @@ export class Order extends Component<{}, IOrderState> {
                                     key,
                                 }}
                             />
-                                    ),
-                                )}
-                                <div className="flex padding center-content">
-                                    <button
-                                        onClick={this.showSearchResults}
-                                        className="button"
-                                    >
-                                        Add item 🥕
-                                    </button>
-                            </div>
+                                    ))}
                     </div>
                 <div
                                 className={`flex column ${
@@ -178,6 +213,7 @@ export class Order extends Component<{}, IOrderState> {
                                 }`}
                 >
                     <OrderPrice
+                                    inputRef={this.setPriceInputRef}
                         onPriceChange={this.updatePrice}
                         onCurrencyChange={this.updateCurrency}
                                     {...{
@@ -191,11 +227,12 @@ export class Order extends Component<{}, IOrderState> {
                                     className="button primary"
                     onClick={this.saveTransaction}
                     disabled={!transaction.isValid()}
+                                    type="submit"
                 >
                                     Save 💾
                 </button>
             </div>
-            </div>
+                        </form>
         );
                 }}
             </AuthConsumer>

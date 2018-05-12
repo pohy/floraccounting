@@ -1,4 +1,10 @@
-import React, { SFC, FormEvent } from 'react';
+import * as React from 'react';
+import {
+    FormEvent,
+    KeyboardEvent,
+    FocusEvent,
+    Component,
+} from 'react';
 import { AmountTypes, SingleUnit } from '../../common/model/TransactionItem';
 import './OrderItem.css';
 import { Choices } from '../common/Choices';
@@ -6,29 +12,71 @@ import { TransactionItem } from '../../common/model/TransactionItem';
 import { Currencies, currencySymbol } from '../../common/model/Transaction';
 import { formatPrice } from '../common/format-price';
 
-export type OnRemoveHandler = (itemID: string) => void;
-export type OnUpdateHandler = (updatedTransactionItem: TransactionItem) => void;
-
 export interface IOrderItemProps {
     transactionItem: TransactionItem;
     currency: Currencies;
     exchangeRate?: number;
-    onRemove: OnRemoveHandler;
-    onUpdate: OnUpdateHandler;
+    onRemove: (itemID: string) => void;
+    onUpdate: (updatedTransactionItem: TransactionItem) => void;
+    onSubmit: (input: HTMLInputElement) => void;
+    inputRef: (inputElement: HTMLInputElement) => void;
 }
 
-export const OrderItem: SFC<IOrderItemProps> = ({
-    transactionItem,
+export class OrderItem extends Component<IOrderItemProps, {}> {
+}
+
+    setInputRef = (input: HTMLInputElement) => {
+        this.props.inputRef(input);
+    };
+
+    selectText(event: FocusEvent<HTMLInputElement>) {
+        const input = event.currentTarget;
+        input.select();
+    }
+
+    submit = (event: KeyboardEvent<HTMLInputElement>) => {
+        if (event.key !== 'Enter') {
+            return;
+        }
+        event.preventDefault();
+        this.props.onSubmit(event.currentTarget);
+    };
+
+    removeItem = () => this.props.onRemove(this.props.transactionItem.item._id);
+
+    isAmountTypeSelected = (type: string) =>
+        type === this.props.transactionItem.amountType;
+
+    updateAmount = ({
+        currentTarget: { value: amount },
+    }: FormEvent<HTMLInputElement>) =>
+        this.props.onUpdate(
+            new TransactionItem({
+                ...this.props.transactionItem,
+                amount: Number.parseFloat(amount),
+            }),
+        );
+
+    updateAmountType = (amountType: string) =>
+        this.props.onUpdate(
+            new TransactionItem({
+                ...this.props.transactionItem,
+                amountType: amountType as AmountTypes,
+            }),
+        );
+
+    render() {
+        const {
     transactionItem: {
         amountType,
         amount = '',
-        item: { name, _id, priceMin, priceMax },
+                item: { name, priceMin, priceMax },
     },
     currency,
     exchangeRate = 1,
-    onRemove,
-    onUpdate,
-}) => (
+        } = this.props;
+
+        return (
     <div className="OrderItem padding">
         <div className="flex">
             <h3>{name}</h3>
@@ -44,63 +92,37 @@ export const OrderItem: SFC<IOrderItemProps> = ({
                         {amountType}
                     </span>
                 )}
-            <span className="remove" onClick={removeItem(_id, onRemove)}>
+                    <span
+                        className="remove"
+                        onClick={this.removeItem}
+                    >
                 &times;
             </span>
         </div>
         <div className="flex">
             <span className="amount input-inline">
                 <input
+                            className="inline"
                     type="number"
                     name="item-amount"
                     placeholder="Amount..."
                     value={amount}
-                    className="inline"
-                    onChange={updateAmount(transactionItem, onUpdate)}
+                            tabIndex={0}
+                            onChange={this.updateAmount}
+                            onKeyDown={this.submit}
+                            onFocus={this.selectText}
+                            ref={this.setInputRef}
                 />
                 <label>{amountType}</label>
             </span>
             <Choices
                 choices={Object.values(AmountTypes)}
-                isSelected={isAmountTypeSelected(amountType)}
-                onChoice={updateAmountType(transactionItem, onUpdate)}
+                        isSelected={this.isAmountTypeSelected}
+                        onChoice={this.updateAmountType}
+                        tabIndex={-1}
             />
         </div>
     </div>
 );
-
-function removeItem(_id: string, onRemove: OnRemoveHandler) {
-    return () => onRemove(_id);
 }
-
-function isAmountTypeSelected(amountType: AmountTypes) {
-    return (type: string) => type === amountType;
-}
-
-function updateAmount(
-    transactionItem: TransactionItem,
-    onUpdate: OnUpdateHandler,
-) {
-    return ({
-        currentTarget: { value: amount },
-    }: FormEvent<HTMLInputElement>) =>
-        onUpdate(
-            new TransactionItem({
-                ...transactionItem,
-                amount: Number.parseFloat(amount),
-            }),
-        );
-}
-
-function updateAmountType(
-    transactionItem: TransactionItem,
-    onUpdate: OnUpdateHandler,
-) {
-    return (amountType: string) =>
-        onUpdate(
-            new TransactionItem({
-                ...transactionItem,
-                amountType: amountType as AmountTypes,
-            }),
-        );
 }

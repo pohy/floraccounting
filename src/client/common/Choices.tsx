@@ -8,6 +8,7 @@ export interface IChoicesProps<T> {
     choiceName?: (choice: T) => string;
     isSelected: (choice: T) => boolean;
     onChoice: (choice: T) => void;
+    tabIndex?: number;
 }
 
 export class Choices<T> extends Component<IChoicesProps<T>, {}> {
@@ -21,7 +22,7 @@ export class Choices<T> extends Component<IChoicesProps<T>, {}> {
     }
 
     render() {
-        const { choices, isSelected } = this.props;
+        const { choices, isSelected, tabIndex } = this.props;
         return (
             <div className="Choices">
                 {choices.map((choice, key) => (
@@ -30,7 +31,7 @@ export class Choices<T> extends Component<IChoicesProps<T>, {}> {
                             isSelected(choice) ? ' selected' : ''
                         }`}
                         onClick={this.selectChoice(choice)}
-                        {...{ key }}
+                        {...{ key, tabIndex }}
                     >
                         {this.renderChoice(choice)}
                     </span>
