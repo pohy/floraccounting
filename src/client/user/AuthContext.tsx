@@ -63,7 +63,9 @@ export class AuthProvider extends Component<{}, IAuthProviderState> {
     };
 
     render() {
-        return <Provider value={this.state}>{this.props.children}</Provider>;
+        return (
+            <Provider value={{ ...this.state }}>{this.props.children}</Provider>
+        );
     }
 }
 
