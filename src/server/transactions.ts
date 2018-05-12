@@ -46,15 +46,15 @@ export const transactionsFactory = (db: DB, secure: RequestHandler) => {
             await db.itemsCollection().bulkWrite(bulkItemUpserts);
             const transactionObject = {
                 ...transaction,
-                userId: transaction.user._id,
+                userId: req.user.sub,
             };
             delete transactionObject.items;
             delete transactionObject.user;
-            const result = await db
+            await db
                 .transactionsCollection()
                 .insert(transactionObject);
-            // TODO: Do not send Mongo response
-            res.json(result);
+            // FIXME: User object is empty
+            res.json(new Transaction(transactionObject));
         } catch (error) {
             next(error);
         }
