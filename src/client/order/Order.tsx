@@ -36,6 +36,8 @@ export class Order extends Component<{}, IOrderState> {
         exchangeRate: 1,
     };
 
+    setSearchBarInputElement = (input: HTMLInputElement) =>
+        (this.searchBarInputElement = input);
 
     onSearchInput = async (searchQuery: string) => {
         this.setState({
@@ -43,10 +45,18 @@ export class Order extends Component<{}, IOrderState> {
         });
         this.fetchItems(searchQuery);
     };
-    hideSearchResults = () => this.setState({ showSearchResults: false });
+    hideSearchResults = () => {
+        this.setState({ showSearchResults: false });
+        if (this.searchBarInputElement) {
+            this.searchBarInputElement.blur();
+        }
+    };
     showSearchResults = () => {
         this.setState({ showSearchResults: true });
         this.fetchItems();
+        if (this.searchBarInputElement) {
+            this.searchBarInputElement.focus();
+        }
     };
 
     async fetchItems(query: string = '') {
@@ -122,6 +132,7 @@ export class Order extends Component<{}, IOrderState> {
             <div className="Order grow">
                             <Title>New order</Title>
                 <SearchBar
+                                inputRef={this.setSearchBarInputElement}
                     onFocus={this.showSearchResults}
                     onBlur={this.hideSearchResults}
                     onQuery={this.onSearchInput}
@@ -152,11 +163,14 @@ export class Order extends Component<{}, IOrderState> {
                             />
                                     ),
                                 )}
-                        {!transactionItems.length && (
-                                    <div className="OrderItem padding">
-                                <h3>Search for an item</h3>
+                                <div className="flex padding center-content">
+                                    <button
+                                        onClick={this.showSearchResults}
+                                        className="button"
+                                    >
+                                        Add item 🥕
+                                    </button>
                             </div>
-                        )}
                     </div>
                 <div
                                 className={`flex column ${

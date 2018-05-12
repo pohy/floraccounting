@@ -35,6 +35,11 @@ html,
     align-items: stretch;
 }
 
+.center-content {
+    justify-content: center;
+    align-items: center;
+}
+
 .button {
     background-color: white;
     height: 44px;
