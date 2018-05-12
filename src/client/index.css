@@ -187,6 +187,11 @@ img.badge-large {
     border: 2px solid rgba(8, 148, 13, 0.7);
 }
 
+img.badge {
+    max-width: 36px;
+    max-height: 36px;
+}
+
 img.badge-large {
     max-width: 120px;
     max-height: 120px;

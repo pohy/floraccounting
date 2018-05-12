@@ -20,3 +20,8 @@
 .OrderEntry .price {
     color: black;
 }
+
+.OrderEntry .picture {
+    margin-right: 8px;
+    margin-top: 4px;
+}
