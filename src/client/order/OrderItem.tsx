@@ -1,10 +1,5 @@
 import * as React from 'react';
-import {
-    FormEvent,
-    KeyboardEvent,
-    FocusEvent,
-    Component,
-} from 'react';
+import { FormEvent, KeyboardEvent, FocusEvent, Component } from 'react';
 import { AmountTypes, SingleUnit } from '../../common/model/TransactionItem';
 import './OrderItem.css';
 import { Choices } from '../common/Choices';
@@ -79,10 +74,10 @@ export class OrderItem extends Component<IOrderItemProps, {}> {
         return (
     <div className="OrderItem padding">
         <div className="flex">
-            <h3>{name}</h3>
+                    <h3 className="grow">{name}</h3>
             {priceMin &&
                 priceMax && (
-                    <span className="grow price-range">
+                            <span className="price-range">
                         {formatPrice(priceMin * exchangeRate)} ~{' '}
                         {formatPrice(priceMax * exchangeRate)}
                         &nbsp;
@@ -92,17 +87,14 @@ export class OrderItem extends Component<IOrderItemProps, {}> {
                         {amountType}
                     </span>
                 )}
-                    <span
-                        className="remove"
-                        onClick={this.removeItem}
-                    >
+                    <span className="remove" onClick={this.removeItem}>
                 &times;
             </span>
         </div>
         <div className="flex">
             <span className="amount input-inline">
                 <input
-                            className="inline"
+                            className="grow inline"
                     type="number"
                     name="item-amount"
                     placeholder="Amount..."
@@ -113,7 +105,6 @@ export class OrderItem extends Component<IOrderItemProps, {}> {
                             onFocus={this.selectText}
                             ref={this.setInputRef}
                 />
-                <label>{amountType}</label>
             </span>
             <Choices
                 choices={Object.values(AmountTypes)}

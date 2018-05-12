@@ -53,7 +53,7 @@ export class SearchBar extends Component<ISearchBarProps, ISearchBarState> {
                     className="padding"
                     autoComplete="off"
                     type="text"
-                    placeholder="Search..."
+                    placeholder="Search... 🍆🍉🍄"
                     value={query}
                     onInput={this.query}
                     onFocus={this.focus}

@@ -5,7 +5,6 @@ import { Currencies, currencySymbol } from '../../common/model/Transaction';
 import { TransactionItem } from '../../common/model/TransactionItem';
 import { formatPrice } from '../common/format-price';
 import { calculateTransactionItemsPriceRanges } from '../common/price-range';
-import { InputRefHandler } from './OrderItem';
 
 export type OnPriceChangeHandler = (value: number) => void;
 export type OnCurrencyChangeHandler = (currency: Currencies) => void;
@@ -16,7 +15,7 @@ export interface IOrderPriceProps {
     exchangeRate?: number;
     onPriceChange: OnPriceChangeHandler;
     onCurrencyChange: OnCurrencyChangeHandler;
-    inputRef: InputRefHandler;
+    inputRef: (inputElement: HTMLInputElement) => void;
 }
 
 export const OrderPrice: SFC<IOrderPriceProps> = ({
@@ -43,7 +42,6 @@ export const OrderPrice: SFC<IOrderPriceProps> = ({
                     onChange={priceChanged(onPriceChange)}
                     ref={inputRef}
                 />
-                <label>{currencySymbol(currency)}</label>
             </div>
             <ChoicesCurrency
                 choices={Object.values(Currencies)}

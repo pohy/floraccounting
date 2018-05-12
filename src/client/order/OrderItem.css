@@ -6,8 +6,8 @@
 }
 
 .OrderItem h3 {
-    font-size: 18px;
     margin-bottom: 8px;
+    margin-top: 0;
 }
 
 .OrderItem .amount {
@@ -27,4 +27,5 @@
 .OrderItem .price-range {
     text-align: center;
     color: gray;
+    margin-right: 8px;
 }

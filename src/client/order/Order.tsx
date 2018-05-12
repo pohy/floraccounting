@@ -181,7 +181,7 @@ export class Order extends Component<{}, IOrderState> {
                                     className="button"
                                     type="button"
                                 >
-                                    Add item 🥕
+                                    Add item 🍎
                                 </button>
                             </div>
                             <div
