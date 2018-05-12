@@ -18,12 +18,6 @@ export interface IOrderItemProps {
 }
 
 export class OrderItem extends Component<IOrderItemProps, {}> {
-}
-
-    setInputRef = (input: HTMLInputElement) => {
-        this.props.inputRef(input);
-    };
-
     selectText(event: FocusEvent<HTMLInputElement>) {
         const input = event.currentTarget;
         input.select();
@@ -62,58 +56,59 @@ export class OrderItem extends Component<IOrderItemProps, {}> {
 
     render() {
         const {
-    transactionItem: {
-        amountType,
-        amount = '',
+            transactionItem: {
+                amountType,
+                amount = '',
                 item: { name, priceMin, priceMax },
-    },
-    currency,
-    exchangeRate = 1,
+            },
+            currency,
+            exchangeRate = 1,
+            inputRef,
         } = this.props;
 
         return (
-    <div className="OrderItem padding">
-        <div className="flex">
+            <div className="OrderItem padding">
+                <div className="flex">
                     <h3 className="grow">{name}</h3>
-            {priceMin &&
-                priceMax && (
+                    {priceMin &&
+                        priceMax && (
                             <span className="price-range">
-                        {formatPrice(priceMin * exchangeRate)} ~{' '}
-                        {formatPrice(priceMax * exchangeRate)}
-                        &nbsp;
-                        {currencySymbol(currency)}
-                        &nbsp;/&nbsp;
-                        {SingleUnit[amountType]}
-                        {amountType}
-                    </span>
-                )}
+                                {formatPrice(priceMin * exchangeRate)} ~{' '}
+                                {formatPrice(priceMax * exchangeRate)}
+                                &nbsp;
+                                {currencySymbol(currency)}
+                                &nbsp;/&nbsp;
+                                {SingleUnit[amountType]}
+                                {amountType}
+                            </span>
+                        )}
                     <span className="remove" onClick={this.removeItem}>
-                &times;
-            </span>
-        </div>
-        <div className="flex">
-            <span className="amount input-inline">
-                <input
+                        &times;
+                    </span>
+                </div>
+                <div className="flex">
+                    <span className="amount input-inline">
+                        <input
                             className="grow inline"
-                    type="number"
-                    name="item-amount"
-                    placeholder="Amount..."
-                    value={amount}
+                            type="number"
+                            name="item-amount"
+                            placeholder="Amount..."
+                            value={amount}
                             tabIndex={0}
                             onChange={this.updateAmount}
                             onKeyDown={this.submit}
                             onFocus={this.selectText}
-                            ref={this.setInputRef}
-                />
-            </span>
-            <Choices
-                choices={Object.values(AmountTypes)}
+                            ref={inputRef}
+                        />
+                    </span>
+                    <Choices
+                        choices={Object.values(AmountTypes)}
                         isSelected={this.isAmountTypeSelected}
                         onChoice={this.updateAmountType}
                         tabIndex={-1}
-            />
-        </div>
-    </div>
-);
-}
+                    />
+                </div>
+            </div>
+        );
+    }
 }
