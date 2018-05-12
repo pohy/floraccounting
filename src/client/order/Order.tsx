@@ -36,6 +36,10 @@ export class Order extends Component<{}, IOrderState> {
         exchangeRate: 1,
     };
 
+    private searchBarInputElement!: HTMLInputElement;
+    private orderItemInputs: HTMLInputElement[] = [];
+    private priceInputRef!: HTMLInputElement;
+
     setSearchBarInputElement = (input: HTMLInputElement) =>
         (this.searchBarInputElement = input);
 
