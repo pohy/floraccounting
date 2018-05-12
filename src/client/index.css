@@ -181,9 +181,15 @@ a:focus {
     text-decoration: underline;
 }
 
-img.badge {
+img.badge,
+img.badge-large {
     border-radius: 50%;
     border: 2px solid rgba(8, 148, 13, 0.7);
+}
+
+img.badge-large {
+    max-width: 120px;
+    max-height: 120px;
 }
 
 .padding {

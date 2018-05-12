@@ -6,8 +6,6 @@ import { AuthConsumer } from './AuthContext';
 import { Title } from '../routing/Title';
 import { Img } from '../common/Img';
 
-import './UserInfo.css';
-
 export const UserInfo: SFC<{}> = () => (
     <AuthConsumer>
         {({ user }) =>
@@ -21,7 +19,7 @@ export const UserInfo: SFC<{}> = () => (
                         </div>
                         {user.profilePictureURL && (
                             <Img
-                                className="badge"
+                                className="badge-large"
                                 src={user.profilePictureURL}
                                 alt={user.name}
                             />
