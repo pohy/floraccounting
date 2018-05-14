@@ -14,6 +14,7 @@ import { itemsQueryFilter } from '../../common/items-query-filter';
 import { Redirect } from '../routing/Redirect';
 import { AuthConsumer } from '../user/AuthContext';
 import { Title } from '../routing/Title';
+import { Overlay } from '../common/Overlay';
 
 const TRANSACTION_LOCAL_STORAGE_KEY = 'transaction';
 
@@ -23,6 +24,7 @@ export interface IOrderState {
     searchQuery: string;
     transaction: Transaction;
     exchangeRate: number;
+    submitting: boolean;
 }
 
 // TODO: Refactor into smaller components
@@ -33,6 +35,7 @@ export class Order extends Component<{}, IOrderState> {
         searchResults: new Array<Item>(),
         transaction: new Transaction(),
         exchangeRate: 1,
+        submitting: false,
     };
 
     private searchBarInputElement!: HTMLInputElement;
@@ -118,13 +121,20 @@ export class Order extends Component<{}, IOrderState> {
         event: FormEvent<HTMLFormElement | HTMLButtonElement>,
     ) => {
         event.preventDefault();
+        let stateUpdate: any = {
+            submitting: false,
+        };
         try {
+            this.setState({ submitting: true });
             await post('/transaction', this.state.transaction);
-            this.setState({
+            stateUpdate = {
+                ...stateUpdate,
                 transaction: new Transaction(),
-            });
+            };
         } catch (error) {
             console.error(error);
+        } finally {
+            this.setState(stateUpdate);
         }
     };
 
@@ -166,6 +176,7 @@ export class Order extends Component<{}, IOrderState> {
             transaction,
             transaction: { transactionItems, currency, price },
             exchangeRate,
+            submitting,
         } = this.state;
 
             return (
@@ -180,6 +191,7 @@ export class Order extends Component<{}, IOrderState> {
                             onSubmit={this.saveTransaction}
                         >
                             <Title>New order</Title>
+                            {submitting && <Overlay />}
                 <SearchBar
                                 inputRef={this.setSearchBarInputElement}
                     onFocus={this.showSearchResults}

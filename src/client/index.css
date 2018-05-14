@@ -75,6 +75,7 @@ html,
 
 .button.primary[disabled] {
     background-color: #98b299;
+    color: lightgray;
 }
 
 table {
@@ -132,6 +133,7 @@ input {
 
 .flex {
     display: flex;
+    position: relative;
 }
 
 .column {

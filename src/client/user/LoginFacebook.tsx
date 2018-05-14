@@ -5,6 +5,7 @@ import { browserHistory } from '../routing/browser-history';
 import { AuthConsumer } from './AuthContext';
 import { Redirect } from '../routing/Redirect';
 import { Title } from '../routing/Title';
+import { Loading } from '../common/Loading';
 
 export interface ILoginFacebookState {
     token: string;
@@ -45,9 +46,9 @@ export class LoginFacebook extends Component<{}, ILoginFacebookState> {
             );
         }
         return (
-            <div className="padding">
+            <div className="flex grow center-content">
                 <Title>Facebook login</Title>
-                <h2>Logging in...</h2>
+                <Loading />
             </div>
         );
     }
