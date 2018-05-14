@@ -1,12 +1,11 @@
 .Order {
-    display: flex;
-    flex-direction: column;
-    height: 100%;
     overflow: hidden;
+    position: relative;
 }
 
 .Order .items {
     overflow: auto;
+    height: 100px;
 }
 
 .Order .add-item {

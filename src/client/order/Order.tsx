@@ -187,7 +187,7 @@ export class Order extends Component<{}, IOrderState> {
         }
         return (
                         <form
-                            className="Order grow"
+                            className="Order flex column grow"
                             onSubmit={this.saveTransaction}
                         >
                             <Title>New order</Title>
