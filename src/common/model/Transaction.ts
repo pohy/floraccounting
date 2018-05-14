@@ -39,7 +39,16 @@ export class Transaction implements ITransaction {
     public user: User = new User();
 
     constructor(transaction?: Partial<Transaction>) {
-        Object.assign(this, transaction);
+        const transactionItems = (
+            (transaction && transaction.transactionItems) ||
+            []
+        ).map((transactionItem) => new TransactionItem(transactionItem));
+        const user = new User((transaction && transaction.user) || {});
+        Object.assign(this, {
+            ...transaction,
+            transactionItems,
+            user,
+        });
         this.created = new Date(this.created);
     }
 

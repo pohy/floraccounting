@@ -18,7 +18,11 @@ export class TransactionItem {
     public amountType: AmountTypes = AmountTypes.Piece;
 
     constructor(transactionItem?: Partial<TransactionItem>) {
-        Object.assign(this, transactionItem);
+        const item = new Item((transactionItem && transactionItem.item) || {});
+        Object.assign(this, {
+            ...transactionItem,
+            item,
+        });
     }
 
     isValid() {

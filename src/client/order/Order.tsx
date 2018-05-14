@@ -5,10 +5,7 @@ import { OrderItem } from './OrderItem';
 import { OrderPrice } from './OrderPrice';
 import { SearchBar } from './SearchBar';
 import { SearchResults } from './SearchResults';
-import {
-    TransactionItem,
-    AmountTypes,
-} from '../../common/model/TransactionItem';
+import { TransactionItem } from '../../common/model/TransactionItem';
 import { Item } from '../../common/model/Item';
 import { Transaction, Currencies } from '../../common/model/Transaction';
 import { post } from '../common/http';
@@ -17,6 +14,8 @@ import { itemsQueryFilter } from '../../common/items-query-filter';
 import { Redirect } from '../routing/Redirect';
 import { AuthConsumer } from '../user/AuthContext';
 import { Title } from '../routing/Title';
+
+const TRANSACTION_LOCAL_STORAGE_KEY = 'transaction';
 
 export interface IOrderState {
     searchResults: Item[];
@@ -39,6 +38,25 @@ export class Order extends Component<{}, IOrderState> {
     private searchBarInputElement!: HTMLInputElement;
     private orderItemInputs: HTMLInputElement[] = [];
     private priceInputRef!: HTMLInputElement;
+
+    componentDidUpdate() {
+        window.localStorage.setItem(
+            TRANSACTION_LOCAL_STORAGE_KEY,
+            JSON.stringify(this.state.transaction),
+        );
+    }
+
+    componentDidMount() {
+        const persistedTransaction = window.localStorage.getItem(
+            TRANSACTION_LOCAL_STORAGE_KEY,
+        );
+        if (persistedTransaction) {
+            const transaction = new Transaction(
+                JSON.parse(persistedTransaction),
+            );
+            this.setState({ transaction });
+        }
+    }
 
     setSearchBarInputElement = (input: HTMLInputElement) =>
         (this.searchBarInputElement = input);
