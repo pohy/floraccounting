@@ -2,9 +2,9 @@ import * as React from 'react';
 import { SFC } from 'react';
 import { Redirect } from '../routing/Redirect';
 import { Link } from '../routing/Link';
-import { AuthConsumer } from './AuthContext';
+import { AuthConsumer } from '../components/AuthContext';
 import { Title } from '../routing/Title';
-import { Img } from '../common/Img';
+import { Img } from '../components/Img';
 
 export const UserInfo: SFC<{}> = () => (
     <AuthConsumer>

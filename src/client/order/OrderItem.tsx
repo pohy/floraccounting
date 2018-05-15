@@ -2,7 +2,7 @@ import * as React from 'react';
 import { FormEvent, KeyboardEvent, FocusEvent, Component } from 'react';
 import { AmountTypes, SingleUnit } from '../../common/model/TransactionItem';
 import './OrderItem.css';
-import { Choices } from '../common/Choices';
+import { Choices } from '../components/Choices';
 import { TransactionItem } from '../../common/model/TransactionItem';
 import { Currencies, currencySymbol } from '../../common/model/Transaction';
 import { formatPrice } from '../common/format-price';

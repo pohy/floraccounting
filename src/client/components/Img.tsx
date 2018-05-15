@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { SFC } from 'react';
-import { HTTP } from './http';
+import { HTTP } from '../common/http';
 
 export interface IImgProps {
     src: string;

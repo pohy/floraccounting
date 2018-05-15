@@ -1,10 +1,10 @@
 import * as React from 'react';
 import { Component } from 'react';
 import { browserHistory } from '../routing/browser-history';
-import { AuthConsumer } from './AuthContext';
+import { AuthConsumer } from '../components/AuthContext';
 import { Redirect } from '../routing/Redirect';
 import { Title } from '../routing/Title';
-import { Loading } from '../common/Loading';
+import { Loading } from '../components/Loading';
 import { http } from '../common/http';
 
 export interface ILoginFacebookState {

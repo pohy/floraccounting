@@ -3,9 +3,9 @@ import { Component, Fragment } from 'react';
 import './App.css';
 import { Routes } from '../routing/Routes';
 import { Title } from '../routing/Title';
-import { AuthConsumer, AuthProvider } from '../user/AuthContext';
+import { AuthConsumer, AuthProvider } from '../components/AuthContext';
 import { NavLink } from '../routing/NavLink';
-import { Img } from '../common/Img';
+import { Img } from '../components/Img';
 import { Analytics } from './Analytics';
 
 export class App extends Component<{}, {}> {

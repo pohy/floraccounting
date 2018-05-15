@@ -11,9 +11,9 @@ import { Transaction, Currencies } from '../../common/model/Transaction';
 import { searchItems, fetchExchangeRate } from '../common/api';
 import { itemsQueryFilter } from '../../common/items-query-filter';
 import { Redirect } from '../routing/Redirect';
-import { AuthConsumer } from '../user/AuthContext';
+import { AuthConsumer } from '../components/AuthContext';
 import { Title } from '../routing/Title';
-import { Overlay } from '../common/Overlay';
+import { Overlay } from '../components/Overlay';
 import { http } from '../common/http';
 
 const TRANSACTION_LOCAL_STORAGE_KEY = 'transaction';

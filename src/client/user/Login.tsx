@@ -1,7 +1,7 @@
 import { SFC } from 'react';
 import React from 'react';
 import { Redirect } from '../routing/Redirect';
-import { AuthConsumer } from './AuthContext';
+import { AuthConsumer, IAuthProviderState } from '../components/AuthContext';
 import { Title } from '../routing/Title';
 import { browserHistory } from '../routing/browser-history';
 import './Login.css';
@@ -9,7 +9,7 @@ import { HTTP } from '../common/http';
 
 export const Login: SFC<{}> = () => (
     <AuthConsumer>
-        {({ user }) =>
+        {({ user }: IAuthProviderState) =>
             user ? (
                 <Redirect
                     to={

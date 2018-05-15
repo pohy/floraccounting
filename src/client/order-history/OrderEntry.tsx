@@ -2,7 +2,7 @@ import React from 'react';
 import { SFC } from 'react';
 import { Transaction } from '../../common/model/Transaction';
 import './OrderEntry.css';
-import { Img } from '../common/Img';
+import { Img } from '../components/Img';
 
 export interface IOrderEntryProps {
     transaction: Transaction;

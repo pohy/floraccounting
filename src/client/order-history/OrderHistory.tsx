@@ -5,7 +5,7 @@ import { Transaction } from '../../common/model/Transaction';
 import { fetchTransactions } from '../common/api';
 import { OrderEntry } from './OrderEntry';
 import { Title } from '../routing/Title';
-import { Loading } from '../common/Loading';
+import { Loading } from '../components/Loading';
 
 export interface IOrderHistoryState {
     transactions: Transaction[];
