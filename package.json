@@ -43,7 +43,7 @@
   "scripts": {
     "start": "cross-env NODE_ENV=production node --require dotenv/config ./dist/src/server/",
     "start-dev": "parcel --https --port 3000 src/client/public/index.html",
-    "build-client": "parcel build -d ./dist/src/client/ --no-minify src/client/public/index.html",
+    "build-client": "node --require dotenv/config ./node_modules/parcel-bundler/lib/cli.js build -d ./dist/src/client/ --no-minify src/client/public/index.html",
     "build-server": "npx tsc -p src/server/",
     "build": "npm run build-client && npm run build-server",
     "predeploy": "npm run build",

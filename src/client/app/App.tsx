@@ -6,6 +6,7 @@ import { Title } from '../routing/Title';
 import { AuthConsumer, AuthProvider } from '../user/AuthContext';
 import { NavLink } from '../routing/NavLink';
 import { Img } from '../common/Img';
+import { Analytics } from './Analytics';
 
 export class App extends Component<{}, {}> {
     render() {
@@ -58,6 +59,7 @@ export class App extends Component<{}, {}> {
                             }
                         </AuthConsumer>
                     </footer>
+                    <Analytics />
                 </div>
             </AuthProvider>
         );
