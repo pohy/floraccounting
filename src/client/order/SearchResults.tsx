@@ -9,34 +9,46 @@ export interface ISearchResultsProps {
     query: string;
     results: Item[];
     onClick: OnClickHandler;
+    selectedItemIDs?: string[];
 }
 
 export class SearchResults extends Component<ISearchResultsProps, {}> {
     static defaultProps = {
         onClick: () => {},
         query: '',
+        selectedItemIDs: [],
     };
 
     selectResult = (item: Item) => () => this.props.onClick(item);
 
     createNew = () => this.props.onClick(new Item({ name: this.props.query }));
 
-    render() {
-        const { query, results } = this.props;
+    private renderResult = (item: Item, key: number, disabled = false) => (
+        <div
+            className={`result flex${disabled ? ' disabled' : ''}`}
+            onMouseDown={disabled ? undefined : this.selectResult(item)}
+            {...{ key }}
+        >
+            <span className="name">{item.name}</span>
+            {disabled ? (
+                <span>Already in order 👌</span>
+            ) : (
+                <span className="add primary">Add to order ➕</span>
+            )}
+        </div>
+    );
 
+    render() {
+        const { query, results, selectedItemIDs } = this.props;
         return (
             <div className="SearchResults">
-                {/* TODO: Filter out already existing items, make them gray and put them at the end of the listing */}
-                {results.map((item, key) => (
-                    <div
-                        className="result flex"
-                        onMouseDown={this.selectResult(item)}
-                        {...{ key }}
-                    >
-                        <span className="name">{item.name}</span>
-                        <span className="add primary">Add to order</span>
-                    </div>
-                ))}
+                {/* TODO: Sort alphabetically, from backend */}
+                {results
+                    .filter(({ _id }) => !(selectedItemIDs || []).includes(_id))
+                    .map((item, i) => this.renderResult(item, i))}
+                {results
+                    .filter(({ _id }) => (selectedItemIDs || []).includes(_id))
+                    .map((item, i) => this.renderResult(item, i, true))}
                 {!results.length &&
                     query && (
                         <div

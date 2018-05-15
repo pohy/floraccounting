@@ -111,6 +111,7 @@ export class Order extends Component<{}, IOrderState> {
     updatePrice = (price: number) =>
         this.setState({
             transaction: new Transaction({ ...this.state.transaction, price }),
+            focusedItem: '',
         });
     updateCurrency = async (currency: Currencies) =>
         this.setState({
@@ -119,6 +120,7 @@ export class Order extends Component<{}, IOrderState> {
                 currency,
             }),
             exchangeRate: await fetchExchangeRate(currency),
+            focusedItem: '',
         });
 
     saveTransaction = async (
@@ -173,6 +175,10 @@ export class Order extends Component<{}, IOrderState> {
         return searchResults.concat(itemsQueryFilter(newItems, searchQuery));
     }
 
+    private get selectedItemIDs() {
+        return this.state.transaction.items.map(({ _id }) => _id);
+    }
+
     render() {
         const {
             showSearchResults,
@@ -208,6 +214,7 @@ export class Order extends Component<{}, IOrderState> {
                                     onClick={this.addOrderItem}
                                     results={this.searchResults()}
                                     query={searchQuery}
+                                    selectedItemIDs={this.selectedItemIDs}
                                 />
                             </div>
                             <div
@@ -237,7 +244,10 @@ export class Order extends Component<{}, IOrderState> {
                                             onUpdate={this.updateOrderItem}
                                             onSubmit={this.focusNextInput}
                                             inputRef={this.addOrderItemInput}
-                                            focus={transactionItem.item._id === focusedItem}
+                                            focus={
+                                                transactionItem.item._id ===
+                                                focusedItem
+                                            }
                                             {...{
                                                 transactionItem,
                                                 currency,

@@ -3,6 +3,10 @@
     border-bottom: 1px solid gray;
     cursor: pointer;
 }
+.SearchResults .result.disabled {
+    color: gray;
+    cursor: default;
+}
 .SearchResults .result:hover {
     background-color: #b7edb9;
 }

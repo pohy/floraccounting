@@ -35,6 +35,7 @@ export const itemsFactory = (db: DB) => {
         return db
             .itemsCollection()
             .find()
+            .sort({ name: 1 })
             .toArray();
     }
 };
