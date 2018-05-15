@@ -11,6 +11,7 @@ export interface IOrderItemProps {
     transactionItem: TransactionItem;
     currency: Currencies;
     exchangeRate?: number;
+    focus?: boolean;
     onRemove: (itemID: string) => void;
     onUpdate: (updatedTransactionItem: TransactionItem) => void;
     onSubmit: (input: HTMLInputElement) => void;
@@ -18,6 +19,15 @@ export interface IOrderItemProps {
 }
 
 export class OrderItem extends Component<IOrderItemProps, {}> {
+    private amountInput!: HTMLInputElement;
+
+    componentDidUpdate(previousProps: IOrderItemProps) {
+        const { focus } = this.props;
+        if (focus) {
+            this.amountInput.focus();
+        }
+    }
+
     selectText(event: FocusEvent<HTMLInputElement>) {
         const input = event.currentTarget;
         input.select();
@@ -46,13 +56,20 @@ export class OrderItem extends Component<IOrderItemProps, {}> {
             }),
         );
 
-    updateAmountType = (amountType: string) =>
+    updateAmountType = (amountType: string) => {
+        this.amountInput.focus();
         this.props.onUpdate(
             new TransactionItem({
                 ...this.props.transactionItem,
                 amountType: amountType as AmountTypes,
             }),
         );
+    };
+
+    amountInputRef = (amountInput: HTMLInputElement) => {
+        this.amountInput = amountInput;
+        this.props.inputRef(amountInput);
+    };
 
     render() {
         const {
@@ -63,7 +80,6 @@ export class OrderItem extends Component<IOrderItemProps, {}> {
             },
             currency,
             exchangeRate = 1,
-            inputRef,
         } = this.props;
 
         return (
@@ -98,7 +114,7 @@ export class OrderItem extends Component<IOrderItemProps, {}> {
                             onChange={this.updateAmount}
                             onKeyDown={this.submit}
                             onFocus={this.selectText}
-                            ref={inputRef}
+                            ref={this.amountInputRef}
                         />
                     </span>
                     <Choices

@@ -25,6 +25,7 @@ export interface IOrderState {
     transaction: Transaction;
     exchangeRate: number;
     submitting: boolean;
+    focusedItem: string;
 }
 
 // TODO: Refactor into smaller components
@@ -36,6 +37,7 @@ export class Order extends Component<{}, IOrderState> {
         transaction: new Transaction(),
         exchangeRate: 1,
         submitting: false,
+        focusedItem: '',
     };
 
     private searchBarInputElement!: HTMLInputElement;
@@ -92,10 +94,12 @@ export class Order extends Component<{}, IOrderState> {
         this.setState({
             transaction: this.state.transaction.addItem(item),
             showSearchResults: false,
+            focusedItem: item._id,
         });
     removeOrderItem = (itemID: string) =>
         this.setState({
             transaction: this.state.transaction.removeTransactionItem(itemID),
+            // TODO: Focus previous item
         });
     updateOrderItem = (updatedItem: TransactionItem) =>
         this.setState({
@@ -177,6 +181,7 @@ export class Order extends Component<{}, IOrderState> {
             transaction: { transactionItems, currency, price },
             exchangeRate,
             submitting,
+            focusedItem,
         } = this.state;
 
         return (
@@ -232,6 +237,7 @@ export class Order extends Component<{}, IOrderState> {
                                             onUpdate={this.updateOrderItem}
                                             onSubmit={this.focusNextInput}
                                             inputRef={this.addOrderItemInput}
+                                            focus={transactionItem.item._id === focusedItem}
                                             {...{
                                                 transactionItem,
                                                 currency,
