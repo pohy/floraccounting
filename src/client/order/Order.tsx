@@ -8,13 +8,13 @@ import { SearchResults } from './SearchResults';
 import { TransactionItem } from '../../common/model/TransactionItem';
 import { Item } from '../../common/model/Item';
 import { Transaction, Currencies } from '../../common/model/Transaction';
-import { post } from '../common/http';
 import { searchItems, fetchExchangeRate } from '../common/api';
 import { itemsQueryFilter } from '../../common/items-query-filter';
 import { Redirect } from '../routing/Redirect';
 import { AuthConsumer } from '../user/AuthContext';
 import { Title } from '../routing/Title';
 import { Overlay } from '../common/Overlay';
+import { http } from '../common/http';
 
 const TRANSACTION_LOCAL_STORAGE_KEY = 'transaction';
 
@@ -79,7 +79,7 @@ export class Order extends Component<{}, IOrderState> {
     showSearchResults = () => {
         this.setState({ showSearchResults: true });
         this.fetchItems();
-            this.searchBarInputElement.focus();
+        this.searchBarInputElement.focus();
     };
 
     async fetchItems(query: string = '') {
@@ -126,7 +126,7 @@ export class Order extends Component<{}, IOrderState> {
         };
         try {
             this.setState({ submitting: true });
-            await post('/transaction', this.state.transaction);
+            await http.post('/transaction', this.state.transaction);
             stateUpdate = {
                 ...stateUpdate,
                 transaction: new Transaction(),
@@ -179,33 +179,33 @@ export class Order extends Component<{}, IOrderState> {
             submitting,
         } = this.state;
 
-            return (
+        return (
             <AuthConsumer>
                 {({ user }) => {
                     if (!user) {
                         return <Redirect to="/login" />;
-        }
-        return (
+                    }
+                    return (
                         <form
                             className="Order flex column grow"
                             onSubmit={this.saveTransaction}
                         >
                             <Title>New order</Title>
                             {submitting && <Overlay />}
-                <SearchBar
+                            <SearchBar
                                 inputRef={this.setSearchBarInputElement}
-                    onFocus={this.showSearchResults}
-                    onBlur={this.hideSearchResults}
-                    onQuery={this.onSearchInput}
-                />
-                <div className={showSearchResults ? '' : 'hide'}>
-                    <SearchResults
-                        onClick={this.addOrderItem}
-                        results={this.searchResults()}
-                        query={searchQuery}
-                    />
-                </div>
-                <div
+                                onFocus={this.showSearchResults}
+                                onBlur={this.hideSearchResults}
+                                onQuery={this.onSearchInput}
+                            />
+                            <div className={showSearchResults ? '' : 'hide'}>
+                                <SearchResults
+                                    onClick={this.addOrderItem}
+                                    results={this.searchResults()}
+                                    query={searchQuery}
+                                />
+                            </div>
+                            <div
                                 className={`add-item flex padding center-content${
                                     showSearchResults ? ' hide' : ''
                                 }`}
@@ -219,55 +219,55 @@ export class Order extends Component<{}, IOrderState> {
                                 </button>
                             </div>
                             <div
-                    className={`items flex column grow${
-                        showSearchResults ? ' hide' : ''
-                    }`}
-                >
+                                className={`items flex column grow${
+                                    showSearchResults ? ' hide' : ''
+                                }`}
+                            >
                                 {transactionItems
                                     .slice()
                                     .reverse()
                                     .map((transactionItem, key) => (
-                            <OrderItem
-                                onRemove={this.removeOrderItem}
-                                onUpdate={this.updateOrderItem}
+                                        <OrderItem
+                                            onRemove={this.removeOrderItem}
+                                            onUpdate={this.updateOrderItem}
                                             onSubmit={this.focusNextInput}
                                             inputRef={this.addOrderItemInput}
-                                {...{
-                                    transactionItem,
-                                    currency,
-                                    exchangeRate,
-                                    key,
-                                }}
-                            />
+                                            {...{
+                                                transactionItem,
+                                                currency,
+                                                exchangeRate,
+                                                key,
+                                            }}
+                                        />
                                     ))}
-                    </div>
-                <div
+                            </div>
+                            <div
                                 className={`flex column ${
                                     showSearchResults ? 'hide' : ''
                                 }`}
-                >
-                    <OrderPrice
+                            >
+                                <OrderPrice
                                     inputRef={this.setPriceInputRef}
-                        onPriceChange={this.updatePrice}
-                        onCurrencyChange={this.updateCurrency}
+                                    onPriceChange={this.updatePrice}
+                                    onCurrencyChange={this.updateCurrency}
                                     {...{
                                         price,
                                         currency,
                                         transactionItems,
                                         exchangeRate,
                                     }}
-                    />
-                <button
+                                />
+                                <button
                                     className="button primary"
-                    onClick={this.saveTransaction}
-                    disabled={!transaction.isValid()}
+                                    onClick={this.saveTransaction}
+                                    disabled={!transaction.isValid()}
                                     type="submit"
-                >
+                                >
                                     Save 💾
-                </button>
-            </div>
+                                </button>
+                            </div>
                         </form>
-        );
+                    );
                 }}
             </AuthConsumer>
         );

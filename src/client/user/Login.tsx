@@ -1,11 +1,11 @@
-import { SFC, Fragment } from 'react';
+import { SFC } from 'react';
 import React from 'react';
-import { API_URL } from '../common/http';
 import { Redirect } from '../routing/Redirect';
 import { AuthConsumer } from './AuthContext';
 import { Title } from '../routing/Title';
 import { browserHistory } from '../routing/browser-history';
 import './Login.css';
+import { HTTP } from '../common/http';
 
 export const Login: SFC<{}> = () => (
     <AuthConsumer>
@@ -30,7 +30,7 @@ export const Login: SFC<{}> = () => (
                     </div>
                     <a
                         className="button margin-top-2x"
-                        href={`${API_URL}/login/fb`}
+                        href={`${HTTP.ApiURL}/login/fb`}
                     >
                         Login with <strong className="fb">Facebook</strong>
                     </a>

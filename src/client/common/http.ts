@@ -1,46 +1,51 @@
-let token: string | null = null;
+export class HTTP {
+    public static ApiURL = process.env.NODE_ENV === 'production'
+        ? '/api'
+        : 'https://10.0.0.5:3001';
+    private token: string | null = null;
 
-// TODO: Rewrite into a class
-export const API_URL =
-    process.env.NODE_ENV === 'production' ? '/api' : 'https://10.0.0.5:3001';
-
-export function updateToken(newToken: string | null) {
-    token = newToken;
-}
-
-export function get(endpoint: string) {
-    return fetchJSONFromAPI(endpoint);
-}
-
-export function post(endpoint: string, _body: any) {
-    const body = JSON.stringify(_body);
-    const options = {
-        method: 'POST',
-        mode: 'cors',
-        headers: {
-            'Content-Type': 'application/json',
-        },
-        body,
-    };
-    return fetchJSONFromAPI(endpoint, options);
-}
-
-export function fetchJSONFromAPI(endpoint: string, options = {}) {
-    return fetchJSON(`${API_URL}${endpoint}`, options);
-}
-
-export async function fetchJSON(url: string, requestOptions: RequestInit = {}) {
-    const options = {
-        ...requestOptions,
-        headers: {
-            ...requestOptions.headers,
-            ...(token ? { Authorization: `Bearer ${token}` } : {}),
-        },
-    };
-    const response = await fetch(url, options);
-    if (response.status >= 400) {
-        const responseBody = await response.text();
-        throw new Error(responseBody);
+    public updateToken(token: string | null) {
+        this.token = token;
     }
-    return response.json();
+
+    public get(endpoint: string) {
+        return this.fetchJSONFromAPI(endpoint);
+    }
+
+    public post(endpoint: string, body: any) {
+        const bodyJSON = JSON.stringify(body);
+        const options: RequestInit = {
+            method: 'POST',
+            mode: 'cors',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: bodyJSON,
+        };
+        return this.fetchJSONFromAPI(endpoint, options);
+    }
+
+    public fetchJSONFromAPI(endpoint: string, options: RequestInit = {}) {
+        return this.fetchJSON(`${HTTP.ApiURL}${endpoint}`, options);
+    }
+
+    public async fetchJSON(url: string, requestOptions: RequestInit = {}) {
+        const options = {
+            ...requestOptions,
+            headers: {
+                ...requestOptions.headers,
+                ...(this.token
+                    ? { Authorization: `Bearer ${this.token}` }
+                    : {}),
+            },
+        };
+        const response = await fetch(url, options);
+        if (response.status >= 400) {
+            const responseBody = await response.text();
+            throw new Error(responseBody);
+        }
+        return response.json();
+    }
 }
+
+export const http = new HTTP();

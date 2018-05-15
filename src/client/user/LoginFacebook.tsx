@@ -1,11 +1,11 @@
 import * as React from 'react';
-import { Component, Fragment } from 'react';
-import { get } from '../common/http';
+import { Component } from 'react';
 import { browserHistory } from '../routing/browser-history';
 import { AuthConsumer } from './AuthContext';
 import { Redirect } from '../routing/Redirect';
 import { Title } from '../routing/Title';
 import { Loading } from '../common/Loading';
+import { http } from '../common/http';
 
 export interface ILoginFacebookState {
     token: string;
@@ -23,7 +23,7 @@ export class LoginFacebook extends Component<{}, ILoginFacebookState> {
         }
         const [, code] = codeMatch as RegExpMatchArray;
         try {
-            const token = (await get(
+            const token = (await http.get(
                 `/login/fb/exchange?code=${code}`,
             )) as string;
             this.setState({ token });

@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { SFC } from 'react';
-import { API_URL } from './http';
+import { HTTP } from './http';
 
 export interface IImgProps {
     src: string;
@@ -9,6 +9,6 @@ export interface IImgProps {
 }
 
 export const Img: SFC<IImgProps> = ({ src, ...props }) => {
-    const url = src.includes('http') ? src : `${API_URL}/image/${src}`;
+    const url = src.includes('http') ? src : `${HTTP.ApiURL}/image/${src}`;
     return <img src={url} {...props} />;
 };
