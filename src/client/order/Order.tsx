@@ -203,12 +203,22 @@ export class Order extends Component<{}, IOrderState> {
                         >
                             <Title>New order</Title>
                             {submitting && <Overlay />}
+                            <div className="controls flex">
                             <SearchBar
                                 inputRef={this.setSearchBarInputElement}
                                 onFocus={this.showSearchResults}
                                 onBlur={this.hideSearchResults}
                                 onQuery={this.onSearchInput}
                             />
+                                <button
+                                    className="button primary"
+                                    onClick={this.saveTransaction}
+                                    disabled={!transaction.isValid()}
+                                    type="submit"
+                                >
+                                    Save 💾
+                                </button>
+                            </div>
                             <div className={showSearchResults ? '' : 'hide'}>
                                 <SearchResults
                                     onClick={this.addOrderItem}
@@ -216,19 +226,6 @@ export class Order extends Component<{}, IOrderState> {
                                     query={searchQuery}
                                     selectedItemIDs={this.selectedItemIDs}
                                 />
-                            </div>
-                            <div
-                                className={`add-item flex padding center-content${
-                                    showSearchResults ? ' hide' : ''
-                                }`}
-                            >
-                                <button
-                                    onClick={this.showSearchResults}
-                                    className="button"
-                                    type="button"
-                                >
-                                    Add item 🍎
-                                </button>
                             </div>
                             <div
                                 className={`items flex column grow${

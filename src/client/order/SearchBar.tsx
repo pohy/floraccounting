@@ -48,12 +48,12 @@ export class SearchBar extends Component<ISearchBarProps, ISearchBarState> {
         const { query, focused } = this.state;
 
         return (
-            <div className="SearchBar flex">
+            <span className="SearchBar flex grow">
                 <input
                     className="padding"
                     autoComplete="off"
                     type="text"
-                    placeholder="Search... 🍆🍉🍄"
+                    placeholder="Search... 🔍"
                     value={query}
                     onInput={this.query}
                     onFocus={this.focus}
@@ -66,7 +66,7 @@ export class SearchBar extends Component<ISearchBarProps, ISearchBarState> {
                 >
                     &times;
                 </span>
-            </div>
+            </span>
         );
     }
 }
