@@ -8,6 +8,7 @@ import {
 } from 'express';
 import { Transaction } from '../common/model/Transaction';
 import { Item } from '../common/model/Item';
+import uuid from 'uuid';
 
 export const transactionsFactory = (db: DB, secure: RequestHandler) => {
     return Router()
@@ -22,6 +23,7 @@ export const transactionsFactory = (db: DB, secure: RequestHandler) => {
         try {
             const transaction = new Transaction({
                 ...req.body,
+                _id: uuid.v4(),
                 created: new Date(),
             });
             const referencedItems = transaction.transactionItems.reduce(
@@ -53,7 +55,10 @@ export const transactionsFactory = (db: DB, secure: RequestHandler) => {
             delete transactionObject.user;
             await db.transactionsCollection().insert(transactionObject);
             // FIXME: User object is empty
-            res.json(new Transaction(transactionObject));
+            const insertedTransaction = await findTransaction({
+                _id: transaction._id,
+            });
+            res.json(insertedTransaction);
         } catch (error) {
             next(error);
         }
@@ -65,50 +70,55 @@ export const transactionsFactory = (db: DB, secure: RequestHandler) => {
         next: NextFunction,
     ) {
         try {
-            const transactions = await db
-                .transactionsCollection()
-                .aggregate([
-                    { $unwind: '$transactionItems' },
-                    {
-                        $lookup: {
-                            from: 'items',
-                            localField: 'transactionItems.itemId',
-                            foreignField: '_id',
-                            as: 'transactionItems.item',
-                        },
-                    },
-                    { $unwind: '$transactionItems.item' },
-                    { $project: { 'transactionItems.itemId': 0 } },
-                    {
-                        $lookup: {
-                            from: 'users',
-                            localField: 'userId',
-                            foreignField: '_id',
-                            as: 'user',
-                        },
-                    },
-                    {
-                        $unwind: {
-                            path: '$user',
-                            preserveNullAndEmptyArrays: true,
-                        },
-                    },
-                    {
-                        $group: {
-                            _id: '$_id',
-                            price: { $first: '$price' },
-                            created: { $first: '$created' },
-                            currency: { $first: '$currency' },
-                            transactionItems: { $push: '$transactionItems' },
-                            user: { $first: '$user' },
-                        },
-                    },
-                    { $sort: { created: -1 } },
-                ])
-                .toArray();
+            const transactions = await findTransaction();
             res.json(transactions);
         } catch (error) {
             next(error);
         }
+    }
+
+    function findTransaction(query: any = {}) {
+        return db
+            .transactionsCollection()
+            .aggregate([
+                { $match: query },
+                { $unwind: '$transactionItems' },
+                {
+                    $lookup: {
+                        from: 'items',
+                        localField: 'transactionItems.itemId',
+                        foreignField: '_id',
+                        as: 'transactionItems.item',
+                    },
+                },
+                { $unwind: '$transactionItems.item' },
+                { $project: { 'transactionItems.itemId': 0 } },
+                {
+                    $lookup: {
+                        from: 'users',
+                        localField: 'userId',
+                        foreignField: '_id',
+                        as: 'user',
+                    },
+                },
+                {
+                    $unwind: {
+                        path: '$user',
+                        preserveNullAndEmptyArrays: true,
+                    },
+                },
+                {
+                    $group: {
+                        _id: '$_id',
+                        price: { $first: '$price' },
+                        created: { $first: '$created' },
+                        currency: { $first: '$currency' },
+                        transactionItems: { $push: '$transactionItems' },
+                        user: { $first: '$user' },
+                    },
+                },
+                { $sort: { created: -1 } },
+            ])
+            .toArray();
     }
 };
