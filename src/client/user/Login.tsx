@@ -13,7 +13,7 @@ export const Login: SFC<{}> = () => (
             user ? (
                 <Redirect
                     to={
-                        browserHistory.lastState
+                        browserHistory.lastState.from
                             ? browserHistory.lastState.from
                             : '/'
                     }
