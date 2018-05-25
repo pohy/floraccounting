@@ -28,6 +28,10 @@ export const UserInfo: SFC<{}> = () => (
                     <Link className="button margin-top-2x" to="/logout">
                         Logout ️️🚶‍🚪
                     </Link>
+                    <div className="flex grow" />
+                    <div className="flex center-content">
+                        <Link to="/privacy-policy">Privacy policy</Link>
+                    </div>
                 </div>
             ) : (
                 <Redirect to="/login" />

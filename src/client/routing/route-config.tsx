@@ -7,6 +7,7 @@ import { UserInfo } from '../user/UserInfo';
 import { LoginFacebook } from '../user/LoginFacebook';
 import { Login } from '../user/Login';
 import { Logout } from '../user/Logout';
+import { PrivacyPolicy } from '../app/PrivacyPolicy';
 
 export interface IRoutes {
     [pathname: string]: SFC<{}>;
@@ -20,4 +21,5 @@ export const routes: IRoutes = {
     '/login': () => <Login />,
     '/login/fb': () => <LoginFacebook />,
     '/logout': () => <Logout />,
+    '/privacy-policy': () => <PrivacyPolicy />,
 };

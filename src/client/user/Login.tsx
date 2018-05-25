@@ -6,6 +6,7 @@ import { Title } from '../routing/Title';
 import { browserHistory } from '../routing/browser-history';
 import './Login.css';
 import { HTTP } from '../common/http';
+import { Link } from '../routing/Link';
 
 export const Login: SFC<{}> = () => (
     <AuthConsumer>
@@ -34,6 +35,10 @@ export const Login: SFC<{}> = () => (
                     >
                         Login with <strong className="fb">Facebook</strong>
                     </a>
+                    <div className="flex grow" />
+                    <div className="flex center-content">
+                        <Link to="/privacy-policy">Privacy policy</Link>
+                    </div>
                 </div>
             )
         }
