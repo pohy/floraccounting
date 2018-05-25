@@ -1,5 +1,8 @@
+.SearchResults {
+    overflow: auto;
+}
+
 .SearchResults .result {
-    padding: 8px;
     border-bottom: 1px solid gray;
     cursor: pointer;
 }

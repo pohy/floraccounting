@@ -1,7 +1,3 @@
-.SearchBar {
-    font-size: 24px;
-}
-
 .SearchBar input {
     border: none;
     flex-grow: 1;

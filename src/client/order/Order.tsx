@@ -208,7 +208,7 @@ export class Order extends Component<{}, IOrderState> {
                             <Title>New order</Title>
                             {submitting && <Overlay />}
                             <div className="controls flex column">
-                                <div className="search-save flex colum">
+                                <div className="search-save flex">
                                     <SearchBar
                                         inputRef={this.setSearchBarInputElement}
                                         onFocus={this.showSearchResults}
@@ -216,12 +216,16 @@ export class Order extends Component<{}, IOrderState> {
                                         onQuery={this.onSearchInput}
                                     />
                                     <button
-                                        className="button primary"
+                                        className={`button primary${
+                                            showSearchResults ? ' hide' : ''
+                                        }`}
                                         onClick={this.saveTransaction}
                                         disabled={!transaction.isValid()}
                                         type="submit"
                                     >
-                                        Save 💾
+                                        <span className="hide-small">
+                                            Save{' '}
+                                        </span>💾
                                     </button>
                                 </div>
                                 <div
@@ -243,14 +247,13 @@ export class Order extends Component<{}, IOrderState> {
                                     />
                                 </div>
                             </div>
-                            <div className={showSearchResults ? '' : 'hide'}>
-                                <SearchResults
-                                    onClick={this.addOrderItem}
-                                    results={this.searchResults()}
-                                    query={searchQuery}
-                                    selectedItemIDs={this.selectedItemIDs}
-                                />
-                            </div>
+                            <SearchResults
+                                onClick={this.addOrderItem}
+                                results={this.searchResults()}
+                                query={searchQuery}
+                                selectedItemIDs={this.selectedItemIDs}
+                                className={showSearchResults ? '' : 'hide'}
+                            />
                             <div
                                 className={`items flex column grow${
                                     showSearchResults ? ' hide' : ''

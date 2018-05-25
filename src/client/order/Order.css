@@ -9,11 +9,12 @@
 }
 
 .Order .controls {
-    box-shadow: 0px 1px 5px 0px rgba(0, 0, 0, 0.1);
+    flex-shrink: 0;
 }
 
 .Order .search-save {
     border-bottom: 1px solid black;
+    height: 44px;
 }
 
 .Order .controls .button {

@@ -14,6 +14,7 @@
 - [] Use ObjectID instead of a string
 - [] Labels
 - [] Icons in search -> label filter
+- [] Save disabled when recommended price is set
 
 ## Done
 

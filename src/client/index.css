@@ -117,9 +117,8 @@ table tbody {
 }
 
 @media (max-width: 600px) {
-    html,
-    body {
-        font-size: 16px;
+    .hide-small {
+        display: none;
     }
 }
 

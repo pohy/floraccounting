@@ -19,6 +19,10 @@
     margin-top: 1em;
 }
 
+.App .navigation {
+    flex-shrink: 0;
+}
+
 .App .navigation a {
     border: none;
     border-right: 1px solid #08940d;
