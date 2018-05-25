@@ -1,16 +1,33 @@
 .OrderPrice {
     margin-top: auto;
-    border-top: 1px solid black;
-    box-shadow: 0px -1px 5px 0px rgba(0, 0, 0, 0.1);
+    border-bottom: 1px solid black;
+    /* box-shadow: 0px 1px 5px 0px rgba(0, 0, 0, 0.1); */
 }
 
-.OrderPrice .total {
+.OrderPrice .hints {
+    padding-left: 0;
+    padding-right: 0;
+}
+
+.OrderPrice .total-price {
     margin-right: 8px;
 }
 
-.OrderPrice .price-range {
+.OrderPrice .total-price input {
+    font-size: 20px;
+}
+
+.OrderPrice .price-range,
+.OrderPrice .total-price-hint {
     font-size: 24px;
+}
+
+.OrderPrice .price-range,
+.OrderPrice .total-price-hint {
     padding-top: 0;
     color: gray;
-    text-align: center;
+}
+
+.OrderPrice .price-range {
+    justify-self: flex-end;
 }

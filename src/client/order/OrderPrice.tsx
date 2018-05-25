@@ -40,11 +40,14 @@ export const OrderPrice: SFC<IOrderPriceProps> = ({
         : price;
     return (
         <div className="OrderPrice padding">
-            <div className="price-range padding">
-                {renderPriceRange(transactionItems, currency, exchangeRate)}
+            <div className="hints flex padding">
+                <span className="total-price-hint grow">Total price</span>
+                <span className="price-range">
+                    {renderPriceRange(transactionItems, currency, exchangeRate)}
+                </span>
             </div>
-            <div className="price flex">
-                <div className="total input-inline">
+            <div className="flex">
+                <div className="total-price input-inline">
                     <input
                         type="number"
                         value={currentPrice || ''}

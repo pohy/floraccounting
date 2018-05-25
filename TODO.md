@@ -5,6 +5,7 @@
 
 ## New
 
+- [] Toasts
 - [] Logging
 - [] Configure webpack
 - [] Number of given items (3x Kombucha 500ml)

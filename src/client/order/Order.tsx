@@ -207,21 +207,41 @@ export class Order extends Component<{}, IOrderState> {
                         >
                             <Title>New order</Title>
                             {submitting && <Overlay />}
-                            <div className="controls flex">
-                                <SearchBar
-                                    inputRef={this.setSearchBarInputElement}
-                                    onFocus={this.showSearchResults}
-                                    onBlur={this.hideSearchResults}
-                                    onQuery={this.onSearchInput}
-                                />
-                                <button
-                                    className="button primary"
-                                    onClick={this.saveTransaction}
-                                    disabled={!transaction.isValid()}
-                                    type="submit"
+                            <div className="controls flex column">
+                                <div className="search-save flex colum">
+                                    <SearchBar
+                                        inputRef={this.setSearchBarInputElement}
+                                        onFocus={this.showSearchResults}
+                                        onBlur={this.hideSearchResults}
+                                        onQuery={this.onSearchInput}
+                                    />
+                                    <button
+                                        className="button primary"
+                                        onClick={this.saveTransaction}
+                                        disabled={!transaction.isValid()}
+                                        type="submit"
+                                    >
+                                        Save 💾
+                                    </button>
+                                </div>
+                                <div
+                                    className={
+                                        showSearchResults ? 'hide' : undefined
+                                    }
                                 >
-                                    Save 💾
-                                </button>
+                                    <OrderPrice
+                                        inputRef={this.setPriceInputRef}
+                                        onPriceChange={this.updatePrice}
+                                        onCurrencyChange={this.updateCurrency}
+                                        displayRecommendedPrice={!priceTouched}
+                                        {...{
+                                            currency,
+                                            transactionItems,
+                                            exchangeRate,
+                                            price,
+                                        }}
+                                    />
+                                </div>
                             </div>
                             <div className={showSearchResults ? '' : 'hide'}>
                                 <SearchResults
@@ -257,24 +277,6 @@ export class Order extends Component<{}, IOrderState> {
                                             }}
                                         />
                                     ))}
-                            </div>
-                            <div
-                                className={`flex column ${
-                                    showSearchResults ? 'hide' : ''
-                                }`}
-                            >
-                                <OrderPrice
-                                    inputRef={this.setPriceInputRef}
-                                    onPriceChange={this.updatePrice}
-                                    onCurrencyChange={this.updateCurrency}
-                                    displayRecommendedPrice={!priceTouched}
-                                    {...{
-                                        currency,
-                                        transactionItems,
-                                        exchangeRate,
-                                        price,
-                                    }}
-                                />
                             </div>
                         </form>
                     );
