@@ -17,7 +17,6 @@ export class OrderHistory extends Component<{}, IOrderHistoryState> {
     };
 
     async componentDidMount() {
-        // FIXME: Only five transactions are displayed
         this.setState({ transactions: await fetchTransactions() });
     }
 

@@ -15,7 +15,8 @@ export function recommendedPrice({
     priceMin = 0,
     priceMax = 0,
 }: Partial<IPriceRange>): number {
-    return priceMin + priceMin * (ADD_PERCENT / 100);
+    const price = priceMin + priceMin * (ADD_PERCENT / 100);
+    return Math.ceil(price / 10) * 10;
 }
 
 export function calculateTransactionItemsPriceRanges(

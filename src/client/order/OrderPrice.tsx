@@ -8,6 +8,7 @@ import {
     calculateTransactionItemsPriceRanges,
     recommendedPrice,
 } from '../common/price-range';
+import { selectInputText } from '../common/select-input-text';
 
 export type OnPriceChangeHandler = (value: number) => void;
 export type OnCurrencyChangeHandler = (currency: Currencies) => void;
@@ -52,6 +53,7 @@ export const OrderPrice: SFC<IOrderPriceProps> = ({
                         className="inline"
                         onChange={priceChanged(onPriceChange)}
                         ref={inputRef}
+                        onFocus={selectInputText}
                     />
                 </div>
                 <ChoicesCurrency
@@ -77,7 +79,6 @@ function renderPriceRange(
     const { priceMin, priceMax } = calculateTransactionItemsPriceRanges(
         transactionItems,
     );
-    console.log(priceMin, priceMax, transactionItems);
     return `${formatPrice(priceMin * exchangeRate)} ~ ${formatPrice(
         priceMax * exchangeRate,
     )} ${currencySymbol(currency)}`;

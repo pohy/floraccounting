@@ -6,6 +6,7 @@ import { Choices } from '../components/Choices';
 import { TransactionItem } from '../../common/model/TransactionItem';
 import { Currencies, currencySymbol } from '../../common/model/Transaction';
 import { formatPrice } from '../common/format-price';
+import { selectInputText } from '../common/select-input-text';
 
 export interface IOrderItemProps {
     transactionItem: TransactionItem;
@@ -26,11 +27,6 @@ export class OrderItem extends Component<IOrderItemProps, {}> {
         if (focus) {
             this.amountInput.focus();
         }
-    }
-
-    selectText(event: FocusEvent<HTMLInputElement>) {
-        const input = event.currentTarget;
-        input.select();
     }
 
     submit = (event: KeyboardEvent<HTMLInputElement>) => {
@@ -113,7 +109,7 @@ export class OrderItem extends Component<IOrderItemProps, {}> {
                             tabIndex={0}
                             onChange={this.updateAmount}
                             onKeyDown={this.submit}
-                            onFocus={this.selectText}
+                            onFocus={selectInputText}
                             ref={this.amountInputRef}
                         />
                     </span>
