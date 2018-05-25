@@ -26,6 +26,7 @@ export interface IOrderState {
     exchangeRate: number;
     submitting: boolean;
     focusedItem: string;
+    priceTouched: boolean;
 }
 
 // TODO: Refactor into smaller components
@@ -38,6 +39,7 @@ export class Order extends Component<{}, IOrderState> {
         exchangeRate: 1,
         submitting: false,
         focusedItem: '',
+        priceTouched: false,
     };
 
     private searchBarInputElement!: HTMLInputElement;
@@ -112,6 +114,7 @@ export class Order extends Component<{}, IOrderState> {
         this.setState({
             transaction: new Transaction({ ...this.state.transaction, price }),
             focusedItem: '',
+            priceTouched: true,
         });
     updateCurrency = async (currency: Currencies) =>
         this.setState({
@@ -188,6 +191,7 @@ export class Order extends Component<{}, IOrderState> {
             exchangeRate,
             submitting,
             focusedItem,
+            priceTouched,
         } = this.state;
 
         return (
@@ -204,12 +208,12 @@ export class Order extends Component<{}, IOrderState> {
                             <Title>New order</Title>
                             {submitting && <Overlay />}
                             <div className="controls flex">
-                            <SearchBar
-                                inputRef={this.setSearchBarInputElement}
-                                onFocus={this.showSearchResults}
-                                onBlur={this.hideSearchResults}
-                                onQuery={this.onSearchInput}
-                            />
+                                <SearchBar
+                                    inputRef={this.setSearchBarInputElement}
+                                    onFocus={this.showSearchResults}
+                                    onBlur={this.hideSearchResults}
+                                    onQuery={this.onSearchInput}
+                                />
                                 <button
                                     className="button primary"
                                     onClick={this.saveTransaction}
@@ -263,21 +267,14 @@ export class Order extends Component<{}, IOrderState> {
                                     inputRef={this.setPriceInputRef}
                                     onPriceChange={this.updatePrice}
                                     onCurrencyChange={this.updateCurrency}
+                                    displayRecommendedPrice={!priceTouched}
                                     {...{
-                                        price,
                                         currency,
                                         transactionItems,
                                         exchangeRate,
+                                        price,
                                     }}
                                 />
-                                <button
-                                    className="button primary"
-                                    onClick={this.saveTransaction}
-                                    disabled={!transaction.isValid()}
-                                    type="submit"
-                                >
-                                    Save 💾
-                                </button>
                             </div>
                         </form>
                     );

@@ -4,12 +4,26 @@ import {
     SingleUnit,
 } from '../../common/model/TransactionItem';
 
+export interface IPriceRange {
+    priceMin: number;
+    priceMax: number;
+}
+
+const ADD_PERCENT = 30;
+
+export function recommendedPrice({
+    priceMin = 0,
+    priceMax = 0,
+}: Partial<IPriceRange>): number {
+    return priceMin + priceMin * (ADD_PERCENT / 100);
+}
+
 export function calculateTransactionItemsPriceRanges(
     transactionItems: TransactionItem[],
-) {
+): IPriceRange {
     return {
-        min: calculateTransactionItemsPrice(transactionItems, 'priceMin'),
-        max: calculateTransactionItemsPrice(transactionItems, 'priceMax'),
+        priceMin: calculateTransactionItemsPrice(transactionItems, 'priceMin'),
+        priceMax: calculateTransactionItemsPrice(transactionItems, 'priceMax'),
     };
 }
 

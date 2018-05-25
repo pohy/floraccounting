@@ -4,7 +4,10 @@ import { ChoicesCurrency } from '../components/Choices';
 import { Currencies, currencySymbol } from '../../common/model/Transaction';
 import { TransactionItem } from '../../common/model/TransactionItem';
 import { formatPrice } from '../common/format-price';
-import { calculateTransactionItemsPriceRanges } from '../common/price-range';
+import {
+    calculateTransactionItemsPriceRanges,
+    recommendedPrice,
+} from '../common/price-range';
 
 export type OnPriceChangeHandler = (value: number) => void;
 export type OnCurrencyChangeHandler = (currency: Currencies) => void;
@@ -15,6 +18,7 @@ export interface IOrderPriceProps {
     exchangeRate?: number;
     onPriceChange: OnPriceChangeHandler;
     onCurrencyChange: OnCurrencyChangeHandler;
+    displayRecommendedPrice: boolean;
     inputRef: (inputElement: HTMLInputElement) => void;
 }
 
@@ -26,32 +30,40 @@ export const OrderPrice: SFC<IOrderPriceProps> = ({
     onPriceChange,
     onCurrencyChange,
     inputRef,
-}) => (
-    <div className="OrderPrice padding">
-        <div className="price-range padding">
-            {renderPriceRange(transactionItems, currency, exchangeRate)}
-        </div>
-        <div className="price flex">
-            <div className="total input-inline">
-                <input
-                    type="number"
-                    value={price}
-                    name="price-total"
-                    placeholder="Price..."
-                    className="inline"
-                    onChange={priceChanged(onPriceChange)}
-                    ref={inputRef}
+    displayRecommendedPrice,
+}) => {
+    const currentPrice = displayRecommendedPrice
+        ? recommendedPrice(
+              calculateTransactionItemsPriceRanges(transactionItems),
+          )
+        : price;
+    return (
+        <div className="OrderPrice padding">
+            <div className="price-range padding">
+                {renderPriceRange(transactionItems, currency, exchangeRate)}
+            </div>
+            <div className="price flex">
+                <div className="total input-inline">
+                    <input
+                        type="number"
+                        value={currentPrice || ''}
+                        name="price-total"
+                        placeholder="Price..."
+                        className="inline"
+                        onChange={priceChanged(onPriceChange)}
+                        ref={inputRef}
+                    />
+                </div>
+                <ChoicesCurrency
+                    choices={Object.values(Currencies)}
+                    isSelected={isCurrencySelected(currency)}
+                    onChoice={currencyChanged(onCurrencyChange)}
+                    choiceName={renderCurrency}
                 />
             </div>
-            <ChoicesCurrency
-                choices={Object.values(Currencies)}
-                isSelected={isCurrencySelected(currency)}
-                onChoice={currencyChanged(onCurrencyChange)}
-                choiceName={renderCurrency}
-            />
         </div>
-    </div>
-);
+    );
+};
 
 function renderCurrency(currency: Currencies) {
     return currencySymbol(currency);
@@ -62,9 +74,12 @@ function renderPriceRange(
     currency: Currencies,
     exchangeRate: number,
 ): string {
-    const { min, max } = calculateTransactionItemsPriceRanges(transactionItems);
-    return `${formatPrice(min * exchangeRate)} ~ ${formatPrice(
-        max * exchangeRate,
+    const { priceMin, priceMax } = calculateTransactionItemsPriceRanges(
+        transactionItems,
+    );
+    console.log(priceMin, priceMax, transactionItems);
+    return `${formatPrice(priceMin * exchangeRate)} ~ ${formatPrice(
+        priceMax * exchangeRate,
     )} ${currencySymbol(currency)}`;
 }
 

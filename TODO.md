@@ -10,6 +10,11 @@
 - [] Improve new order flow
 - [] Configure webpack
 - [] Number of given items (3x Kombucha 500ml)
+- [] Price range for new items
+- [] Save snapshots of items (item price and price ranges can change)
+- [] Use ObjectID instead of a string
+- [] Labels
+- [] Icons in search -> label filter
 
 ## Done
 
