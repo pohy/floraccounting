@@ -50,9 +50,7 @@ export const transactionsFactory = (db: DB, secure: RequestHandler) => {
             };
             delete transactionObject.items;
             delete transactionObject.user;
-            await db
-                .transactionsCollection()
-                .insert(transactionObject);
+            await db.transactionsCollection().insert(transactionObject);
             // FIXME: User object is empty
             res.json(new Transaction(transactionObject));
         } catch (error) {

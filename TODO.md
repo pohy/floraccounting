@@ -18,6 +18,7 @@
 
 ## Done
 
+- [x] Recommended price
 - [x] Analytics
 - [x] Improve user feedback
 - [x] Store order in local storage

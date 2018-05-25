@@ -8,6 +8,11 @@
     height: 100px;
 }
 
-.Order .add-item {
+.Order .controls {
     box-shadow: 0px 1px 5px 0px rgba(0, 0, 0, 0.1);
+}
+
+.Order .controls .button {
+    border-top: none;
+    border-right: none;
 }

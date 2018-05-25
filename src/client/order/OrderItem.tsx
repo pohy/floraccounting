@@ -109,7 +109,7 @@ export class OrderItem extends Component<IOrderItemProps, {}> {
                             type="number"
                             name="item-amount"
                             placeholder="Amount..."
-                            value={amount}
+                            value={amount || ''}
                             tabIndex={0}
                             onChange={this.updateAmount}
                             onKeyDown={this.submit}
