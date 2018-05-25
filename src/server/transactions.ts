@@ -36,6 +36,7 @@ export const transactionsFactory = (db: DB, secure: RequestHandler) => {
                     return transactionItemAny;
                 },
             );
+            // TODO: potential vulnerability, user without edit permissions can overwrite any item
             const bulkItemUpserts = referencedItems.map((item) => ({
                 updateOne: {
                     filter: { _id: item._id },

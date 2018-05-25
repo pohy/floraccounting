@@ -29,7 +29,7 @@ class BrowserHistory {
         return this.internalLastState;
     }
 
-    private notify(path: string, state: any) {
+    private notify(path: string, state: any = {}) {
         this.internalLastState = state;
         this.callbacks.forEach((callback) => callback(path, state));
     }

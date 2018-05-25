@@ -5,19 +5,18 @@
 
 ## New
 
-- [] Revise UI/UX
 - [] Logging
-- [] Improve new order flow
 - [] Configure webpack
 - [] Number of given items (3x Kombucha 500ml)
 - [] Price range for new items
-- [] Save snapshots of items (item price and price ranges can change)
+- [] Save snapshots of items on edit (create a new one) (item price and price ranges can change)
 - [] Use ObjectID instead of a string
 - [] Labels
 - [] Icons in search -> label filter
 
 ## Done
 
+- [x] Improve new order flow
 - [x] Recommended price
 - [x] Analytics
 - [x] Improve user feedback
