@@ -14,7 +14,7 @@ export const SingleUnit = {
 
 export class TransactionItem {
     public item!: Item;
-    public amount?: number;
+    public amount?: number = 1;
     public amountType: AmountTypes = AmountTypes.Piece;
 
     constructor(transactionItem?: Partial<TransactionItem>) {

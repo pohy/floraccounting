@@ -10,6 +10,11 @@ export class Item {
     }
 
     isValid() {
-        return !!(this._id && this.name);
+        return !!(
+            this._id &&
+            this.name &&
+            (this.priceMin || 0) > 0 &&
+            (this.priceMax || 0) > 0
+        );
     }
 }

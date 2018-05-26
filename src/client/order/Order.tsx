@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { Component, FormEvent } from 'react';
+import { Component, FormEvent, Fragment } from 'react';
 import './Order.css';
 import { OrderItem } from './OrderItem';
 import { OrderPrice } from './OrderPrice';
@@ -15,6 +15,8 @@ import { AuthConsumer } from '../components/AuthContext';
 import { Title } from '../routing/Title';
 import { Overlay } from '../components/Overlay';
 import { http } from '../common/http';
+import { ModalConsumer, IModalProviderState } from '../components/ModalContext';
+import { OrderItemPrice } from './OrderItemPrice';
 
 const TRANSACTION_LOCAL_STORAGE_KEY = 'transaction';
 
@@ -26,6 +28,7 @@ export interface IOrderState {
     exchangeRate: number;
     submitting: boolean;
     focusedItem: string;
+    editedItem: Item | null;
 }
 
 // TODO: Refactor into smaller components
@@ -38,6 +41,7 @@ export class Order extends Component<{}, IOrderState> {
         exchangeRate: 1,
         submitting: false,
         focusedItem: '',
+        editedItem: null,
     };
 
     private searchBarInputElement!: HTMLInputElement;
@@ -90,12 +94,49 @@ export class Order extends Component<{}, IOrderState> {
         });
     }
 
-    addOrderItem = (item: Item) =>
+    newOrderItem = (item: Item) => {
+        if (item.isValid()) {
+            this.addOrderItem(item);
+        } else {
+            this.setState({ editedItem: item });
+        }
+    };
+
+    saveEditedItem = (close: () => void) => (
+        transactionItem: TransactionItem,
+    ) => {
+        if (transactionItem.isValid()) {
+            close();
+            this.setState({
+                transaction: this.state.transaction.addTransactionItem(
+                    transactionItem,
+                ),
+            });
+            this.itemAdded(transactionItem.item._id);
+        } else {
+            console.error(transactionItem);
+        }
+    };
+
+    cancelEditedItem = (close: () => void) => () => {
+        close();
+        this.setState({ editedItem: null });
+    };
+
+    addOrderItem = (item: Item) => {
         this.setState({
             transaction: this.state.transaction.addItem(item),
-            showSearchResults: false,
-            focusedItem: item._id,
         });
+        this.itemAdded(item._id);
+    };
+
+    itemAdded = (itemID: string) =>
+        this.setState({
+            showSearchResults: false,
+            focusedItem: itemID,
+            editedItem: null,
+        });
+
     removeOrderItem = (itemID: string) =>
         this.setState({
             transaction: this.state.transaction.removeTransactionItem(itemID),
@@ -175,6 +216,21 @@ export class Order extends Component<{}, IOrderState> {
         return searchResults.concat(itemsQueryFilter(newItems, searchQuery));
     }
 
+    renderItemPriceEditor = ({ open, close, isOpen }: IModalProviderState) => {
+        const { editedItem } = this.state;
+        // FIXME: What about multiple modals?
+        if (editedItem && !isOpen) {
+            open(
+                <OrderItemPrice
+                    item={editedItem}
+                    onSave={this.saveEditedItem(close)}
+                    onCancel={this.cancelEditedItem(close)}
+                />,
+            );
+        }
+        return null;
+    };
+
     private get selectedItemIDs() {
         return this.state.transaction.items.map(({ _id }) => _id);
     }
@@ -197,86 +253,99 @@ export class Order extends Component<{}, IOrderState> {
                         return <Redirect to="/login" />;
                     }
                     return (
-                        <form
-                            className="Order flex column grow"
-                            onSubmit={this.saveTransaction}
-                        >
-                            <Title>New order</Title>
-                            {submitting && <Overlay />}
-                            <div className="controls flex column">
-                                <div className="search-save flex">
-                                    <SearchBar
-                                        inputRef={this.setSearchBarInputElement}
-                                        onFocus={this.showSearchResults}
-                                        onBlur={this.hideSearchResults}
-                                        onQuery={this.onSearchInput}
-                                    />
-                                    <button
-                                        className={`button primary${
-                                            showSearchResults ? ' hide' : ''
-                                        }`}
-                                        onClick={this.saveTransaction}
-                                        disabled={!transaction.isValid()}
-                                        type="submit"
-                                    >
-                                        <span className="hide-small">
-                                            Save{' '}
-                                        </span>💾
-                                    </button>
-                                </div>
-                                <div
-                                    className={
-                                        showSearchResults ? 'hide' : undefined
-                                    }
-                                >
-                                    <OrderPrice
-                                        inputRef={this.setPriceInputRef}
-                                        onPriceChange={this.updatePrice}
-                                        onCurrencyChange={this.updateCurrency}
-                                        {...{
-                                            currency,
-                                            transactionItems,
-                                            exchangeRate,
-                                            price,
-                                        }}
-                                    />
-                                </div>
-                            </div>
-                            <SearchResults
-                                onClick={this.addOrderItem}
-                                results={this.searchResults()}
-                                query={searchQuery}
-                                selectedItemIDs={this.selectedItemIDs}
-                                className={showSearchResults ? '' : 'hide'}
-                            />
-                            <div
-                                className={`items flex column grow${
-                                    showSearchResults ? ' hide' : ''
-                                }`}
+                        <Fragment>
+                            <form
+                                className="Order flex column grow"
+                                onSubmit={this.saveTransaction}
                             >
-                                {transactionItems
-                                    .slice()
-                                    .reverse()
-                                    .map((transactionItem, key) => (
-                                        <OrderItem
-                                            onRemove={this.removeOrderItem}
-                                            onUpdate={this.updateOrderItem}
-                                            onSubmit={this.focusNextInput}
-                                            inputRef={this.addOrderItemInput}
-                                            focus={
-                                                transactionItem.item._id ===
-                                                focusedItem
+                                <Title>New order</Title>
+                                {submitting && <Overlay />}
+                                <div className="controls flex column">
+                                    <div className="search-save flex">
+                                        <SearchBar
+                                            inputRef={
+                                                this.setSearchBarInputElement
+                                            }
+                                            onFocus={this.showSearchResults}
+                                            onBlur={this.hideSearchResults}
+                                            onQuery={this.onSearchInput}
+                                        />
+                                        <button
+                                            className={`button primary${
+                                                showSearchResults ? ' hide' : ''
+                                            }`}
+                                            onClick={this.saveTransaction}
+                                            disabled={!transaction.isValid()}
+                                            type="submit"
+                                        >
+                                            <span className="hide-small">
+                                                Save{' '}
+                                            </span>💾
+                                        </button>
+                                    </div>
+                                    <div
+                                        className={
+                                            showSearchResults
+                                                ? 'hide'
+                                                : undefined
+                                        }
+                                    >
+                                        <OrderPrice
+                                            inputRef={this.setPriceInputRef}
+                                            onPriceChange={this.updatePrice}
+                                            onCurrencyChange={
+                                                this.updateCurrency
                                             }
                                             {...{
-                                                transactionItem,
                                                 currency,
+                                                transactionItems,
                                                 exchangeRate,
-                                                key,
+                                                price,
                                             }}
                                         />
-                                    ))}
-                            </div>
-                        </form>
+                                    </div>
+                                </div>
+                                <SearchResults
+                                    onClick={this.newOrderItem}
+                                    results={this.searchResults()}
+                                    query={searchQuery}
+                                    selectedItemIDs={this.selectedItemIDs}
+                                    className={showSearchResults ? '' : 'hide'}
+                                />
+                                <div
+                                    className={`items flex column grow${
+                                        showSearchResults ? ' hide' : ''
+                                    }`}
+                                >
+                                    {transactionItems
+                                        .slice()
+                                        .reverse()
+                                        .map((transactionItem, key) => (
+                                            <OrderItem
+                                                onRemove={this.removeOrderItem}
+                                                onUpdate={this.updateOrderItem}
+                                                onSubmit={this.focusNextInput}
+                                                inputRef={
+                                                    this.addOrderItemInput
+                                                }
+                                                focus={
+                                                    transactionItem.item._id ===
+                                                    focusedItem
+                                                }
+                                                {...{
+                                                    transactionItem,
+                                                    currency,
+                                                    exchangeRate,
+                                                    key,
+                                                }}
+                                            />
+                                        ))}
+                                </div>
+                            </form>
+                            <ModalConsumer>
+                                {this.renderItemPriceEditor}
+                            </ModalConsumer>
+                        </Fragment>
                     );
                 }}
             </AuthConsumer>

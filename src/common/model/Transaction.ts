@@ -87,6 +87,11 @@ export class Transaction implements ITransaction {
         return this;
     }
 
+    addTransactionItem(newTransactionItem: TransactionItem) {
+        this.transactionItems = [...this.transactionItems, newTransactionItem];
+        return this;
+    }
+
     removeTransactionItem(itemID: string) {
         this.transactionItems = this.transactionItems.filter(
             ({ item: { _id } }) => _id !== itemID,

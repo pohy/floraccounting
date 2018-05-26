@@ -1,0 +1,12 @@
+.OrderItemPrice {
+    background-color: white;
+    margin: 16px;
+}
+
+.OrderItemPrice .price-range input {
+    max-width: 4rem;
+}
+
+.OrderItemPrice .price-range .Choices {
+    padding-left: 8px;
+}
