@@ -19,7 +19,6 @@ export interface IOrderPriceProps {
     exchangeRate?: number;
     onPriceChange: OnPriceChangeHandler;
     onCurrencyChange: OnCurrencyChangeHandler;
-    displayRecommendedPrice: boolean;
     inputRef: (inputElement: HTMLInputElement) => void;
 }
 
@@ -31,13 +30,7 @@ export const OrderPrice: SFC<IOrderPriceProps> = ({
     onPriceChange,
     onCurrencyChange,
     inputRef,
-    displayRecommendedPrice,
 }) => {
-    const currentPrice = displayRecommendedPrice
-        ? recommendedPrice(
-              calculateTransactionItemsPriceRanges(transactionItems),
-          )
-        : price;
     return (
         <div className="OrderPrice padding">
             <div className="hints flex padding">
@@ -50,7 +43,7 @@ export const OrderPrice: SFC<IOrderPriceProps> = ({
                 <div className="total-price input-inline">
                     <input
                         type="number"
-                        value={currentPrice || ''}
+                        value={price || ''}
                         name="price-total"
                         placeholder="Price..."
                         className="inline"

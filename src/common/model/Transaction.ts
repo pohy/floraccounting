@@ -2,6 +2,10 @@ import * as uuid from 'uuid';
 import { TransactionItem } from './TransactionItem';
 import { Item } from './Item';
 import { User } from './User';
+import {
+    calculateTransactionItemsPriceRanges,
+    recommendedPrice,
+} from '../../client/common/price-range';
 
 export enum Currencies {
     CZK = 'CZK',
@@ -30,10 +34,13 @@ export interface ITransaction {
     user: User;
 }
 
+// We don't want to serialize the internalPrice
+let internalPrice: number = 0;
+
 export class Transaction implements ITransaction {
     public _id: string = uuid.v4();
     public transactionItems: TransactionItem[] = [];
-    public price?: number;
+    public recommendedPrice: boolean = true;
     public currency: Currencies = Currencies.CZK;
     public created: Date = new Date();
     public user: User = new User();
@@ -50,6 +57,19 @@ export class Transaction implements ITransaction {
             user,
         });
         this.created = new Date(this.created);
+    }
+
+    get price() {
+        return this.recommendedPrice
+            ? recommendedPrice(
+                  calculateTransactionItemsPriceRanges(this.transactionItems),
+              )
+            : internalPrice;
+    }
+
+    set price(newPrice: number) {
+        this.recommendedPrice = false;
+        internalPrice = newPrice;
     }
 
     get items() {

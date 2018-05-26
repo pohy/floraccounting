@@ -26,7 +26,6 @@ export interface IOrderState {
     exchangeRate: number;
     submitting: boolean;
     focusedItem: string;
-    priceTouched: boolean;
 }
 
 // TODO: Refactor into smaller components
@@ -39,7 +38,6 @@ export class Order extends Component<{}, IOrderState> {
         exchangeRate: 1,
         submitting: false,
         focusedItem: '',
-        priceTouched: false,
     };
 
     private searchBarInputElement!: HTMLInputElement;
@@ -114,7 +112,6 @@ export class Order extends Component<{}, IOrderState> {
         this.setState({
             transaction: new Transaction({ ...this.state.transaction, price }),
             focusedItem: '',
-            priceTouched: true,
         });
     updateCurrency = async (currency: Currencies) =>
         this.setState({
@@ -191,7 +188,6 @@ export class Order extends Component<{}, IOrderState> {
             exchangeRate,
             submitting,
             focusedItem,
-            priceTouched,
         } = this.state;
 
         return (
@@ -237,7 +233,6 @@ export class Order extends Component<{}, IOrderState> {
                                         inputRef={this.setPriceInputRef}
                                         onPriceChange={this.updatePrice}
                                         onCurrencyChange={this.updateCurrency}
-                                        displayRecommendedPrice={!priceTouched}
                                         {...{
                                             currency,
                                             transactionItems,

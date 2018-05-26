@@ -14,10 +14,10 @@
 - [] Use ObjectID instead of a string
 - [] Labels
 - [] Icons in search -> label filter
-- [] Save disabled when recommended price is set
 
 ## Done
 
+- [x] Save disabled when recommended price is set
 - [x] Improve new order flow
 - [x] Recommended price
 - [x] Analytics
