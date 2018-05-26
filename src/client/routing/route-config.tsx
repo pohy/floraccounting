@@ -10,7 +10,7 @@ import { Logout } from '../user/Logout';
 import { PrivacyPolicy } from '../app/PrivacyPolicy';
 import { OrderDetail } from '../order-history/OrderDetail';
 import { browserHistory } from './browser-history';
-import { findTransaction } from '../common/api';
+import { findTransaction, fetchTransactions } from '../common/api';
 import { AsyncRoute } from './AsyncRoute';
 
 export interface IRoutes {
@@ -20,7 +20,7 @@ export interface IRoutes {
 export const routes: IRoutes = {
     '/': () => <Redirect to="/order" />,
     '/order': () => <Order />,
-    '/history': () => <OrderHistory />,
+    '/history': () => <AsyncRoute routePromise={orderHistory()} />,
     '/order-detail': () => <AsyncRoute routePromise={orderDetail()} />,
     '/user': () => <UserInfo />,
     '/login': () => <Login />,
@@ -29,17 +29,35 @@ export const routes: IRoutes = {
     '/privacy-policy': () => <PrivacyPolicy />,
 };
 
+async function orderHistory(): Promise<ReactElement<{}>> {
+    try {
+        const transactions = await fetchTransactions();
+        return <OrderHistory {...{ transactions }} />;
+    } catch (error) {
+        // TODO: Retry, display user feedback
+        return <OrderHistory transactions={[]} />;
+    }
+}
+
 async function orderDetail(): Promise<ReactElement<{}> | null> {
-    const REDIRECT = '/history';
+    const REDIRECT_DESTINATION = '/history';
     const { id } = browserHistory.query;
     if (!id) {
-        browserHistory.push(REDIRECT);
-        return null;
+        return redirect(REDIRECT_DESTINATION);
     }
-    const transaction = await findTransaction(id);
-    if (!transaction) {
-        browserHistory.push(REDIRECT);
-        return null;
+    try {
+        const transaction = await findTransaction(id);
+        if (!transaction) {
+            return redirect(REDIRECT_DESTINATION);
+        }
+        return <OrderDetail {...{ transaction }} />;
+    } catch (error) {
+        console.error(error);
+        return redirect(REDIRECT_DESTINATION);
     }
-    return <OrderDetail {...{ transaction }} />;
+}
+
+function redirect(destination: string) {
+    browserHistory.push(destination);
+    return null;
 }

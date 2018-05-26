@@ -42,7 +42,7 @@ export const OrderDetail: SFC<IOrderDetailProps> = ({
                     { amount, amountType, item: { name, priceMin, priceMax } },
                     key,
                 ) => (
-                    <div className="item">
+                    <div className="item" {...{ key }}>
                         <div className="flex-default">
                             <strong className="name grow">{name}</strong>
                             <span>
