@@ -1,0 +1,13 @@
+.OrderDetail .title {
+    margin: 0;
+}
+
+.OrderDetail .item .name {
+    margin-bottom: 8px;
+}
+
+.OrderDetail .item {
+    padding-bottom: 4px;
+    margin-bottom: 8px;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.12);
+}

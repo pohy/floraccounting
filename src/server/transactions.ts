@@ -13,7 +13,8 @@ import uuid from 'uuid';
 export const transactionsFactory = (db: DB, secure: RequestHandler) => {
     return Router()
         .post('/transaction', secure, postTransaction)
-        .get('/transactions', getTransactions);
+        .get('/transactions', getTransactions)
+        .get('/transactions/:id', getTransactionByID);
 
     async function postTransaction(
         req: Request,
@@ -72,6 +73,26 @@ export const transactionsFactory = (db: DB, secure: RequestHandler) => {
         try {
             const transactions = await findTransaction();
             res.json(transactions);
+        } catch (error) {
+            next(error);
+        }
+    }
+
+    async function getTransactionByID(
+        req: Request,
+        res: Response,
+        next: NextFunction,
+    ) {
+        try {
+            const { id } = req.params;
+            if (!id) {
+                return next(new Error('id is a required parameter'));
+            }
+            const [transaction] = await findTransaction({ _id: id });
+            if (!transaction) {
+                res.status(404).send();
+            }
+            res.json(transaction);
         } catch (error) {
             next(error);
         }

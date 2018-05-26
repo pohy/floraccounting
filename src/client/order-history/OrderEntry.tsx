@@ -3,17 +3,19 @@ import { SFC } from 'react';
 import { Transaction } from '../../common/model/Transaction';
 import './OrderEntry.css';
 import { Img } from '../components/Img';
+import { browserHistory } from '../routing/browser-history';
+import { locale } from '../common/locale';
 
 export interface IOrderEntryProps {
     transaction: Transaction;
 }
 
 export const OrderEntry: SFC<IOrderEntryProps> = ({
-    transaction: { items, price, currency, created, user },
+    transaction: { _id, items, price, currency, created, user },
 }) => {
     const profilePicture = user && user.profilePictureURL;
     return (
-        <div className="OrderEntry padding">
+        <div className="OrderEntry padding" onClick={goToOrderDetail(_id)}>
             <div className="flex">
                 {profilePicture && (
                     <span className="picture">
@@ -35,7 +37,7 @@ export const OrderEntry: SFC<IOrderEntryProps> = ({
                     </div>
                     <div className="info flex">
                         <span className="time grow">
-                            {created.toLocaleString('en-US')}
+                            {created.toLocaleString(locale.current)}
                         </span>
                         <a href="#" className="more">
                             More...
@@ -46,3 +48,7 @@ export const OrderEntry: SFC<IOrderEntryProps> = ({
         </div>
     );
 };
+
+function goToOrderDetail(id: string) {
+    return () => browserHistory.push(`/order-detail?id=${id}`);
+}

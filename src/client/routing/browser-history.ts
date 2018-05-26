@@ -1,5 +1,9 @@
 type ListenHandler = (path: string, state: any) => void;
 
+export interface IQuery {
+    [name: string]: string | undefined;
+}
+
 class BrowserHistory {
     private callbacks: ListenHandler[] = [];
     private internalLastState: any = {};
@@ -27,6 +31,16 @@ class BrowserHistory {
 
     public get lastState() {
         return this.internalLastState;
+    }
+
+    public get query() {
+        let queryObject: IQuery = {};
+        const queryString = document.location.search;
+        queryString.replace(
+            new RegExp('([^?=&]+)(=([^&]*))?', 'g'),
+            ($0, $1, $2, $3) => (queryObject[$1] = $3),
+        );
+        return queryObject;
     }
 
     private notify(path: string, state: any = {}) {

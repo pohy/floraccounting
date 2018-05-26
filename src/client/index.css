@@ -21,6 +21,19 @@ body {
     color: rgba(0, 0, 0, 0.38);
 }
 
+.text-small {
+    font-size: 14px;
+}
+.text-normal {
+    font-size: 18px;
+}
+.text-medium {
+    font-size: 24px;
+}
+.text-big {
+    font-size: 32px;
+}
+
 body,
 html,
 #root {
@@ -135,6 +148,11 @@ input {
     flex: 0 1 auto;
 }
 
+.flex-default {
+    display: flex;
+    flex: 0 0 auto;
+}
+
 .column {
     flex-direction: column;
     flex-flow: column;
@@ -207,6 +225,10 @@ img.badge-large {
     padding: 8px;
 }
 
+.padding-top {
+    padding-top: 8px;
+}
+
 .padding-2x {
     padding: 16px;
 }
@@ -217,4 +239,15 @@ img.badge-large {
 
 .margin-top-2x {
     margin-top: 16px;
+}
+
+.separator {
+    border-bottom: 1px solid rgba(0, 0, 0, 0.38);
+    padding: 8px;
+    padding-bottom: 0;
+    margin-bottom: 8px;
+}
+
+.bold {
+    font-weight: bold;
 }

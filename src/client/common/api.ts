@@ -2,6 +2,8 @@ import { Item } from '../../common/model/Item';
 import { Transaction, Currencies } from '../../common/model/Transaction';
 import { http } from './http';
 
+// TODO: Refactor into a class
+
 const FIXED_EXCHANGE_RATES = {
     [Currencies.CZK]: 1,
     [Currencies.EUR]: 0.039,
@@ -16,6 +18,14 @@ export async function searchItems(query?: string): Promise<Item[]> {
 export async function fetchTransactions(): Promise<Transaction[]> {
     const results = await http.get('/transactions');
     return results.map((result: any) => new Transaction(result));
+}
+
+export async function findTransaction(id: string): Promise<Transaction | null> {
+    const transaction = await http.get(`/transactions/${id}`);
+    if (!transaction) {
+        return null;
+    }
+    return new Transaction(transaction);
 }
 
 export async function fetchExchangeRate(currency: Currencies): Promise<number> {
