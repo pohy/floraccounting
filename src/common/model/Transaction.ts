@@ -130,4 +130,25 @@ export class Transaction implements ITransaction {
             )
         );
     }
+
+    toJSON() {
+        const {
+            _id,
+            created,
+            currency,
+            price,
+            recommendedPrice,
+            user,
+            transactionItems,
+        } = this;
+        return {
+            _id,
+            created,
+            currency,
+            price,
+            recommendedPrice,
+            user,
+            transactionItems,
+        };
+    }
 }

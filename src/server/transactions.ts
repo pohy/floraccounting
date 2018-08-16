@@ -49,10 +49,9 @@ export const transactionsFactory = (db: DB, secure: RequestHandler) => {
             }));
             await db.itemsCollection().bulkWrite(bulkItemUpserts);
             const transactionObject = {
-                ...transaction,
+                ...transaction.toJSON(),
                 userId: req.user.sub,
             };
-            delete transactionObject.items;
             delete transactionObject.user;
             await db.transactionsCollection().insert(transactionObject);
             // FIXME: User object is empty
