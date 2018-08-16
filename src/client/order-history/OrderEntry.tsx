@@ -13,7 +13,9 @@ export interface IOrderEntryProps {
 export const OrderEntry: SFC<IOrderEntryProps> = ({
     transaction: { _id, items, price, currency, created, user },
 }) => {
+    console.log(_id, price)
     const profilePicture = user && user.profilePictureURL;
+    const priceText = typeof price !== 'number' ? '?' : price;
     return (
         <div className="OrderEntry padding" onClick={goToOrderDetail(_id)}>
             <div className="flex">
@@ -32,7 +34,7 @@ export const OrderEntry: SFC<IOrderEntryProps> = ({
                             {items.map(({ name }) => name).join(', ')}
                         </span>
                         <span className="price">
-                            {price}&nbsp;{currency}
+                            {priceText}&nbsp;{currency}
                         </span>
                     </div>
                     <div className="info flex">

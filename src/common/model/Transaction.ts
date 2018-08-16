@@ -34,9 +34,6 @@ export interface ITransaction {
     user: User;
 }
 
-// We don't want to serialize the internalPrice
-let internalPrice: number = 0;
-
 export class Transaction implements ITransaction {
     public _id: string = uuid.v4();
     public transactionItems: TransactionItem[] = [];
@@ -44,6 +41,8 @@ export class Transaction implements ITransaction {
     public currency: Currencies = Currencies.CZK;
     public created: Date = new Date();
     public user: User = new User();
+
+    private internalPrice = 0;
 
     constructor(transaction?: Partial<Transaction>) {
         const transactionItems = (
@@ -64,12 +63,12 @@ export class Transaction implements ITransaction {
             ? recommendedPrice(
                   calculateTransactionItemsPriceRanges(this.transactionItems),
               )
-            : internalPrice;
+            : this.internalPrice;
     }
 
     set price(newPrice: number) {
         this.recommendedPrice = false;
-        internalPrice = newPrice;
+        this.internalPrice = newPrice;
     }
 
     get items() {
